@@ -1,5 +1,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
+import { Row, Col, Card } from 'antd';
 
 
 @inject('boardStore')
@@ -24,15 +25,18 @@ class BoardDisplay extends React.Component {
   render() {
     const { boardStore: { lists } } = this.props;
     return (
-      <div>
+      <Row gutter={12}>
         {lists.map(list => (
-          <div key={list.id}>
-            <p>{list.path}</p>
-            <p>{list.title}</p>
-            <button onClick={this.delete(list)}>x</button>
-          </div>
+          <Col xs={24} sm={12} md={8} lg={6} key={list.id}>
+            <Card>
+              <p>{list.path}</p>
+              <p>{list.title}</p>
+              <button onClick={this.delete(list)}>x</button>
+            </Card>
+
+          </Col>
         ))}
-      </div>
+      </Row>
     );
   }
 }

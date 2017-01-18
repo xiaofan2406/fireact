@@ -4,6 +4,7 @@
     "transform-decorators-legacy",
     "transform-class-properties",
     "transform-object-rest-spread",
+    ["import", { libraryName: "antd", style: "css" }],
     ["transform-runtime", {
       "helpers": false,
       "polyfill": false,
