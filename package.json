@@ -1,0 +1,77 @@
+{
+  "name": "fireact",
+  "version": "0.0.0",
+  "description": "React with Firebase.",
+  "scripts": {
+    "dev": "NODE_ENV=development ./node_modules/.bin/webpack-dev-server --config ./config/webpack.dev.js",
+    "prebuild": "rm -rf ./build",
+    "build": "NODE_ENV=production ./node_modules/.bin/webpack --config ./config/webpack.prod.js",
+    "lint": "./node_modules/.bin/eslint -c .eslintrc.js ./src ./config",
+    "preversion": "npm run lint && npm run build",
+    "postversion": "git push && git push --tags"
+  },
+  "engines": {
+    "node": "^6.x",
+    "npm": "^3.x"
+  },
+  "keywords": [
+    "react",
+    "react-router",
+    "mobx",
+    "babel",
+    "webpack",
+    "eslint"
+  ],
+  "author": "Xiaofan Wu",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xiaofan2406/fireact"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "classnames": "^2.2.5",
+    "firebase": "^3.6.5",
+    "jss": "^6.1.1",
+    "jss-preset-default": "^1.2.1",
+    "mobx": "^3.0.0",
+    "mobx-react": "^4.1.0",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-jss": "^5.1.1",
+    "react-router": "^4.0.0-alpha.6",
+    "react-router-v4-hocs": "^0.0.4"
+  },
+  "devDependencies": {
+    "babel-core": "^6.21.0",
+    "babel-eslint": "^7.1.1",
+    "babel-loader": "^6.2.10",
+    "babel-plugin-transform-class-properties": "^6.19.0",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-object-rest-spread": "^6.20.2",
+    "babel-plugin-transform-react-jsx-self": "^6.11.0",
+    "babel-plugin-transform-react-jsx-source": "^6.9.0",
+    "babel-plugin-transform-react-remove-prop-types": "^0.2.11",
+    "babel-plugin-transform-runtime": "^6.15.0",
+    "babel-preset-latest": "^6.16.0",
+    "babel-preset-react": "^6.16.0",
+    "css-loader": "^0.26.1",
+    "eslint": "^3.13.1",
+    "eslint-config-airbnb": "^14.0.0",
+    "eslint-import-resolver-webpack": "^0.8.0",
+    "eslint-loader": "^1.6.1",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^3.0.2",
+    "eslint-plugin-react": "^6.9.0",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "file-loader": "^0.9.0",
+    "html-webpack-plugin": "^2.26.0",
+    "json-loader": "^0.5.4",
+    "mobx-react-devtools": "^4.2.11",
+    "react-hot-loader": "^3.0.0-beta.6",
+    "style-loader": "^0.13.1",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.14.0",
+    "webpack-dev-server": "^1.16.2",
+    "webpack-manifest-plugin": "^1.1.0"
+  }
+}
