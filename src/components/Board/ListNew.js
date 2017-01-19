@@ -14,7 +14,7 @@ class ListNew extends React.Component {
       console.log('est');
     } else if (e.which === 13) {
       console.log('enter');
-      boardStore.addList(e.target.value);
+      boardStore.newList(e.target.value);
     }
   }
 
