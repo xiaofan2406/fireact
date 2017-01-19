@@ -1,13 +1,13 @@
 import React from 'react';
 
 import ListNew from './ListNew';
-import BoardDisplay from './BoardDisplay';
+import ListsInit from './ListsInit';
 
 function Board() {
   return (
     <div>
       <ListNew />
-      <BoardDisplay />
+      <ListsInit />
     </div>
   );
 }
