@@ -1,11 +1,11 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 
-import Lists from './Lists';
+import ListDisplay from './ListDisplay';
 
 @inject('boardStore')
 @observer
-class ListsInit extends React.Component {
+class ListInit extends React.Component {
   static propTypes = {
     boardStore: React.PropTypes.object.isRequired
   };
@@ -20,15 +20,15 @@ class ListsInit extends React.Component {
 
   render() {
     const { boardStore } = this.props;
-    console.log('render ListsInit');
+    console.log('render ListInit');
 
     return boardStore.loading ? (
       <p>loading</p>
     ) : (
-      <Lists />
+      <ListDisplay />
     );
   }
 }
 
 
-export default ListsInit;
+export default ListInit;

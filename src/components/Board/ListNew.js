@@ -1,6 +1,8 @@
 import React from 'react';
 import { inject } from 'mobx-react';
 
+import { Input } from 'antd';
+
 @inject('boardStore')
 class ListNew extends React.Component {
   static propTypes = {
@@ -11,17 +13,17 @@ class ListNew extends React.Component {
     const { boardStore } = this.props;
 
     if (e.which === 27) {
-      console.log('est');
+      e.target.value = '';
     } else if (e.which === 13) {
-      console.log('enter');
       boardStore.newList(e.target.value);
+      e.target.value = '';
     }
   }
 
   render() {
     return (
       <div>
-        <input onKeyUp={this.newList} type="text" placeholder="enter a name here" />
+        <Input onKeyUp={this.newList} type="text" placeholder="enter a name here" />
       </div>
     );
   }
