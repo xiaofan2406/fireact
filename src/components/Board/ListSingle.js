@@ -1,6 +1,5 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { Card, Menu, Dropdown, Button } from 'antd';
 
 
 @inject('boardStore')
@@ -29,27 +28,13 @@ class ListSingle extends React.Component {
     const { list } = this.props;
     console.log('render ListSingle');
     return (
-      <Card
-        title={list.title}
-        extra={
-          <Dropdown
-            overlay={
-              <Menu>
-                <Menu.Item> Delete </Menu.Item>
-              </Menu>
-            }
-            trigger={['click']}
-          >
-            <Button size="small" type="ghost" shape="circle" icon="down" />
-          </Dropdown>
-        }
-      >
+      <div>
         <p>{list.path}</p>
         <input type="text" onKeyUp={this.newItem(list)} />
         <ul>{list.items.map(item =>
           <li key={item.id}>{item.title}, {item.id}</li>
         )}</ul>
-      </Card>
+      </div>
     );
   }
 }

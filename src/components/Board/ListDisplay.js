@@ -22,8 +22,8 @@ function ListDisplay({ boardStore, sheet: { classes } }) {
   ) : (
     <div className={classes.display}>
       {boardStore.lists.values().map(list => (
-        <div className={classes.single}>
-          <ListSingle list={list} key={list.id} />
+        <div className={classes.single} key={list.id}>
+          <ListSingle list={list} />
         </div>
       ))}
     </div>

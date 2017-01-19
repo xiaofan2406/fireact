@@ -5,6 +5,7 @@ import { Provider } from 'mobx-react';
 import { useStrict } from 'mobx';
 import 'utils/firebase';
 import { loadLogin } from 'utils/storage';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import AppRouter from './router';
 import createStore from './store';
@@ -17,7 +18,7 @@ const stores = createStore({
 const rootElement = document.getElementById('root');
 
 useStrict(true);
-
+injectTapEventPlugin();
 
 ReactDOM.render(
   <AppContainer>

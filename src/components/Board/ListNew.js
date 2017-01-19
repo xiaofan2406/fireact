@@ -1,7 +1,6 @@
 import React from 'react';
 import { inject } from 'mobx-react';
-
-import { Input } from 'antd';
+import TextField from 'material-ui/TextField';
 
 @inject('boardStore')
 class ListNew extends React.Component {
@@ -23,7 +22,10 @@ class ListNew extends React.Component {
   render() {
     return (
       <div>
-        <Input onKeyUp={this.newList} type="text" placeholder="enter a name here" />
+        <TextField
+          floatingLabelText="Name for a new list"
+          onKeyUp={this.newList}
+        />
       </div>
     );
   }

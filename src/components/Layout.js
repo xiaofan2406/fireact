@@ -2,7 +2,7 @@ import React from 'react';
 import injectSheet, { fontFamily, fontSize } from 'styles';
 import 'styles/reset.css';
 import 'styles/animation.css';
-
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Header from './Header';
 
 
@@ -19,12 +19,14 @@ const styles = {
 /* Use functions rather than constant elements for better debugging */
 function Layout({ sheet: { classes }, children }) {
   return (
-    <div className={classes.layout}>
-      <Header />
-      <div className={classes.main}>
-        {children}
+    <MuiThemeProvider>
+      <div className={classes.layout}>
+        <Header />
+        <div className={classes.main}>
+          {children}
+        </div>
       </div>
-    </div>
+    </MuiThemeProvider>
   );
 }
 
