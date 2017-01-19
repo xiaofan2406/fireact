@@ -3,7 +3,7 @@ import { inject } from 'mobx-react';
 import TextField from 'material-ui/TextField';
 
 @inject('boardStore')
-class ListNew extends React.Component {
+class BoardMenu extends React.Component {
   static propTypes = {
     boardStore: React.PropTypes.object.isRequired
   };
@@ -32,4 +32,4 @@ class ListNew extends React.Component {
 }
 
 
-export default ListNew;
+export default BoardMenu;

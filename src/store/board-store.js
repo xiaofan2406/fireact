@@ -22,6 +22,10 @@ class Item {
   delete() {
     this.ref.remove();
   }
+
+  @action setTitle(title) {
+    this.title = title;
+  }
 }
 
 class List {
@@ -36,8 +40,16 @@ class List {
     this.ref = firebase.database().ref(this.path);
   }
 
+  @computed get isEmpty() {
+    return this.items.length === 0;
+  }
+
   delete() {
     this.ref.remove();
+  }
+
+  @action setTitle(title) {
+    this.title = title;
   }
 
   @action addItem(item) {

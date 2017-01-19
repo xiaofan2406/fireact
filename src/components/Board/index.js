@@ -1,16 +1,3 @@
-import React from 'react';
-
-import ListNew from './ListNew';
-import ListInit from './ListInit';
-
-function Board() {
-  return (
-    <div>
-      <ListNew />
-      <ListInit />
-    </div>
-  );
-}
-
+import Board from './Board';
 
 export default Board;

@@ -1,21 +1,16 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 
-
 @inject('boardStore')
 @observer
-class ListSingle extends React.Component {
+class ListMenu extends React.Component {
   static propTypes = {
     boardStore: React.PropTypes.object.isRequired,
     list: React.PropTypes.object.isRequired
   };
 
-  delete = list => () => {
-    list.delete();
-  }
-
-  newItem = list => (e) => {
-    const { boardStore } = this.props;
+  handleKeyUp = (e) => {
+    const { boardStore, list } = this.props;
     if (e.which === 27) {
       e.target.value = '';
     } else if (e.which === 13) {
@@ -23,21 +18,21 @@ class ListSingle extends React.Component {
       e.target.value = '';
     }
   }
+  changeTitle = () => {
+    const { list } = this.props;
+
+    list.setTitle('sdf');
+  }
 
   render() {
-    const { list } = this.props;
-    console.log('render ListSingle');
     return (
       <div>
-        <p>{list.path}</p>
-        <input type="text" onKeyUp={this.newItem(list)} />
-        <ul>{list.items.map(item =>
-          <li key={item.id}>{item.title}, {item.id}</li>
-        )}</ul>
+        <input onKeyUp={this.handleKeyUp} placeholder="Name for a new item" />
+        <button onClick={this.changeTitle} >change title</button>
       </div>
     );
   }
 }
 
 
-export default ListSingle;
+export default ListMenu;
