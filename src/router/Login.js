@@ -1,7 +1,7 @@
 import React from 'react';
 import * as firebase from 'firebase';
 import { inject, observer } from 'mobx-react';
-import Redirect from 'react-router/Redirect';
+import { Redirect } from 'react-router';
 import { saveLogin } from 'utils/storage';
 
 const flatResult = result => ({

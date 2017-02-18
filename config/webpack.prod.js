@@ -6,22 +6,14 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const pkg = require('../package.json');
 
-
 module.exports = {
-  // Don't attempt to continue if there are any errors.
   bail: true,
-  // We generate sourcemaps in production. This is slow but gives good results.
-  // You can exclude the *.map files from the build during deployment.
   devtool: 'source-map',
   entry: {
-    client: `${paths.appDir}/index.js`,
+    client: `${paths.srcDir}/index.js`,
     vendor: Object.keys(pkg.dependencies)
   },
-  resolve: {
-    fallback: common.resolve.fallback,
-    extensions: common.resolve.extensions,
-    alias: common.resolve.alias
-  },
+  resolve: common.resolve,
   output: {
     path: paths.buildDir,
     filename: 'js/[name].[chunkhash:8].js',
@@ -29,28 +21,31 @@ module.exports = {
     publicPath: '/'
   },
   module: {
-    preLoaders: [...common.preLoaders],
-    loaders: [{
-      test: /\.js$/,
-      include: paths.appDir,
-      loader: 'babel'
-    }, {
-      test: /\.css$/,
-      loader: ExtractTextPlugin.extract('style', 'css')
-    },
-      ...common.loaders
+    rules: [
+      ...common.rules,
+      {
+        test: /\.js$/,
+        include: paths.srcDir,
+        loader: 'babel-loader'
+      },
+      {
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: 'css-loader'
+        })
+      }
     ]
   },
   node: common.node,
   plugins: [
     new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"production"' }),
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.optimize.DedupePlugin(),
     new ExtractTextPlugin('css/[name].[contenthash:8].css'),
     new HtmlWebpackPlugin({
       inject: true,
-      template: `${paths.appDir}/index.html`,
-      favicon: `${paths.appDir}/favicon.ico`,
+      template: `${paths.srcDir}/index.html`,
+      favicon: `${paths.srcDir}/favicon.ico`,
       minify: {
         removeComments: true,
         collapseWhitespace: true,
@@ -75,7 +70,8 @@ module.exports = {
       output: {
         comments: false,
         screw_ie8: true
-      }
+      },
+      sourceMap: true
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',

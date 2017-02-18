@@ -1,10 +1,11 @@
 import * as firebase from 'firebase';
 
 const config = {
-  apiKey: 'AIzaSyD1OwcwSCepv3WNLp16IcVuyYoGBDQ1a0E',
-  authDomain: 'test-f27ff.firebaseapp.com',
-  databaseURL: 'https://test-f27ff.firebaseio.com',
-  storageBucket: 'test-f27ff.appspot.com',
-  messagingSenderId: '851068256684'
+  apiKey: 'AIzaSyDGhbEAjNTRPq4YwBDvddtf1P7TqzhE0gI',
+  authDomain: 'fireact-d27a3.firebaseapp.com',
+  databaseURL: 'https://fireact-d27a3.firebaseio.com',
+  storageBucket: 'fireact-d27a3.appspot.com',
+  messagingSenderId: '1029706794051'
 };
+
 firebase.initializeApp(config);

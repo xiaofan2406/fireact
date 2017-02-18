@@ -1,6 +1,5 @@
 import { observable, action, computed } from 'mobx';
 
-
 class GreetStore {
   @observable message;
   @observable times;
@@ -27,6 +26,5 @@ class GreetStore {
     return Array(this.times).fill(this.message).join(' ');
   }
 }
-
 
 export default GreetStore;

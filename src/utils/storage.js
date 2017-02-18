@@ -1,4 +1,3 @@
-
 const PREFIX = 'FIREACT';
 const LOGINKEY = `${PREFIX}-LOGIN`;
 

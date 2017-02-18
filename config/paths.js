@@ -1,14 +1,13 @@
 const path = require('path');
 
-const rootDir = path.join(__dirname, '..');
-const appDir = path.join(rootDir, 'src');
-const buildDir = path.join(rootDir, 'build');
-const nodeModulesDir = path.join(rootDir, 'node_modules');
-
+const projectDir = path.join(__dirname, '..');
+const srcDir = path.join(projectDir, 'src');
+const buildDir = path.join(projectDir, 'build');
+const nodeModulesDir = path.join(projectDir, 'node_modules');
 
 module.exports = {
-  rootDir,
-  appDir,
+  projectDir,
+  srcDir,
   buildDir,
   nodeModulesDir
 };

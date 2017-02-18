@@ -2,20 +2,16 @@ const webpack = require('webpack');
 const paths = require('./paths');
 const common = require('./webpack.common');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const getLocalIP = require('./local-ip');
 
+const localIp = require('./localIp');
 
 module.exports = {
-  devtool: 'eval',
+  devtool: 'cheap-module-source-map',
   entry: [
     'react-hot-loader/patch',
-    `${paths.appDir}/index.js`
+    `${paths.srcDir}/index.js`
   ],
-  resolve: {
-    fallback: common.resolve.fallback,
-    extensions: common.resolve.extensions,
-    alias: common.resolve.alias
-  },
+  resolve: common.resolve,
   output: {
     // For dev, `path` and `filename` are not important because of using webpack-dev-server
     path: paths.buildDir,
@@ -26,45 +22,46 @@ module.exports = {
     pathinfo: true
   },
   module: {
-    preLoaders: [...common.preLoaders],
-    loaders: [{
-      test: /\.js$/,
-      include: paths.appDir,
-      loader: 'babel',
-      query: {
-        cacheDirectory: true
+    rules: [
+      ...common.rules,
+      {
+        test: /\.js$/,
+        include: paths.srcDir,
+        loader: 'babel-loader',
+        query: {
+          cacheDirectory: true
+        }
+      },
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader'
+        ]
       }
-    }, {
-      test: /\.css$/,
-      loader: 'style!css'
-    },
-      ...common.loaders
     ]
   },
   node: common.node,
+  performance: { hints: false },
   plugins: [
-    new webpack.NoErrorsPlugin(),
     new HtmlWebpackPlugin({
       inject: true,
-      template: `${paths.appDir}/index.html`,
-      favicon: `${paths.appDir}/favicon.ico`
+      template: `${paths.srcDir}/index.html`,
+      favicon: `${paths.srcDir}/favicon.ico`
     }),
     new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"development"' }),
     new webpack.HotModuleReplacementPlugin()
   ],
   devServer: {
+    compress: true,
     contentBase: paths.buildDir,
-    historyApiFallback: true,
     hot: true,
-    inline: true,
-    // It is important to tell WebpackDevServer to use the same "root" path
-    // as we specified in the config. In development, we always serve from /.
     publicPath: '/',
     stats: 'errors-only',
     watchOptions: {
       ignored: /node_modules/
     },
-    host: process.env.HOST || getLocalIP(),
+    host: process.env.HOST || localIp,
     port: process.env.PORT || 8080
   }
 };

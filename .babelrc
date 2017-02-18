@@ -1,9 +1,13 @@
 {
-  "presets": ["latest", "react"],
+  "presets": [
+    ["latest", { "es2015": { "modules": false } }],
+    "react"
+  ],
   "plugins": [
     "transform-decorators-legacy",
     "transform-class-properties",
-    "transform-object-rest-spread",
+    ["transform-react-jsx", { "useBuiltIns": true }],
+    ["transform-object-rest-spread", { "useBuiltIns": true }],
     ["transform-runtime", {
       "helpers": false,
       "polyfill": false,
@@ -12,10 +16,16 @@
   ],
   "env": {
     "development": {
-      "plugins": ["react-hot-loader/babel", "transform-react-jsx-source", "transform-react-jsx-self"]
+      "plugins": [
+        "react-hot-loader/babel",
+        "transform-react-jsx-source",
+        "transform-react-jsx-self"
+      ]
     },
     "production": {
-      "plugins": ["transform-react-remove-prop-types"]
+      "plugins": [
+        "transform-react-remove-prop-types"
+      ]
     }
   }
 }

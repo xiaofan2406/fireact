@@ -1,50 +1,40 @@
-/**
- * Root route config
- * @see https://react-router.now.sh/route-config
- */
-
 import React from 'react';
-import Router from 'react-router/BrowserRouter';
-import Match from 'react-router/Match';
-import Miss from 'react-router/Miss';
-import Redirect from 'react-router/Redirect';
-
-import onlyAuth from 'hocs/only-auth';
-
+import { BrowserRouter, Route, Redirect } from 'react-router-dom';
+import onlyAuth from 'hocs/onlyAuth';
 import Layout from 'components/Layout';
+
 import Home from './Home';
 import About from './About';
 import Login from './Login';
 import Logout from './Logout';
 import Board from './Board';
 
-
-const HomeRedirect = () => <Redirect to="/" />;
+const HomeRedirect = <Redirect to="/" />;
 
 export const routes = [
   {
-    pattern: '/',
+    path: '/',
     name: 'Home',
-    exactly: true,
+    exact: true,
     component: Home
   },
   {
-    pattern: '/about',
+    path: '/about',
     name: 'About',
     component: About
   },
   {
-    pattern: '/login',
+    path: '/login',
     name: 'Login',
     component: Login
   },
   {
-    pattern: '/logout',
+    path: '/logout',
     name: 'Logout',
     component: Logout
   },
   {
-    pattern: '/board',
+    path: '/board',
     name: 'Board',
     component: onlyAuth(HomeRedirect)(Board)
   }
@@ -56,25 +46,22 @@ if (process.env.NODE_ENV === 'development') {
   DevTool = <MobXDevTools position={{ bottom: 0, right: 20 }} />;
 }
 
-
-function AppRouter() {
+function Router() {
   return (
-    <Router>
+    <BrowserRouter>
       <Layout>
         {routes.map(route => (
-          <Match
-            key={route.pattern}
-            pattern={route.pattern}
-            exactly={route.exactly}
+          <Route
+            key={route.path}
+            path={route.path}
+            exact={route.exact}
             component={route.component}
           />
         ))}
-        <Miss component={HomeRedirect} />
         {DevTool}
       </Layout>
-    </Router>
+    </BrowserRouter>
   );
 }
 
-
-export default AppRouter;
+export default Router;

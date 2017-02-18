@@ -1,6 +1,5 @@
 const ifconfig = require('os').networkInterfaces();
 
-
 function getLocalIp() {
   const detail = Object.keys(ifconfig)
     .filter(ifaceName => ifaceName.indexOf('lo') === -1)
@@ -11,5 +10,6 @@ function getLocalIp() {
   return detail && detail.address;
 }
 
+const localIp = getLocalIp();
 
-module.exports = getLocalIp;
+module.exports = localIp;
