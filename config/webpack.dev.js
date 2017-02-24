@@ -55,6 +55,7 @@ module.exports = {
   devServer: {
     compress: true,
     contentBase: paths.buildDir,
+    historyApiFallback: true,
     hot: true,
     publicPath: '/',
     stats: 'errors-only',
