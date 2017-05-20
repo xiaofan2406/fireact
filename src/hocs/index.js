@@ -1,0 +1,1 @@
+export onlyAuth from './onlyAuth';

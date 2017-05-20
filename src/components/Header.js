@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import withCss from 'react-jss';
 import { primaryColor, headerHeight } from 'styles';
-import SmartLink from 'widgets/SmartLink';
+import { SmartLink } from 'widgets';
 
 import logo from './logo.svg';
 import { routes } from '../router';

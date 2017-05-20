@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Redirect } from 'react-router-dom';
-import onlyAuth from 'hocs/onlyAuth';
-import Layout from 'components/Layout';
+import { onlyAuth } from 'hocs';
+import { Layout } from 'components';
 
 import Home from './Home';
 import About from './About';
