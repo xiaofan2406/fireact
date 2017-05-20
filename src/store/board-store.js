@@ -139,12 +139,14 @@ class BoardStore {
     }
     this.setLoading(false);
     this.initListeners();
-    cacheBoard(
-      toJS({
-        lists: this.lists,
-        _items: this._items
-      })
-    );
+    this.autoSave();
+  }
+
+  getCachableData() {
+    return {
+      lists: this.lists,
+      _items: this._items
+    };
   }
 
   @action setLoading(bool) {
@@ -217,6 +219,17 @@ class BoardStore {
   newItem(title, listId) {
     // todo: validate user input here
     this._listRef.push({ title, listId, completed: false, description: '' });
+  }
+
+  autoSave() {
+    this.autoSaveInterval = setInterval(() => {
+      console.log('gonna save');
+      cacheBoard(toJS(this.getCachableData()));
+    }, 1000 * 60 * 10);
+  }
+
+  stopAutoSave() {
+    clearInterval(this.autoSaveInterval);
   }
 }
 
