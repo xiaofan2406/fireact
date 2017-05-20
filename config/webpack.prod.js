@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const common = require('./webpack.common');
-const { paths, title } = require('./configs');
+const { paths } = require('./configs');
 const pkg = require('../package.json');
 const babelrc = require('../.babelrc');
 
@@ -50,7 +50,6 @@ module.exports = {
     new ExtractTextPlugin('css/[name].[contenthash:8].css'),
     new HtmlWebpackPlugin({
       inject: true,
-      title,
       template: `${paths.srcDir}/index.html`,
       favicon: `${paths.srcDir}/favicon.ico`,
       minify: {

@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const common = require('./webpack.common');
-const { devPort, devIp, paths, title } = require('./configs');
+const { devPort, devIp, paths } = require('./configs');
 const babelrc = require('../.babelrc');
 
 module.exports = {
@@ -47,7 +47,6 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       inject: true,
-      title,
       template: `${paths.srcDir}/index.html`,
       favicon: `${paths.srcDir}/favicon.ico`
     }),

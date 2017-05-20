@@ -1,16 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import withCss from 'react-jss';
-import { fontFamily, fontSize } from 'styles';
 import 'styles/reset.css';
 import 'styles/animation.css';
+import 'styles/template.css';
 import Header from './Header';
 
 const css = {
-  layout: {
-    fontFamily,
-    fontSize
-  },
   main: {
     padding: '1em'
   }
@@ -19,7 +15,7 @@ const css = {
 /* Use functions rather than constant elements for better debugging */
 function Layout({ classes, children }) {
   return (
-    <div className={classes.layout}>
+    <div>
       <Header />
       <div className={classes.main}>
         {children}

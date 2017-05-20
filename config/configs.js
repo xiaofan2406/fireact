@@ -7,7 +7,6 @@ const buildDir = path.join(projectDir, 'build');
 const nodeModulesDir = path.join(projectDir, 'node_modules');
 
 module.exports = {
-  title: 'React Start Kit',
   devPort: 8080,
   devIp: getLocalIp(),
   paths: {
