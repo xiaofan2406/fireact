@@ -16,19 +16,17 @@
 
 - Run dev server
   ```
-  yarn run dev
+  yarn dev
   ```
 
-- Build for production (build only, no server setup yet)
+- Build for production
   ```
-  yarn run build
+  yarn build
   ```
 
 - Test production build
   ```
-  yarn global add pushstate-server
-
-  pushstate-server ./build 9000
+  yarn prod
   ```
 
 
@@ -40,8 +38,7 @@
 
 #### [JSS](https://github.com/cssinjs/jss)
   - [Read this](https://github.com/oliviertassinari/a-journey-toward-better-style)
-  - Using together with [`react-jss`](https://github.com/cssinjs/react-jss) and [`jss-preset-default`](https://github.com/cssinjs/jss-preset-default)
-  - Setup at **src/styles/index.js**
+  - Using together with [`react-jss`](https://github.com/cssinjs/react-jss)
   - Using [classnames](https://github.com/JedWatson/classnames) helper to make conditional class names cleaner
 
 #### CSS
@@ -49,8 +46,7 @@
   - No PostCSS, SASS or CSS Module setup
   - Includes a Semantic UI [`reset.css`](https://github.com/Semantic-Org/Semantic-UI/blob/master/dist/components/reset.css)
 
-#### [React Router v4](https://react-router.now.sh/)
-  - Together with [react-router-v4-hocs](https://www.npmjs.com/package/react-router-v4-hocs)
+#### [React Router v4](https://reacttraining.com/react-router)
 
 
 ## Development
@@ -66,11 +62,12 @@
 ## Folders
 Path | Import alias | Description
 --- | --- | ---
-**config/** |  | project tooling configuration files
-**src/** | `app` | React app source files directory, processed by webpack
+**config/** |  | Project tooling configuration files
+**src/** | `src` | App source files directory, processed by webpack
 src/**components/** | `components` | React components folder
 src/**hocs/** | `hocs` | Higher-order components folder
 src/**router/** |  | React Router setup and route-level components folder
 src/**store/** |  | Mobx store folder
-src/**styles/** | `styles` | JSS setup and global CSS folder
+src/**styles/** | `styles` | Global CSS and JSS folder
 src/**utils/** | `utils` | JavaScript helper functions folder
+src/**widgets/** | `widgets` | Small shared React components folder
