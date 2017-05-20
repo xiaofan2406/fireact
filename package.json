@@ -7,14 +7,14 @@
     "prebuild": "rm -rf ./build",
     "build": "NODE_ENV=production ./node_modules/.bin/webpack --config ./config/webpack.prod.js",
     "lint": "./node_modules/.bin/eslint -c .eslintrc.js ./src ./config",
-    "preversion": "npm run lint && npm run build",
-    "postversion": "git push && git push --tags"
+    "prod": "./node_modules/.bin/pushstate-server ./build 9000"
   },
   "engines": {
     "node": "^6.x",
     "npm": "^3.x"
   },
   "keywords": [
+    "fireact",
     "react",
     "react-router",
     "mobx",
