@@ -23,7 +23,6 @@ export const loadLogin = () => {
 };
 
 export const cacheBoard = data => {
-  console.log(data);
   localStorage.setItem(BOARDKEY, JSON.stringify(data));
 };
 

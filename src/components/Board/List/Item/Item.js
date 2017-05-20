@@ -5,7 +5,7 @@ import { observer } from 'mobx-react';
 import ItemMenu from './ItemMenu';
 
 function Item({ item }) {
-  console.log('render Item');
+  console.log('render Item', item.title);
   return (
     <div>
       {item.title}

@@ -2,22 +2,23 @@ import { observable, action, computed, toJS, ObservableMap } from 'mobx';
 import * as firebase from 'firebase';
 import { cacheBoard } from 'utils/storage';
 
-const boardPath = 'lists';
-const listPath = 'items';
+const listsPath = 'lists';
+const itemsPath = 'items';
 
 class Item {
   @observable title;
   @observable description;
   @observable completed;
 
-  constructor(init = {}) {
+  constructor(init) {
     this.id = init.id;
     this.listId = init.listId;
-    this.title = init.title;
     this.path = init.path;
+    this.ref = firebase.database().ref(this.path);
+
+    this.title = init.title;
     this.completed = init.completed || false;
     this.description = init.description || '';
-    this.ref = firebase.database().ref(this.path);
   }
 
   delete() {
@@ -33,16 +34,35 @@ class List {
   @observable items;
   @observable title;
 
-  constructor(init = {}) {
+  constructor(init) {
     this.id = init.id;
     this.title = init.title;
     this.path = init.path;
-    this.items = init.items || [];
     this.ref = firebase.database().ref(this.path);
+
+    this.items = new ObservableMap();
+    if (init.items) {
+      Object.values(init.items).map(itemData => this.addItem(itemData));
+    }
+  }
+
+  hasItem(id) {
+    return this.items.has(id);
+  }
+
+  @action addItem(itemData) {
+    if (!this.hasItem(itemData.id)) {
+      const item = new Item(itemData);
+      this.items.set(itemData.id, item);
+    }
+  }
+
+  @action removeItem(id) {
+    this.items.delete(id);
   }
 
   @computed get isEmpty() {
-    return this.items.length === 0;
+    return this.items.size === 0;
   }
 
   delete() {
@@ -52,42 +72,94 @@ class List {
   @action setTitle(title) {
     this.title = title;
   }
-
-  @action addItem(item) {
-    this.items.push(item);
-  }
-
-  @action removeItem(id) {
-    this.items = this.items.filter(item => item.id !== id);
-  }
 }
 
 class BoardStore {
   @observable lists;
   @observable loading;
-  @observable _items;
 
-  constructor(init = {}) {
-    console.log('creating with', init);
+  constructor(init) {
+    this.loading = false;
+    this._listsRef = null;
+    this._itemsRef = null;
 
     this.lists = new ObservableMap();
-    this._items = new ObservableMap();
-
     if (init.lists) {
       Object.values(init.lists).map(listData => this.addList(listData));
     }
-    if (init._items) {
-      Object.values(init._items).map(itemData => this.addList(itemData));
-    }
-
-    this.loading = false;
-
-    this._boardRef = null;
-    this._listRef = null;
   }
 
   static withUserStore(userStore) {
     this.userStore = userStore;
+  }
+
+  async initialLoad() {
+    if (this.isEmpty) {
+      this.setLoading(true);
+    }
+    this._listsRef = firebase
+      .database()
+      .ref(`${BoardStore.userStore.uid}/${listsPath}`);
+
+    this._itemsRef = firebase
+      .database()
+      .ref(`${BoardStore.userStore.uid}/${itemsPath}`);
+
+    const [lists, items] = (await Promise.all([
+      this._listsRef.once('value'),
+      this._itemsRef.once('value')
+    ])).map(result => result.val());
+
+    if (lists) {
+      Object.keys(lists).map(id =>
+        this.addList({
+          id,
+          ...lists[id],
+          path: `${BoardStore.userStore.uid}/${listsPath}/${id}`
+        })
+      );
+    }
+
+    if (items) {
+      Object.keys(items).map(id =>
+        this.addItemToList({
+          id,
+          ...items[id],
+          path: `${BoardStore.userStore.uid}/${itemsPath}/${id}`
+        })
+      );
+    }
+    this.setLoading(false);
+    this.initListeners();
+    this.autoSave();
+  }
+
+  initListeners() {
+    this._listsRef.on('child_added', snapshot => {
+      const listData = {
+        id: snapshot.key,
+        path: `${BoardStore.userStore.uid}/${listsPath}/${snapshot.key}`,
+        ...snapshot.val()
+      };
+      this.addList(listData);
+    });
+
+    this._listsRef.on('child_removed', snapshot => {
+      this.removeList(snapshot.key);
+    });
+
+    this._itemsRef.on('child_added', snapshot => {
+      const itemData = {
+        id: snapshot.key,
+        path: `${BoardStore.userStore.uid}/${itemsPath}/${snapshot.key}`,
+        ...snapshot.val()
+      };
+      this.addItemToList(itemData);
+    });
+
+    this._itemsRef.on('child_removed', snapshot => {
+      this.removeItemFromList(snapshot.val());
+    });
   }
 
   @computed get isEmpty() {
@@ -98,55 +170,10 @@ class BoardStore {
     return this.lists.has(id);
   }
 
-  hasItem(id) {
-    return this._items.has(id);
-  }
-
-  async initialLoad() {
-    if (this.isEmpty) {
-      this.setLoading(true);
-    }
-    this._boardRef = firebase
-      .database()
-      .ref(`${BoardStore.userStore.uid}/${boardPath}`);
-    this._listRef = firebase
-      .database()
-      .ref(`${BoardStore.userStore.uid}/${listPath}`);
-
-    const [lists, items] = (await Promise.all([
-      this._boardRef.once('value'),
-      this._listRef.once('value')
-    ])).map(result => result.val());
-
-    if (lists) {
-      Object.keys(lists).map(id =>
-        this.addList({
-          id,
-          path: `${BoardStore.userStore.uid}/${boardPath}/${id}`,
-          ...lists[id]
-        })
-      );
-    }
-
-    if (items) {
-      Object.keys(items).map(id =>
-        this.addItem({
-          id,
-          path: `${BoardStore.userStore.uid}/${listPath}/${id}`,
-          ...items[id]
-        })
-      );
-    }
-    this.setLoading(false);
-    this.initListeners();
-    this.autoSave();
-  }
-
   getCachableData() {
-    return {
-      lists: this.lists,
-      _items: this._items
-    };
+    return toJS({
+      lists: this.lists
+    });
   }
 
   @action setLoading(bool) {
@@ -159,72 +186,43 @@ class BoardStore {
     this.loading = false;
   }
 
-  initListeners() {
-    this._boardRef.on('child_added', snapshot => {
-      if (!this.hasList(snapshot.key)) {
-        const listData = {
-          id: snapshot.key,
-          path: `${BoardStore.userStore.uid}/${boardPath}/${snapshot.key}`,
-          ...snapshot.val()
-        };
-        this.addList(listData);
-      }
-    });
-
-    this._boardRef.on('child_removed', snapshot => {
-      this.removeList(snapshot.key);
-    });
-
-    this._listRef.on('child_added', snapshot => {
-      if (!this.hasItem(snapshot.key)) {
-        const itemData = {
-          id: snapshot.key,
-          path: `${BoardStore.userStore.uid}/${listPath}/${snapshot.key}`,
-          ...snapshot.val()
-        };
-        this.addItem(itemData);
-      }
-    });
-
-    this._listRef.on('child_removed', snapshot => {
-      this.removeItem(snapshot);
-    });
-  }
-
   @action addList(listData) {
-    const list = new List(listData);
-    this.lists.set(list.id, list);
+    if (!this.hasList(listData.id)) {
+      const list = new List(listData);
+      this.lists.set(list.id, list);
+    }
   }
 
   @action removeList(id) {
     this.lists.delete(id);
   }
 
-  @action addItem(itemData) {
-    const item = new Item(itemData);
-    this.lists.get(item.listId).addItem(item);
-
-    this._items.set(item.id, item);
+  @action addItemToList(itemData) {
+    if (this.hasList(itemData.listId)) {
+      this.lists.get(itemData.listId).addItem(itemData);
+    }
   }
 
-  @action removeItem(item) {
-    this.lists.get(item.listId).removeItem(item);
+  @action removeItemFromList(itemData) {
+    if (this.hasList(itemData.listId)) {
+      this.lists.get(itemData.listId).removeItem(itemData.id);
+    }
   }
 
   newList(title) {
     // todo: validate user input here
-    this._boardRef.push({ title });
+    this._listsRef.push({ title });
   }
 
-  newItem(title, listId) {
-    // todo: validate user input here
-    this._listRef.push({ title, listId, completed: false, description: '' });
-  }
+  // newItem(title, listId) {
+  //   // todo: validate user input here
+  //   this._itemsRef.push({ title, listId, completed: false, description: '' });
+  // }
 
   autoSave() {
+    cacheBoard(this.getCachableData());
     this.autoSaveInterval = setInterval(() => {
-      console.log('gonna save');
-      cacheBoard(toJS(this.getCachableData()));
+      cacheBoard(this.getCachableData());
     }, 1000 * 60 * 10);
   }
 
