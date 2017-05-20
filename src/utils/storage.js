@@ -1,7 +1,7 @@
 const PREFIX = 'FIREACT';
 const LOGINKEY = `${PREFIX}-LOGIN`;
 
-export const saveLogin = (js) => {
+export const saveLogin = js => {
   localStorage.setItem(LOGINKEY, JSON.stringify(js));
 };
 

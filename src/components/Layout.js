@@ -1,12 +1,12 @@
 import React from 'react';
-import injectSheet, { fontFamily, fontSize } from 'styles';
+import PropTypes from 'prop-types';
+import withCss from 'react-jss';
+import { fontFamily, fontSize } from 'styles';
 import 'styles/reset.css';
 import 'styles/animation.css';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Header from './Header';
 
-
-const styles = {
+const css = {
   layout: {
     fontFamily,
     fontSize
@@ -17,23 +17,20 @@ const styles = {
 };
 
 /* Use functions rather than constant elements for better debugging */
-function Layout({ sheet: { classes }, children }) {
+function Layout({ classes, children }) {
   return (
-    <MuiThemeProvider>
-      <div className={classes.layout}>
-        <Header />
-        <div className={classes.main}>
-          {children}
-        </div>
+    <div className={classes.layout}>
+      <Header />
+      <div className={classes.main}>
+        {children}
       </div>
-    </MuiThemeProvider>
+    </div>
   );
 }
 
 Layout.propTypes = {
-  sheet: React.PropTypes.object.isRequired,
-  children: React.PropTypes.node.isRequired
+  classes: PropTypes.object.isRequired,
+  children: PropTypes.node.isRequired
 };
 
-
-export default injectSheet(styles)(Layout);
+export default withCss(css)(Layout);

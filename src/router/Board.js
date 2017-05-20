@@ -10,5 +10,4 @@ function BoardApp() {
   );
 }
 
-
 export default BoardApp;

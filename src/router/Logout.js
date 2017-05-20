@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import Redirect from 'react-router/Redirect';
 import { removeLogin } from 'utils/storage';
@@ -7,7 +8,7 @@ import { removeLogin } from 'utils/storage';
 @observer
 class Logout extends React.Component {
   static propTypes = {
-    userStore: React.PropTypes.object.isRequired
+    userStore: PropTypes.object.isRequired
   };
 
   componentWillMount() {
@@ -17,11 +18,8 @@ class Logout extends React.Component {
   }
 
   render() {
-    return (
-      <Redirect to="/" />
-    );
+    return <Redirect to="/" />;
   }
 }
-
 
 export default Logout;

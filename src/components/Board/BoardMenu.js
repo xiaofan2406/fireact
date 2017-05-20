@@ -1,14 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { inject } from 'mobx-react';
-import TextField from 'material-ui/TextField';
 
 @inject('boardStore')
 class BoardMenu extends React.Component {
   static propTypes = {
-    boardStore: React.PropTypes.object.isRequired
+    boardStore: PropTypes.object.isRequired
   };
 
-  newList = (e) => {
+  newList = e => {
     const { boardStore } = this.props;
 
     if (e.which === 27) {
@@ -17,19 +17,19 @@ class BoardMenu extends React.Component {
       boardStore.newList(e.target.value);
       e.target.value = '';
     }
-  }
+  };
 
   render() {
     return (
       <div>
-        <TextField
-          floatingLabelText="Name for a new list"
+        <input
+          placeholder="Name for a new list"
           onKeyUp={this.newList}
+          type="text"
         />
       </div>
     );
   }
 }
-
 
 export default BoardMenu;

@@ -1,5 +1,4 @@
 import React from 'react';
-
 import BoardMenu from './BoardMenu';
 import BoardDisplay from './BoardDisplay';
 
@@ -11,6 +10,5 @@ function Board() {
     </div>
   );
 }
-
 
 export default Board;

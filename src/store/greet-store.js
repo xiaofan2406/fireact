@@ -4,7 +4,8 @@ class GreetStore {
   @observable message;
   @observable times;
 
-  constructor(init = {}) { // this allows store initialization or load saved states
+  // this allows store initialization or load saved states
+  constructor(init = {}) {
     this.message = init.message || 'World';
     this.times = init.times || 1;
   }

@@ -1,4 +1,4 @@
-const paths = require('./paths');
+const { paths } = require('./configs');
 
 module.exports = {
   resolve: {
@@ -8,8 +8,7 @@ module.exports = {
       hocs: `${paths.srcDir}/hocs`,
       styles: `${paths.srcDir}/styles`,
       utils: `${paths.srcDir}/utils`,
-      widgets: `${paths.srcDir}/widgets`,
-      src: paths.srcDir // this allows import 'src/...' without knowing the relative path
+      widgets: `${paths.srcDir}/widgets`
     }
   },
   rules: [

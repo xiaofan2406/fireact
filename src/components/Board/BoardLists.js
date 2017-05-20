@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
-import injectSheet from 'styles';
+import withCss from 'react-jss';
 import compose from 'utils/compose';
 
-import List from './List';
+// import List from './List';
 
-const sheet = {
+const css = {
   display: {
     padding: '1em'
   },
@@ -14,31 +15,17 @@ const sheet = {
   }
 };
 
-function BoardLists({ boardStore, sheet: { classes } }) {
-  console.log('render BoardLists');
+function BoardLists({ boardStore, classes }) {
+  console.log(classes);
 
-  return boardStore.isEmpty ? (
-    <p>nothing here</p>
-  ) : (
-    <div className={classes.display}>
-      {boardStore.lists.values().map(list => (
-        <div className={classes.single} key={list.id}>
-          <List list={list} />
-        </div>
-      ))}
-    </div>
-  );
+  return boardStore.isEmpty ? <p>nothing here</p> : <p>something</p>;
 }
 
 BoardLists.propTypes = {
-  boardStore: React.PropTypes.object.isRequired,
-  sheet: React.PropTypes.object.isRequired
+  boardStore: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 };
 
-const enhance = compose(
-  injectSheet(sheet),
-  inject('boardStore'),
-  observer
-);
+const enhance = compose(withCss(css), inject('boardStore'), observer);
 
 export default enhance(BoardLists);

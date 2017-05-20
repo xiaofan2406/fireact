@@ -3,7 +3,7 @@ import GreetStore from './greet-store';
 import UserStore from './user-store';
 import BoardStore from './board-store';
 
-export default (initialState) => {
+export default initialState => {
   const initGreet = initialState.greetStore || {};
   const initUser = initialState.userStore || {};
   const initBoard = initialState.boardStore || {};
@@ -14,9 +14,9 @@ export default (initialState) => {
 
   BoardStore.withUserStore(userStore);
 
-  return ({
+  return {
     greetStore,
     userStore,
     boardStore
-  });
+  };
 };

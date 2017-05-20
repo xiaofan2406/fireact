@@ -1,23 +1,21 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { inject } from 'mobx-react';
 
 function onlyAuth(Redirect) {
-  return (Component) => {
+  return Component => {
     function OnlyAuth({ isAuthed, ...rest }) {
-      return isAuthed ? <Component {...rest} /> : <Redirect />;
+      return isAuthed ? <Component {...rest} /> : Redirect;
     }
 
     OnlyAuth.propTypes = {
-      isAuthed: React.PropTypes.bool.isRequired
+      isAuthed: PropTypes.bool.isRequired
     };
 
-    return inject(
-      stores => ({
-        isAuthed: stores.userStore.isAuthed
-      })
-    )(OnlyAuth);
+    return inject(stores => ({
+      isAuthed: stores.userStore.isAuthed
+    }))(OnlyAuth);
   };
 }
-
 
 export default onlyAuth;

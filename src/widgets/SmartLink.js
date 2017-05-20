@@ -1,13 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { Link, withRouter } from 'react-router-dom';
 import classnames from 'classnames';
-import withLocation from 'hocs/withLocation';
 
-function SmarkLink({ activeClassName, className, location, ...rest }) {
+function SmarkLink({ activeClassName, location, ...rest }) {
   return (
     <Link
       className={classnames({
-        [className]: true,
+        [rest.className]: rest.className,
         [activeClassName]: rest.to === location.pathname
       })}
       to={rest.to}
@@ -19,14 +19,12 @@ function SmarkLink({ activeClassName, className, location, ...rest }) {
 }
 
 SmarkLink.propTypes = {
-  location: React.PropTypes.object.isRequired,
-  className: React.PropTypes.string,
-  activeClassName: React.PropTypes.string
+  location: PropTypes.object.isRequired,
+  activeClassName: PropTypes.string
 };
 
 SmarkLink.defaultProps = {
-  className: null,
   activeClassName: null
 };
 
-export default withLocation(SmarkLink);
+export default withRouter(SmarkLink);

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 
 import ListMenu from './ListMenu';
@@ -16,7 +17,7 @@ function List({ list }) {
 }
 
 List.propTypes = {
-  list: React.PropTypes.object.isRequired
+  list: PropTypes.object.isRequired
 };
 
 export default observer(List);

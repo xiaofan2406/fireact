@@ -1,10 +1,11 @@
 const webpack = require('webpack');
-const paths = require('./paths');
-const common = require('./webpack.common');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
+const common = require('./webpack.common');
+const { paths, title } = require('./configs');
 const pkg = require('../package.json');
+const babelrc = require('../.babelrc');
 
 module.exports = {
   bail: true,
@@ -21,12 +22,17 @@ module.exports = {
     publicPath: '/'
   },
   module: {
+    strictExportPresence: true,
     rules: [
       ...common.rules,
       {
         test: /\.js$/,
         include: paths.srcDir,
-        loader: 'babel-loader'
+        loader: 'babel-loader',
+        options: {
+          babelrc: false,
+          presets: babelrc
+        }
       },
       {
         test: /\.css$/,
@@ -44,6 +50,7 @@ module.exports = {
     new ExtractTextPlugin('css/[name].[contenthash:8].css'),
     new HtmlWebpackPlugin({
       inject: true,
+      title,
       template: `${paths.srcDir}/index.html`,
       favicon: `${paths.srcDir}/favicon.ico`,
       minify: {

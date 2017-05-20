@@ -61,7 +61,6 @@ class List {
   }
 }
 
-
 class BoardStore {
   @observable lists;
   @observable loading;
@@ -93,25 +92,36 @@ class BoardStore {
 
   async initialLoad() {
     this.setLoading(true);
-    this._boardRef = firebase.database().ref(`${BoardStore.userStore.uid}/${boardPath}`);
-    this._itemRef = firebase.database().ref(`${BoardStore.userStore.uid}/${itemPath}`);
+    this._boardRef = firebase
+      .database()
+      .ref(`${BoardStore.userStore.uid}/${boardPath}`);
+    this._itemRef = firebase
+      .database()
+      .ref(`${BoardStore.userStore.uid}/${itemPath}`);
 
-    const [lists, items] = (await Promise.all([this._boardRef.once('value'), this._itemRef.once('value')])).map(result => result.val());
+    const [lists, items] = (await Promise.all([
+      this._boardRef.once('value'),
+      this._itemRef.once('value')
+    ])).map(result => result.val());
 
     if (lists) {
-      Object.keys(lists).map(id => this.addList({
-        id,
-        path: `${BoardStore.userStore.uid}/${boardPath}/${id}`,
-        ...lists[id]
-      }));
+      Object.keys(lists).map(id =>
+        this.addList({
+          id,
+          path: `${BoardStore.userStore.uid}/${boardPath}/${id}`,
+          ...lists[id]
+        })
+      );
     }
 
     if (items) {
-      Object.keys(items).map(id => this.addItem({
-        id,
-        path: `${BoardStore.userStore.uid}/${itemPath}/${id}`,
-        ...items[id]
-      }));
+      Object.keys(items).map(id =>
+        this.addItem({
+          id,
+          path: `${BoardStore.userStore.uid}/${itemPath}/${id}`,
+          ...items[id]
+        })
+      );
     }
     this.setLoading(false);
     this.initListeners();
@@ -128,7 +138,7 @@ class BoardStore {
   }
 
   initListeners() {
-    this._boardRef.on('child_added', (snapshot) => {
+    this._boardRef.on('child_added', snapshot => {
       if (!this.hasList(snapshot.key)) {
         const listData = {
           id: snapshot.key,
@@ -139,11 +149,11 @@ class BoardStore {
       }
     });
 
-    this._boardRef.on('child_removed', (snapshot) => {
+    this._boardRef.on('child_removed', snapshot => {
       this.removeList(snapshot.key);
     });
 
-    this._itemRef.on('child_added', (snapshot) => {
+    this._itemRef.on('child_added', snapshot => {
       if (!this.hasItem(snapshot.key)) {
         const itemData = {
           id: snapshot.key,
@@ -154,7 +164,7 @@ class BoardStore {
       }
     });
 
-    this._itemRef.on('child_removed', (snapshot) => {
+    this._itemRef.on('child_removed', snapshot => {
       this.removeItem(snapshot);
     });
   }
@@ -189,6 +199,5 @@ class BoardStore {
     this._itemRef.push({ title, listId, completed: false, description: '' });
   }
 }
-
 
 export default BoardStore;

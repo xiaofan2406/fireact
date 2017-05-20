@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 
 import BoardLists from './BoardLists';
@@ -7,7 +8,7 @@ import BoardLists from './BoardLists';
 @observer
 class BoardDisplay extends React.Component {
   static propTypes = {
-    boardStore: React.PropTypes.object.isRequired
+    boardStore: PropTypes.object.isRequired
   };
 
   constructor(props) {
@@ -22,14 +23,8 @@ class BoardDisplay extends React.Component {
     const { boardStore } = this.props;
     console.log('render BoardDisplay');
 
-    return boardStore.loading ? (
-      // TODO loading
-      <p>loading</p>
-    ) : (
-      <BoardLists />
-    );
+    return boardStore.loading ? <p>loading</p> : <BoardLists />;
   }
 }
-
 
 export default BoardDisplay;

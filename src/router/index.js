@@ -42,7 +42,8 @@ export const routes = [
 
 let DevTool = null;
 if (process.env.NODE_ENV === 'development') {
-  const MobXDevTools = require('mobx-react-devtools').default; // eslint-disable-line global-require
+  // eslint-disable-next-line
+  const MobXDevTools = require('mobx-react-devtools').default;
   DevTool = <MobXDevTools position={{ bottom: 0, right: 20 }} />;
 }
 
