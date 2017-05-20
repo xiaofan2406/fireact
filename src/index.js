@@ -3,13 +3,14 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'mobx-react';
 import { useStrict } from 'mobx';
 import 'utils/firebase';
-import { loadLogin } from 'utils/storage';
+import { loadLogin, loadBoardCache } from 'utils/storage';
 
 import Router from './router';
 import createStore from './store';
 
 const stores = createStore({
-  userStore: loadLogin()
+  userStore: loadLogin(),
+  boardStore: loadBoardCache()
 });
 
 useStrict(true);

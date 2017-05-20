@@ -1,8 +1,9 @@
-import { observable, action, computed } from 'mobx';
+import { observable, action, computed, toJS, ObservableMap } from 'mobx';
 import * as firebase from 'firebase';
+import { cacheBoard } from 'utils/storage';
 
-const boardPath = 'boards';
-const itemPath = 'items';
+const boardPath = 'lists';
+const listPath = 'items';
 
 class Item {
   @observable title;
@@ -67,11 +68,22 @@ class BoardStore {
   @observable _items;
 
   constructor(init = {}) {
-    this.lists = init.lists || new Map();
-    this._items = init._items || new Map();
+    console.log('creating with', init);
+
+    this.lists = new ObservableMap();
+    this._items = new ObservableMap();
+
+    if (init.lists) {
+      Object.values(init.lists).map(listData => this.addList(listData));
+    }
+    if (init._items) {
+      Object.values(init._items).map(itemData => this.addList(itemData));
+    }
+
     this.loading = false;
+
     this._boardRef = null;
-    this._itemRef = null;
+    this._listRef = null;
   }
 
   static withUserStore(userStore) {
@@ -91,17 +103,19 @@ class BoardStore {
   }
 
   async initialLoad() {
-    this.setLoading(true);
+    if (this.isEmpty) {
+      this.setLoading(true);
+    }
     this._boardRef = firebase
       .database()
       .ref(`${BoardStore.userStore.uid}/${boardPath}`);
-    this._itemRef = firebase
+    this._listRef = firebase
       .database()
-      .ref(`${BoardStore.userStore.uid}/${itemPath}`);
+      .ref(`${BoardStore.userStore.uid}/${listPath}`);
 
     const [lists, items] = (await Promise.all([
       this._boardRef.once('value'),
-      this._itemRef.once('value')
+      this._listRef.once('value')
     ])).map(result => result.val());
 
     if (lists) {
@@ -118,13 +132,19 @@ class BoardStore {
       Object.keys(items).map(id =>
         this.addItem({
           id,
-          path: `${BoardStore.userStore.uid}/${itemPath}/${id}`,
+          path: `${BoardStore.userStore.uid}/${listPath}/${id}`,
           ...items[id]
         })
       );
     }
     this.setLoading(false);
     this.initListeners();
+    cacheBoard(
+      toJS({
+        lists: this.lists,
+        _items: this._items
+      })
+    );
   }
 
   @action setLoading(bool) {
@@ -153,18 +173,18 @@ class BoardStore {
       this.removeList(snapshot.key);
     });
 
-    this._itemRef.on('child_added', snapshot => {
+    this._listRef.on('child_added', snapshot => {
       if (!this.hasItem(snapshot.key)) {
         const itemData = {
           id: snapshot.key,
-          path: `${BoardStore.userStore.uid}/${itemPath}/${snapshot.key}`,
+          path: `${BoardStore.userStore.uid}/${listPath}/${snapshot.key}`,
           ...snapshot.val()
         };
         this.addItem(itemData);
       }
     });
 
-    this._itemRef.on('child_removed', snapshot => {
+    this._listRef.on('child_removed', snapshot => {
       this.removeItem(snapshot);
     });
   }
@@ -196,7 +216,7 @@ class BoardStore {
 
   newItem(title, listId) {
     // todo: validate user input here
-    this._itemRef.push({ title, listId, completed: false, description: '' });
+    this._listRef.push({ title, listId, completed: false, description: '' });
   }
 }
 
