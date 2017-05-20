@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import Redirect from 'react-router/Redirect';
-import { removeLogin } from 'utils/storage';
+import { login } from 'utils/storage';
 
 @inject('userStore')
 @observer
@@ -13,7 +13,7 @@ class Logout extends React.Component {
 
   componentWillMount() {
     const { userStore } = this.props;
-    removeLogin();
+    login.delete();
     userStore.logout();
   }
 

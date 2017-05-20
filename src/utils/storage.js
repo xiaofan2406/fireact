@@ -1,43 +1,25 @@
 const PREFIX = 'FIREACT';
-const LOGINKEY = `${PREFIX}-LOGIN`;
-const BOARDKEY = `${PREFIX}-BOARD`;
 
-export const saveLogin = data => {
-  localStorage.setItem(LOGINKEY, JSON.stringify(data));
-};
-
-export const removeLogin = () => {
-  localStorage.removeItem(LOGINKEY);
-};
-
-export const loadLogin = () => {
-  const saved = localStorage.getItem(LOGINKEY);
-  try {
-    const login = JSON.parse(saved);
-    return login;
-  } catch (err) {
-    console.error(err);
-    removeLogin();
-    return null;
+const makeStorageFor = name => ({
+  key: `${PREFIX}-${name.toUpperCase()}`,
+  save(data) {
+    localStorage.setItem(this.key, JSON.stringify(data));
+  },
+  delete() {
+    localStorage.removeItem(this.key);
+  },
+  load() {
+    const saved = localStorage.getItem(this.key);
+    try {
+      const data = JSON.parse(saved);
+      return data;
+    } catch (err) {
+      console.error(err);
+      this[`clear${name}Cache`]();
+      return null;
+    }
   }
-};
+});
 
-export const cacheBoard = data => {
-  localStorage.setItem(BOARDKEY, JSON.stringify(data));
-};
-
-export const clearBoardCache = () => {
-  localStorage.removeItem(BOARDKEY);
-};
-
-export const loadBoardCache = () => {
-  const cache = localStorage.getItem(BOARDKEY);
-  try {
-    const board = JSON.parse(cache);
-    return board;
-  } catch (err) {
-    console.log(err);
-    clearBoardCache();
-    return null;
-  }
-};
+export const login = makeStorageFor('login');
+export const board = makeStorageFor('board');
