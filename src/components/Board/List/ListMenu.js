@@ -26,8 +26,10 @@ class ListMenu extends React.Component {
   };
 
   render() {
+    const { list } = this.props;
     return (
       <div>
+        {list.name}
         <input onKeyUp={this.handleKeyUp} placeholder="Name for a new item" />
         <button onClick={this.changeName}>change name</button>
       </div>

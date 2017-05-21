@@ -17,8 +17,8 @@ class Item {
     this.listId = init.listId;
     this.path = init.path;
     this.ref = firebase.database().ref(this.path);
+    this.createdAt = new Date(init.createdAt);
 
-    this.createdAt = init.createdAt ? new Date(init.createdAt) : new Date();
     this.name = init.name || '';
     this.notes = init.notes || '';
     this.isCompleted = init.isCompleted || false;
@@ -28,9 +28,8 @@ class Item {
 
   selfie() {
     return {
-      id: this.id,
       listId: this.listId,
-      createdAt: this.createdAt,
+      createdAt: this.createdAt.toISOString(),
       name: this.name,
       notes: this.notes,
       isCompleted: this.isCompleted
@@ -68,14 +67,22 @@ class List {
 
   constructor(init) {
     this.id = init.id;
-    this.name = init.name;
     this.path = init.path;
     this.ref = firebase.database().ref(this.path);
+    this.createdAt = new Date(init.createdAt);
 
+    this.name = init.name || '';
     this.items = new ObservableMap();
     if (init.items) {
       Object.values(init.items).map(itemData => this.addItem(itemData));
     }
+  }
+
+  selfie() {
+    return {
+      name: this.name,
+      createdAt: this.createdAt.toISOString()
+    };
   }
 
   @action addItem(itemData) {
@@ -105,6 +112,7 @@ class List {
 
   @action setName(name) {
     this.name = name;
+    this.ref.set({ ...this.selfie(), name });
   }
 }
 
@@ -258,8 +266,10 @@ class BoardStore {
   }
 
   newList(name) {
-    // todo: validate user input here
-    this._listsRef.push({ name });
+    this._listsRef.push({
+      name: name.trim(),
+      createdAt: new Date().toISOString()
+    });
   }
 
   newItem(name, listId) {
@@ -268,7 +278,8 @@ class BoardStore {
         name: name.trim(),
         listId,
         isCompleted: false,
-        notes: ''
+        notes: '',
+        createdAt: new Date().toISOString()
       });
     }
   }
