@@ -9,7 +9,7 @@ function List({ list }) {
   console.log('render List', list.id);
   return (
     <div>
-      {list.title}
+      {list.name}
       <ListMenu list={list} />
       <ListItems list={list} />
     </div>

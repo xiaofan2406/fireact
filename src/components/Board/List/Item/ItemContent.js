@@ -5,7 +5,7 @@ import withCss from 'react-jss';
 import compose from 'utils/compose';
 
 const css = {
-  title: {
+  name: {
     display: 'inline-block',
     padding: ' 0px 8px',
     lineHeight: 1,
@@ -18,8 +18,8 @@ const css = {
 function ItemContent({ classes, item, onFocus }) {
   console.log('render item content');
   return (
-    <span className={classes.title} onClick={onFocus}>
-      {item.title}
+    <span className={classes.name} onClick={onFocus}>
+      {item.name}
     </span>
   );
 }
@@ -27,7 +27,7 @@ function ItemContent({ classes, item, onFocus }) {
 ItemContent.propTypes = {
   classes: PropTypes.object.isRequired,
   item: PropTypes.shape({
-    title: PropTypes.string.isRequired
+    name: PropTypes.string.isRequired
   }).isRequired,
   onFocus: PropTypes.func.isRequired
 };

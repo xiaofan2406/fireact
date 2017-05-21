@@ -6,8 +6,8 @@ const listsPath = 'lists';
 const itemsPath = 'items';
 
 class Item {
-  @observable title;
-  @observable description;
+  @observable name;
+  @observable notes;
   @observable isCompleted;
   @observable isSelected;
   @observable isEditing;
@@ -18,23 +18,39 @@ class Item {
     this.path = init.path;
     this.ref = firebase.database().ref(this.path);
 
-    this.title = init.title;
-    this.description = init.description || '';
+    this.createdAt = init.createdAt ? new Date(init.createdAt) : new Date();
+    this.name = init.name || '';
+    this.notes = init.notes || '';
     this.isCompleted = init.isCompleted || false;
-    this.isSelected = init.isSelected || false;
-    this.isEditing = init.isEditing || false;
+    this.isSelected = false;
+    this.isEditing = false;
+  }
+
+  selfie() {
+    return {
+      id: this.id,
+      listId: this.listId,
+      createdAt: this.createdAt,
+      name: this.name,
+      notes: this.notes,
+      isCompleted: this.isCompleted
+    };
   }
 
   delete() {
     this.ref.remove();
   }
 
-  @action setTitle(title) {
-    this.title = title;
+  @action setName(name) {
+    this.name = name;
+    this.ref.set({ ...this.selfie(), name });
   }
 
   @action setCompletionStatus(status) {
-    this.isCompleted = status;
+    if (this.isCompleted !== status) {
+      this.isCompleted = status;
+      this.ref.set({ ...this.selfie(), isCompleted: status });
+    }
   }
 
   @action setSelectionStatus(status) {
@@ -48,11 +64,11 @@ class Item {
 
 class List {
   @observable items;
-  @observable title;
+  @observable name;
 
   constructor(init) {
     this.id = init.id;
-    this.title = init.title;
+    this.name = init.name;
     this.path = init.path;
     this.ref = firebase.database().ref(this.path);
 
@@ -87,8 +103,8 @@ class List {
     this.ref.remove();
   }
 
-  @action setTitle(title) {
-    this.title = title;
+  @action setName(name) {
+    this.name = name;
   }
 }
 
@@ -241,15 +257,21 @@ class BoardStore {
     this._items.values().map(item => item.setEditingStatus(item.id === itemId));
   }
 
-  newList(title) {
+  newList(name) {
     // todo: validate user input here
-    this._listsRef.push({ title });
+    this._listsRef.push({ name });
   }
 
-  // newItem(title, listId) {
-  //   // todo: validate user input here
-  //   this._itemsRef.push({ title, listId, isCompleted: false, description: '' });
-  // }
+  newItem(name, listId) {
+    if (this.lists.has(listId)) {
+      this._itemsRef.push({
+        name: name.trim(),
+        listId,
+        isCompleted: false,
+        notes: ''
+      });
+    }
+  }
 
   autoSave() {
     boardStorage.save(this.getCachableData());

@@ -19,17 +19,17 @@ class ListMenu extends React.Component {
       e.target.value = '';
     }
   };
-  changeTitle = () => {
+  changeName = () => {
     const { list } = this.props;
 
-    list.setTitle('sdf');
+    list.setName('sdf');
   };
 
   render() {
     return (
       <div>
         <input onKeyUp={this.handleKeyUp} placeholder="Name for a new item" />
-        <button onClick={this.changeTitle}>change title</button>
+        <button onClick={this.changeName}>change name</button>
       </div>
     );
   }
