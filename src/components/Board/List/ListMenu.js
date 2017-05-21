@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
+import ListName from './ListName';
 
 @inject('boardStore')
 @observer
@@ -27,9 +28,10 @@ class ListMenu extends React.Component {
 
   render() {
     const { list } = this.props;
+    console.log('render ListMenu');
     return (
       <div>
-        {list.name}
+        <ListName list={list} />
         <input onKeyUp={this.handleKeyUp} placeholder="Name for a new item" />
         <button onClick={this.changeName}>change name</button>
       </div>

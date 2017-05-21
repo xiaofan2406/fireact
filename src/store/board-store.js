@@ -26,45 +26,43 @@ class Item {
     this.isEditing = false;
   }
 
-  selfie() {
-    return {
-      listId: this.listId,
-      createdAt: this.createdAt.toISOString(),
-      name: this.name,
-      notes: this.notes,
-      isCompleted: this.isCompleted
-    };
-  }
+  selfie = () => ({
+    listId: this.listId,
+    createdAt: this.createdAt.toISOString(),
+    name: this.name,
+    notes: this.notes,
+    isCompleted: this.isCompleted
+  });
 
-  delete() {
+  delete = () => {
     this.ref.remove();
-  }
+  };
 
-  @action setName(name) {
+  @action setName = name => {
     this.name = name;
     this.ref.set({ ...this.selfie(), name });
-  }
+  };
 
-  @action setCompletionStatus(status) {
+  @action setCompletionStatus = status => {
     if (this.isCompleted !== status) {
       this.isCompleted = status;
       this.ref.set({ ...this.selfie(), isCompleted: status });
     }
-  }
+  };
 
-  @action setSelectionStatus(status) {
+  @action setSelectionStatus = status => {
     this.isSelected = status;
     if (status === false) {
       this.isEditing = false;
     }
-  }
+  };
 
-  @action setEditingStatus(status) {
+  @action setEditingStatus = status => {
     this.isEditing = status;
     if (status === true) {
       this.isSelected = true;
     }
-  }
+  };
 }
 
 class List {
@@ -84,42 +82,38 @@ class List {
     }
   }
 
-  selfie() {
-    return {
-      name: this.name,
-      createdAt: this.createdAt.toISOString()
-    };
-  }
+  selfie = () => ({
+    name: this.name,
+    createdAt: this.createdAt.toISOString()
+  });
 
-  @action addItem(itemData) {
+  @action addItem = itemData => {
     if (!this.hasItem(itemData.id)) {
       const item = new Item(itemData);
       this.items.set(itemData.id, item);
       return item;
     }
     return this.items.get(itemData.id);
-  }
+  };
 
-  hasItem(id) {
-    return this.items.has(id);
-  }
+  hasItem = id => this.items.has(id);
 
-  @action removeItem(id) {
+  @action removeItem = id => {
     this.items.delete(id);
-  }
+  };
 
   @computed get isEmpty() {
     return this.items.size === 0;
   }
 
-  delete() {
+  delete = () => {
     this.ref.remove();
-  }
+  };
 
-  @action setName(name) {
+  @action setName = name => {
     this.name = name;
     this.ref.set({ ...this.selfie(), name });
-  }
+  };
 }
 
 class BoardStore {
@@ -143,7 +137,7 @@ class BoardStore {
     this.userStore = userStore;
   }
 
-  async initialLoad() {
+  initialLoad = async () => {
     if (this.isEmpty) {
       this.setLoading(true);
     }
@@ -182,9 +176,9 @@ class BoardStore {
     this.setLoading(false);
     this.initListeners();
     this.autoSave();
-  }
+  };
 
-  initListeners() {
+  initListeners = () => {
     this._listsRef.on('child_added', snapshot => {
       const listData = {
         id: snapshot.key,
@@ -210,75 +204,72 @@ class BoardStore {
     this._itemsRef.on('child_removed', snapshot => {
       this.removeItemFromList(snapshot.val());
     });
-  }
+  };
 
   @computed get isEmpty() {
     return this.lists.size === 0;
   }
 
-  hasList(id) {
-    return this.lists.has(id);
-  }
+  hasList = id => this.lists.has(id);
 
-  getCachableData() {
-    return toJS({
+  getCachableData = () =>
+    toJS({
       lists: this.lists
     });
-  }
 
-  @action setLoading(bool) {
-    this.loading = bool;
-  }
-  @action startLoading() {
+  @action setLoading = status => {
+    this.loading = status;
+  };
+  @action startLoading = () => {
     this.loading = true;
-  }
-  @action finishLoading() {
+  };
+  @action finishLoading = () => {
     this.loading = false;
-  }
+  };
 
-  @action addList(listData) {
+  @action addList = listData => {
     if (!this.hasList(listData.id)) {
       const list = new List(listData);
       this.lists.set(list.id, list);
     }
-  }
+  };
 
-  @action removeList(id) {
+  @action removeList = id => {
     this.lists.delete(id);
-  }
+  };
 
-  @action addItemToList(itemData) {
+  @action addItemToList = itemData => {
     if (this.hasList(itemData.listId)) {
       const item = this.lists.get(itemData.listId).addItem(itemData);
       this._items.set(item.id, item);
     }
-  }
+  };
 
-  @action removeItemFromList(itemData) {
+  @action removeItemFromList = itemData => {
     if (this.hasList(itemData.listId)) {
       this.lists.get(itemData.listId).removeItem(itemData.id);
       this._items.delete(itemData.id);
     }
-  }
+  };
 
-  @action selectOnlyItem(itemId) {
+  @action selectOnlyItem = itemId => {
     this._items
       .values()
       .map(item => item.setSelectionStatus(item.id === itemId));
-  }
+  };
 
-  @action editOnlyItem(itemId) {
+  @action editOnlyItem = itemId => {
     this._items.values().map(item => item.setEditingStatus(item.id === itemId));
-  }
+  };
 
-  newList(name) {
+  newList = name => {
     this._listsRef.push({
       name: name.trim(),
       createdAt: new Date().toISOString()
     });
-  }
+  };
 
-  newItem(name, listId) {
+  newItem = (name, listId) => {
     if (this.lists.has(listId)) {
       this._itemsRef.push({
         name: name.trim(),
@@ -288,18 +279,18 @@ class BoardStore {
         createdAt: new Date().toISOString()
       });
     }
-  }
+  };
 
-  autoSave() {
+  autoSave = () => {
     boardStorage.save(this.getCachableData());
     this.autoSaveInterval = setInterval(() => {
       boardStorage.save(this.getCachableData());
     }, 1000 * 60 * 10);
-  }
+  };
 
-  stopAutoSave() {
+  stopAutoSave = () => {
     clearInterval(this.autoSaveInterval);
-  }
+  };
 }
 
 export default BoardStore;
