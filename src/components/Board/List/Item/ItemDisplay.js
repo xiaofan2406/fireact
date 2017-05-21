@@ -30,8 +30,7 @@ class ItemDisplay extends React.Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     boardStore: PropTypes.object.isRequired,
-    item: PropTypes.object.isRequired,
-    onFocus: PropTypes.func.isRequired
+    item: PropTypes.object.isRequired
   };
 
   componentDidMount() {
@@ -46,17 +45,26 @@ class ItemDisplay extends React.Component {
   };
 
   handleKeyUp = event => {
-    console.log('handleKeyUp', this.props.item.isSelected);
-    if (event.which === 13 && this.props.item.isSelected) {
-      this.props.boardStore.editOnlyItem(this.props.item.id);
+    const { boardStore, item } = this.props;
+    if (event.which === 13 && item.isSelected) {
+      boardStore.editOnlyItem(item.id);
     }
-    if (event.which === 27 && this.props.item.isSelected) {
-      this.props.item.setSelectionStatus(false);
+    if (event.which === 27 && item.isSelected) {
+      item.setSelectionStatus(false);
+    }
+  };
+
+  handleFocus = () => {
+    const { boardStore, item } = this.props;
+    if (this.props.item.isSelected) {
+      item.setSelectionStatus(false);
+    } else {
+      boardStore.selectOnlyItem(item.id);
     }
   };
 
   render() {
-    const { classes, item, onFocus } = this.props;
+    const { classes, item } = this.props;
     console.log('render ItemDisplay');
     const classNames = classnames({
       [classes.wrapper]: true,
@@ -71,7 +79,7 @@ class ItemDisplay extends React.Component {
         onKeyUp={this.handleKeyUp}
       >
         <ItemCheckbox item={item} />
-        <ItemContent item={item} onFocus={onFocus} />
+        <ItemContent item={item} onFocus={this.handleFocus} />
       </div>
     );
   }
