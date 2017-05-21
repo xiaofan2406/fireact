@@ -15,10 +15,10 @@ const css = {
   }
 };
 
-function ItemContent({ classes, item, onFocus }) {
+function ItemContent({ classes, item, onContentClick }) {
   console.log('render item content');
   return (
-    <span className={classes.name} onClick={onFocus}>
+    <span className={classes.name} onClick={onContentClick}>
       {item.name}
     </span>
   );
@@ -29,7 +29,7 @@ ItemContent.propTypes = {
   item: PropTypes.shape({
     name: PropTypes.string.isRequired
   }).isRequired,
-  onFocus: PropTypes.func.isRequired
+  onContentClick: PropTypes.func.isRequired
 };
 
 const enhance = compose(withCss(css), observer);

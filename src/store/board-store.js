@@ -54,10 +54,16 @@ class Item {
 
   @action setSelectionStatus(status) {
     this.isSelected = status;
+    if (status === false) {
+      this.isEditing = false;
+    }
   }
 
   @action setEditingStatus(status) {
     this.isEditing = status;
+    if (status === true) {
+      this.isSelected = true;
+    }
   }
 }
 

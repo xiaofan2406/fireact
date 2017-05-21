@@ -54,12 +54,38 @@ class ItemDisplay extends React.Component {
     }
   };
 
-  handleFocus = () => {
+  clickCount = 0;
+  doubleClickTimer = null;
+  DOUBLE_CLICK_DELAY = 150;
+
+  handleContentClick = () => {
+    this.clickCount++;
+    if (this.clickCount === 1) {
+      this.doubleClickTimer = setTimeout(() => {
+        this.handleContentSingleClick();
+        this.clickCount = 0;
+      }, this.DOUBLE_CLICK_DELAY);
+    } else {
+      clearTimeout(this.doubleClickTimer);
+      this.handleContentDoubleClick();
+      this.clickCount = 0;
+    }
+  };
+
+  handleContentSingleClick = () => {
     const { boardStore, item } = this.props;
-    if (this.props.item.isSelected) {
+    if (item.isSelected) {
       item.setSelectionStatus(false);
     } else {
       boardStore.selectOnlyItem(item.id);
+    }
+  };
+
+  handleContentDoubleClick = () => {
+    const { boardStore, item } = this.props;
+    if (!item.isEditing) {
+      boardStore.selectOnlyItem(item.id);
+      item.setEditingStatus(true);
     }
   };
 
@@ -79,7 +105,7 @@ class ItemDisplay extends React.Component {
         onKeyUp={this.handleKeyUp}
       >
         <ItemCheckbox item={item} />
-        <ItemContent item={item} onFocus={this.handleFocus} />
+        <ItemContent item={item} onContentClick={this.handleContentClick} />
       </div>
     );
   }
