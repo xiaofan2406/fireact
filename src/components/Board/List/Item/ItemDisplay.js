@@ -56,13 +56,13 @@ class ItemDisplay extends React.Component {
 
   clickCount = 0;
   doubleClickTimer = null;
-  DOUBLE_CLICK_DELAY = 150;
+  DOUBLE_CLICK_DELAY = 300;
 
   handleContentClick = () => {
     this.clickCount++;
     if (this.clickCount === 1) {
+      this.handleContentSingleClick();
       this.doubleClickTimer = setTimeout(() => {
-        this.handleContentSingleClick();
         this.clickCount = 0;
       }, this.DOUBLE_CLICK_DELAY);
     } else {
