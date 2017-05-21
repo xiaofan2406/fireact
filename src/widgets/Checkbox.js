@@ -30,8 +30,7 @@ class Checkbox extends React.Component {
     sheet: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired,
     checked: PropTypes.bool.isRequired,
-    onCheck: PropTypes.func.isRequired,
-    onUncheck: PropTypes.func.isRequired,
+    onToggle: PropTypes.func.isRequired,
     size: PropTypes.number
   };
 
@@ -40,15 +39,11 @@ class Checkbox extends React.Component {
   };
 
   handleClick = () => {
-    if (this.props.checked) {
-      this.props.onUncheck();
-    } else {
-      this.props.onCheck();
-    }
+    this.props.onToggle();
   };
 
   render() {
-    const { sheet, classes, checked, onCheck, onUncheck, ...rest } = this.props;
+    const { sheet, classes, checked, onToggle, ...rest } = this.props;
     const classNames = classnames({
       [classes.wrapper]: true,
       checked

@@ -6,20 +6,30 @@ import compose from 'utils/compose';
 
 const css = {
   title: {
-    display: 'inline-block'
+    display: 'inline-block',
+    padding: ' 0px 8px',
+    lineHeight: 1,
+    cursor: 'default',
+    userSelect: 'none',
+    flex: 1
   }
 };
 
-function ItemContent({ classes, item }) {
+function ItemContent({ classes, item, onFocus }) {
   console.log('render item content');
-  return <span className={classes.title}>{item.title}</span>;
+  return (
+    <span className={classes.title} onClick={onFocus}>
+      {item.title}
+    </span>
+  );
 }
 
 ItemContent.propTypes = {
   classes: PropTypes.object.isRequired,
   item: PropTypes.shape({
     title: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  onFocus: PropTypes.func.isRequired
 };
 
 const enhance = compose(withCss(css), observer);

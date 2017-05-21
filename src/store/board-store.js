@@ -8,7 +8,9 @@ const itemsPath = 'items';
 class Item {
   @observable title;
   @observable description;
-  @observable completed;
+  @observable isCompleted;
+  @observable isSelected;
+  @observable isEditing;
 
   constructor(init) {
     this.id = init.id;
@@ -17,8 +19,10 @@ class Item {
     this.ref = firebase.database().ref(this.path);
 
     this.title = init.title;
-    this.completed = init.completed || false;
     this.description = init.description || '';
+    this.isCompleted = init.isCompleted || false;
+    this.isSelected = init.isSelected || false;
+    this.isEditing = init.isEditing || false;
   }
 
   delete() {
@@ -29,8 +33,16 @@ class Item {
     this.title = title;
   }
 
-  @action setCompletion(status) {
-    this.completed = status;
+  @action setCompletionStatus(status) {
+    this.isCompleted = status;
+  }
+
+  @action setSelectionStatus(status) {
+    this.isSelected = status;
+  }
+
+  @action setEditingStatus(status) {
+    this.isEditing = status;
   }
 }
 
@@ -50,15 +62,17 @@ class List {
     }
   }
 
-  hasItem(id) {
-    return this.items.has(id);
-  }
-
   @action addItem(itemData) {
     if (!this.hasItem(itemData.id)) {
       const item = new Item(itemData);
       this.items.set(itemData.id, item);
+      return item;
     }
+    return this.items.get(itemData.id);
+  }
+
+  hasItem(id) {
+    return this.items.has(id);
   }
 
   @action removeItem(id) {
@@ -91,6 +105,8 @@ class BoardStore {
     if (init.lists) {
       Object.values(init.lists).map(listData => this.addList(listData));
     }
+
+    this._items = new ObservableMap();
   }
 
   static withUserStore(userStore) {
@@ -203,14 +219,26 @@ class BoardStore {
 
   @action addItemToList(itemData) {
     if (this.hasList(itemData.listId)) {
-      this.lists.get(itemData.listId).addItem(itemData);
+      const item = this.lists.get(itemData.listId).addItem(itemData);
+      this._items.set(item.id, item);
     }
   }
 
   @action removeItemFromList(itemData) {
     if (this.hasList(itemData.listId)) {
       this.lists.get(itemData.listId).removeItem(itemData.id);
+      this._items.delete(itemData.id);
     }
+  }
+
+  @action selectOnlyItem(itemId) {
+    this._items
+      .values()
+      .map(item => item.setSelectionStatus(item.id === itemId));
+  }
+
+  @action editOnlyItem(itemId) {
+    this._items.values().map(item => item.setEditingStatus(item.id === itemId));
   }
 
   newList(title) {
@@ -220,7 +248,7 @@ class BoardStore {
 
   // newItem(title, listId) {
   //   // todo: validate user input here
-  //   this._itemsRef.push({ title, listId, completed: false, description: '' });
+  //   this._itemsRef.push({ title, listId, isCompleted: false, description: '' });
   // }
 
   autoSave() {

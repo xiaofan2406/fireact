@@ -15,24 +15,18 @@ class ItemCheckbox extends React.Component {
     item: PropTypes.object.isRequired
   };
 
-  checkItem = () => {
-    this.props.item.setCompletion(true);
-  };
-
-  unCheckItem = () => {
-    this.props.item.setCompletion(false);
+  handleToggle = () => {
+    if (this.props.item.isCompleted) {
+      this.props.item.setCompletionStatus(false);
+    } else {
+      this.props.item.setCompletionStatus(true);
+    }
   };
 
   render() {
     const { item } = this.props;
     console.log('render checkboxc');
-    return (
-      <Checkbox
-        onCheck={this.checkItem}
-        onUncheck={this.unCheckItem}
-        checked={item.completed}
-      />
-    );
+    return <Checkbox onToggle={this.handleToggle} checked={item.isCompleted} />;
   }
 }
 
