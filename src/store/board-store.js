@@ -28,6 +28,10 @@ class Item {
   @action setTitle(title) {
     this.title = title;
   }
+
+  @action setCompletion(status) {
+    this.completed = status;
+  }
 }
 
 class List {

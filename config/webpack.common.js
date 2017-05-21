@@ -4,6 +4,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.json'],
     alias: {
+      assets: `${paths.srcDir}/assets`,
       components: `${paths.srcDir}/components`,
       hocs: `${paths.srcDir}/hocs`,
       styles: `${paths.srcDir}/styles`,

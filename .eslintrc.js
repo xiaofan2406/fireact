@@ -44,6 +44,7 @@ module.exports = {
       'LabeledStatement',
       'WithStatement'
     ],
+    'no-confusing-arrow': 0,
     'no-unused-vars': [2, { ignoreRestSiblings: true }],
     'arrow-parens': [2, 'as-needed'],
     'jsx-a11y/no-static-element-interactions': 0, // div onClick should be allowed
