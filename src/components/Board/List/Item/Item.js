@@ -20,16 +20,6 @@ class Item extends React.Component {
     }
   };
 
-  handleDisplayKeyUp = event => {
-    console.log('handleDisplayKeyUp', this.props.item.isSelected);
-    if (event.which === 13 && this.props.item.isSelected) {
-      this.props.boardStore.editOnlyItem(this.props.item.id);
-    }
-    if (event.which === 27 && this.props.item.isSelected) {
-      this.props.item.setSelectionStatus(false);
-    }
-  };
-
   handleEditKeyUp = event => {
     console.log('handleEditKeyUp');
     if (
@@ -47,11 +37,7 @@ class Item extends React.Component {
     console.log(item.isSelected);
     return item.isEditing
       ? <ItemEdit item={item} onKeyUp={this.handleEditKeyUp} />
-      : <ItemDisplay
-          item={item}
-          onFocus={this.handleDisplayFocus}
-          onKeyUp={this.handleDisplayKeyUp}
-        />;
+      : <ItemDisplay item={item} onFocus={this.handleDisplayFocus} />;
   }
 }
 

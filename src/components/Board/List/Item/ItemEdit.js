@@ -6,25 +6,23 @@ class ItemEdit extends React.Component {
     item: PropTypes.object.isRequired,
     onKeyUp: PropTypes.func.isRequired
   };
+
   componentDidMount() {
-    this.containerRef.focus();
+    this.container.focus();
   }
+
   componentWillUnmount() {
-    console.log('gonna blur it');
-    this.containerRef.blur();
+    this.container.blur();
   }
+
+  containerRef = ref => {
+    this.container = ref;
+  };
 
   render() {
     const { item, onKeyUp } = this.props;
     return (
-      <div
-        tabIndex={0}
-        role="button"
-        ref={ref => {
-          this.containerRef = ref;
-        }}
-        onKeyUp={onKeyUp}
-      >
+      <div tabIndex={0} role="button" ref={this.containerRef} onKeyUp={onKeyUp}>
         editing item: {item.title}
       </div>
     );
