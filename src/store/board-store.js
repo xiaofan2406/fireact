@@ -35,7 +35,7 @@ class Item {
     isCompleted: this.isCompleted
   });
 
-  delete = () => {
+  destroy = () => {
     this.ref.remove();
   };
 
@@ -127,7 +127,7 @@ class List {
     return this.items.size === 0;
   }
 
-  delete = () => {
+  destroy = () => {
     this.ref.remove();
   };
 
@@ -139,7 +139,8 @@ class List {
 
 class BoardStore {
   @observable lists;
-  @observable loading;
+  @observable isLoading;
+  @observable isSyncing;
 
   constructor(init) {
     this.loading = false;
@@ -158,10 +159,12 @@ class BoardStore {
     this.userStore = userStore;
   }
 
-  initialLoad = async () => {
+  initialSync = async () => {
+    this.setSyncingStatus(true);
     if (this.isEmpty) {
-      this.setLoading(true);
+      this.setLoadingStatus(true);
     }
+
     this._listsRef = firebase
       .database()
       .ref(`${BoardStore.userStore.uid}/${listsPath}`);
@@ -176,7 +179,20 @@ class BoardStore {
     ])).map(result => result.val());
 
     if (lists) {
-      Object.keys(lists).map(id =>
+      const listIds = Object.keys(lists);
+
+      // remove cached list that are no longer in the server
+      this.lists
+        .keys()
+        .filter(id => !listIds.includes(id))
+        .map(id => {
+          console.log(this.lists.get(id));
+          return id;
+        })
+        .map(id => this.lists.delete(id));
+
+      // add the lists in the server to client or sync its data
+      listIds.map(id =>
         this.addList({
           id,
           ...lists[id],
@@ -194,10 +210,23 @@ class BoardStore {
         })
       );
     }
-    this.setLoading(false);
+    this.setLoadingStatus(false);
     this.initListeners();
     this.autoSave();
+    this.setSyncingStatus(false);
   };
+
+  @action setSyncingStatus = status => {
+    this.isSyncing = status;
+  };
+
+  @action setLoadingStatus = status => {
+    this.isLoading = status;
+  };
+
+  @computed get isEmpty() {
+    return this.lists.size === 0;
+  }
 
   initListeners = () => {
     this._listsRef.on('child_added', snapshot => {
@@ -209,10 +238,6 @@ class BoardStore {
       this.addList(listData);
     });
 
-    this._listsRef.on('child_removed', snapshot => {
-      this.removeList(snapshot.key);
-    });
-
     this._itemsRef.on('child_added', snapshot => {
       const itemData = {
         id: snapshot.key,
@@ -222,30 +247,17 @@ class BoardStore {
       this.addItemToList(itemData);
     });
 
+    // NOTE this isn't trigger in the front-end
+    this._listsRef.on('child_removed', snapshot => {
+      if (this.hasList(snapshot.key)) {
+        this.removeList(snapshot.key);
+      }
+    });
+
+    // NOTE this isn't trigger in the front-end
     this._itemsRef.on('child_removed', snapshot => {
       this.removeItemFromList(snapshot.val());
     });
-  };
-
-  @computed get isEmpty() {
-    return this.lists.size === 0;
-  }
-
-  hasList = id => this.lists.has(id);
-
-  getCachableData = () =>
-    toJS({
-      lists: this.lists
-    });
-
-  @action setLoading = status => {
-    this.loading = status;
-  };
-  @action startLoading = () => {
-    this.loading = true;
-  };
-  @action finishLoading = () => {
-    this.loading = false;
   };
 
   @action addList = listData => {
@@ -255,10 +267,6 @@ class BoardStore {
     } else {
       this.lists.get(listData.id).sync(listData);
     }
-  };
-
-  @action removeList = id => {
-    this.lists.delete(id);
   };
 
   @action addItemToList = itemData => {
@@ -275,6 +283,10 @@ class BoardStore {
       this._items.delete(itemData.id);
     }
   };
+
+  hasList = id => this.lists.has(id);
+
+  hasItem = id => this._items.has(id);
 
   @action selectOnlyItem = itemId => {
     this._items
@@ -293,8 +305,13 @@ class BoardStore {
     });
   };
 
+  @action removeList = id => {
+    this.lists.get(id).destroy();
+    this.lists.delete(id);
+  };
+
   newItem = listId => {
-    if (this.lists.has(listId)) {
+    if (this.hasList(listId)) {
       this._itemsRef.push({
         listId,
         isCompleted: false,
@@ -310,6 +327,11 @@ class BoardStore {
       boardStorage.save(this.getCachableData());
     }, 1000 * 60 * 10);
   };
+
+  getCachableData = () =>
+    toJS({
+      lists: this.lists
+    });
 
   stopAutoSave = () => {
     clearInterval(this.autoSaveInterval);

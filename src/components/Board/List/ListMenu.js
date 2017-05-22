@@ -16,12 +16,12 @@ class ListMenu extends React.Component {
   };
 
   handleRemoveClick = () => {
-    const { list } = this.props;
+    const { boardStore, list } = this.props;
     // TODO replace confirm with a custom alert service
-    if (confirm('Are you sure you want to delete the whole list?')) {
-      list.delete();
-      // TODO create a `inbox` list for items with no list
-    }
+    // if (confirm('Are you sure you want to delete the whole list?')) {
+    boardStore.removeList(list.id);
+    // TODO create a `inbox` list for items with no list
+    // }
   };
 
   render() {

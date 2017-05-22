@@ -5,7 +5,7 @@ import ItemDisplay from './ItemDisplay';
 import ItemEdit from './ItemEdit';
 
 function Item({ item }) {
-  console.log('render Item', item);
+  console.log('render Item');
   return item.isEditing
     ? <ItemEdit item={item} />
     : <ItemDisplay item={item} />;

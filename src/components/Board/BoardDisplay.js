@@ -14,7 +14,7 @@ class BoardDisplay extends React.Component {
   constructor(props) {
     super(props);
     const { boardStore } = this.props;
-    boardStore.initialLoad();
+    boardStore.initialSync();
   }
 
   render() {
