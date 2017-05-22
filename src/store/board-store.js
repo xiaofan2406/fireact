@@ -266,6 +266,7 @@ class BoardStore {
       const item = this.lists.get(itemData.listId).addItem(itemData);
       this._items.set(item.id, item);
     }
+    // TODO add the item to `inbox`
   };
 
   @action removeItemFromList = itemData => {
@@ -292,10 +293,9 @@ class BoardStore {
     });
   };
 
-  newItem = (name, listId) => {
+  newItem = listId => {
     if (this.lists.has(listId)) {
       this._itemsRef.push({
-        name: name.trim(),
         listId,
         isCompleted: false,
         notes: '',

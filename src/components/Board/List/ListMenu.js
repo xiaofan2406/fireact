@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
-import ListName from './ListName';
 
 @inject('boardStore')
 @observer
@@ -11,30 +10,26 @@ class ListMenu extends React.Component {
     list: PropTypes.object.isRequired
   };
 
-  handleKeyUp = e => {
+  handleAddClick = () => {
     const { boardStore, list } = this.props;
-    if (e.which === 27) {
-      e.target.value = '';
-    } else if (e.which === 13) {
-      boardStore.newItem(e.target.value, list.id);
-      e.target.value = '';
+    boardStore.newItem(list.id);
+  };
+
+  handleRemoveClick = () => {
+    const { list } = this.props;
+    // TODO replace confirm with a custom alert service
+    if (confirm('Are you sure you want to delete the whole list?')) {
+      list.delete();
+      // TODO create a `inbox` list for items with no list
     }
   };
 
-  changeName = () => {
-    const { list } = this.props;
-
-    list.setName('sdf');
-  };
-
   render() {
-    const { list } = this.props;
     console.log('render ListMenu');
     return (
       <div>
-        <ListName list={list} />
-        <input onKeyUp={this.handleKeyUp} placeholder="Name for a new item" />
-        <button onClick={this.changeName}>change name</button>
+        <button onClick={this.handleAddClick}>+</button>
+        <button onClick={this.handleRemoveClick}>X</button>
       </div>
     );
   }
