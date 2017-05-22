@@ -12,6 +12,7 @@ class BoardStore {
 
   constructor(init) {
     this.loading = false;
+    this.isSyncing = false;
     this._listsRef = null;
     this._itemsRef = null;
 
