@@ -20,6 +20,7 @@ class ListMenu extends React.Component {
       e.target.value = '';
     }
   };
+
   changeName = () => {
     const { list } = this.props;
 

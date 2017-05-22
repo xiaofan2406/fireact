@@ -14,10 +14,11 @@ class Item {
 
   constructor(init) {
     this.id = init.id;
+    this.createdAt = new Date(init.createdAt);
+
     this.listId = init.listId;
     this.path = init.path;
     this.ref = firebase.database().ref(this.path);
-    this.createdAt = new Date(init.createdAt);
 
     this.name = init.name || '';
     this.notes = init.notes || '';
@@ -36,6 +37,17 @@ class Item {
 
   delete = () => {
     this.ref.remove();
+  };
+
+  @action sync = newData => {
+    this.listId = newData.listId;
+    this.path = newData.path;
+    this.ref = firebase.database().ref(this.path);
+
+    this.name = newData.name;
+    this.name = newData.name || '';
+    this.notes = newData.notes || '';
+    this.isCompleted = newData.isCompleted || false;
   };
 
   @action setName = name => {
@@ -71,9 +83,10 @@ class List {
 
   constructor(init) {
     this.id = init.id;
+    this.createdAt = new Date(init.createdAt);
+
     this.path = init.path;
     this.ref = firebase.database().ref(this.path);
-    this.createdAt = new Date(init.createdAt);
 
     this.name = init.name || '';
     this.items = new ObservableMap();
@@ -87,12 +100,20 @@ class List {
     createdAt: this.createdAt.toISOString()
   });
 
+  @action sync = newData => {
+    this.path = newData.path;
+    this.ref = firebase.database().ref(this.path);
+    this.name = newData.name;
+  };
+
   @action addItem = itemData => {
     if (!this.hasItem(itemData.id)) {
       const item = new Item(itemData);
       this.items.set(itemData.id, item);
-      return item;
+    } else {
+      this.items.get(itemData.id).sync(itemData);
     }
+
     return this.items.get(itemData.id);
   };
 
@@ -231,6 +252,8 @@ class BoardStore {
     if (!this.hasList(listData.id)) {
       const list = new List(listData);
       this.lists.set(list.id, list);
+    } else {
+      this.lists.get(listData.id).sync(listData);
     }
   };
 
