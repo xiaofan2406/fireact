@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import * as firebase from 'firebase';
 import { inject, observer } from 'mobx-react';
 import { Redirect } from 'react-router-dom';
-import { loginCacher } from 'utils';
+import { firebase, loginCacher } from 'utils';
 
 const flatResult = result => ({
   token: result.credential.accessToken,

@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'mobx-react';
 import { useStrict } from 'mobx';
-import 'utils/firebase';
 import { loginCacher, boardCacher } from 'utils';
 
 import Router from './router';
