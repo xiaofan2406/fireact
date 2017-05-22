@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 import withCss from 'react-jss';
-import compose from 'utils/compose';
+import { compose } from 'utils';
 import ListName from './ListName';
 import ListMenu from './ListMenu';
 import ListItems from './ListItems';

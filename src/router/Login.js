@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import * as firebase from 'firebase';
 import { inject, observer } from 'mobx-react';
 import { Redirect } from 'react-router-dom';
-import { login } from 'utils/storage';
+import { loginCacher } from 'utils';
 
 const flatResult = result => ({
   token: result.credential.accessToken,
@@ -29,7 +29,7 @@ class Login extends React.Component {
         console.log(result);
         const info = flatResult(result);
         userStore.login(info);
-        login.save(info);
+        loginCacher.cacher(info);
       })
       .catch(console.errer);
   };

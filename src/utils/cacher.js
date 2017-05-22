@@ -1,11 +1,11 @@
 const PREFIX = 'FIREACT';
 
-const makeStorageFor = name => ({
+const makeCacherFor = name => ({
   key: `${PREFIX}-${name.toUpperCase()}`,
-  save(data) {
+  cache(data) {
     localStorage.setItem(this.key, JSON.stringify(data));
   },
-  delete() {
+  clear() {
     localStorage.removeItem(this.key);
   },
   load() {
@@ -21,5 +21,5 @@ const makeStorageFor = name => ({
   }
 });
 
-export const login = makeStorageFor('login');
-export const board = makeStorageFor('board');
+export const login = makeCacherFor('login');
+export const board = makeCacherFor('board');

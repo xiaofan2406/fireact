@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 import withCss from 'react-jss';
 import { Editable } from 'widgets';
-import compose from 'utils/compose';
+import { compose } from 'utils';
 
 const css = {
   display: {},

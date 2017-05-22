@@ -1,6 +1,6 @@
 import { observable, action, computed, toJS, ObservableMap } from 'mobx';
 import * as firebase from 'firebase';
-import { board as boardStorage } from 'utils/storage';
+import { boardCacher } from 'utils';
 
 const listsPath = 'lists';
 const itemsPath = 'items';
@@ -322,9 +322,9 @@ class BoardStore {
   };
 
   autoSave = () => {
-    boardStorage.save(this.getCachableData());
+    boardCacher.cache(this.getCachableData());
     this.autoSaveInterval = setInterval(() => {
-      boardStorage.save(this.getCachableData());
+      boardCacher.cache(this.getCachableData());
     }, 1000 * 60 * 10);
   };
 
