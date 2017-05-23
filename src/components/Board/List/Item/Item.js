@@ -1,19 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
+import { compose } from 'utils';
 import ItemDisplay from './ItemDisplay';
 import ItemEdit from './ItemEdit';
 
 // TODO refactor this and ItemDisplay for performance
-function Item({ item }) {
+function Item({ viewStore, item }) {
   console.log('render Item');
-  return item.isEditing
+  return viewStore.editingItemId === item.uuid
     ? <ItemEdit item={item} />
     : <ItemDisplay item={item} />;
 }
 
 Item.propTypes = {
+  viewStore: PropTypes.object.isRequired,
   item: PropTypes.object.isRequired
 };
 
-export default observer(Item);
+const enhance = compose(inject('viewStore'), observer);
+export default enhance(Item);

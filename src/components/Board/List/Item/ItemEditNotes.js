@@ -1,10 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { ContentEditable } from 'widgets';
 
-@observer class ItemEditNotes extends React.Component {
+@inject('viewStore')
+@observer
+class ItemEditNotes extends React.Component {
   static propTypes = {
+    viewStore: PropTypes.object.isRequired,
     item: PropTypes.object.isRequired
   };
 
@@ -13,9 +16,10 @@ import { ContentEditable } from 'widgets';
   };
 
   handleKeyUp = event => {
-    if (event.which === 27 && this.props.item.isEditing) {
-      this.props.item.setNotes(this.editor.innerText);
-      this.props.item.setEditingStatus(false);
+    const { viewStore, item } = this.props;
+    if (event.which === 27) {
+      item.setNotes(this.editor.innerText);
+      viewStore.finishEditingItem(item.uuid);
     }
   };
 

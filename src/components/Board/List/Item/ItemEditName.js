@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { inject } from 'mobx-react';
 
+@inject('viewStore')
 class ItemEditName extends React.Component {
   static propTypes = {
+    viewStore: PropTypes.object.isRequired,
     item: PropTypes.object.isRequired
   };
 
@@ -15,12 +18,10 @@ class ItemEditName extends React.Component {
   };
 
   handleKeyUp = event => {
-    if (
-      (event.which === 27 || event.which === 13) &&
-      this.props.item.isEditing
-    ) {
+    const { viewStore, item } = this.props;
+    if (event.which === 27 || event.which === 13) {
       this.props.item.setName(this.input.value.trim());
-      this.props.item.setEditingStatus(false);
+      viewStore.finishEditingItem(item.uuid);
     }
   };
 

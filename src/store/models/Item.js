@@ -10,6 +10,7 @@ class Item {
 
   constructor(init) {
     this.id = init.id;
+    this.uuid = init.uuid;
     this.createdAt = new Date(init.createdAt);
 
     this.listId = init.listId;
@@ -24,8 +25,9 @@ class Item {
   }
 
   selfie = () => ({
-    listId: this.listId,
+    uuid: this.uuid,
     createdAt: this.createdAt.toISOString(),
+    listId: this.listId,
     name: this.name,
     notes: this.notes,
     isCompleted: this.isCompleted

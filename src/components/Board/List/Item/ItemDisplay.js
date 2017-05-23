@@ -15,42 +15,40 @@ const css = {
     cursor: 'default',
     userSelect: 'none',
     '&:focus': {
-      outline: 'none'
-    },
-    '&.selected': {
+      outline: 'none',
       backgroundColor: 'rgb(200, 219, 254)'
-    }
+    },
+    '&.selected': {}
   }
 };
 
 @withCss(css)
-@inject('boardStore')
+@inject('viewStore')
 @observer
 class ItemDisplay extends React.Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    boardStore: PropTypes.object.isRequired,
+    viewStore: PropTypes.object.isRequired,
     item: PropTypes.object.isRequired
   };
 
-  componentDidMount() {
-    console.log('mouted ItemDisplay');
-    if (this.props.item.isSelected) {
-      this.container.focus();
-    }
-  }
+  // componentDidMount() {
+  //   if (this.props.item.isSelected) {
+  //     this.container.focus();
+  //   }
+  // }
 
   containerRef = ref => {
     this.container = ref;
   };
 
   handleKeyUp = event => {
-    const { boardStore, item } = this.props;
+    const { viewStore, item } = this.props;
     if (event.which === 13 && item.isSelected) {
-      boardStore.editOnlyItem(item.id);
+      viewStore.setEditingItemId(item.uuid);
     }
-    if (event.which === 27 && item.isSelected) {
-      item.setSelectionStatus(false);
+    if (event.which === 27) {
+      viewStore.unfocusTarget(item.uuid);
     }
   };
 
@@ -73,20 +71,13 @@ class ItemDisplay extends React.Component {
   };
 
   handleContentSingleClick = () => {
-    const { boardStore, item } = this.props;
-    if (item.isSelected) {
-      item.setSelectionStatus(false);
-    } else {
-      boardStore.selectOnlyItem(item.id);
-    }
+    const { viewStore, item } = this.props;
+    viewStore.setFocusedTarget(item.uuid);
   };
 
   handleContentDoubleClick = () => {
-    const { boardStore, item } = this.props;
-    if (!item.isEditing) {
-      boardStore.selectOnlyItem(item.id);
-      item.setEditingStatus(true);
-    }
+    const { viewStore, item } = this.props;
+    viewStore.setEditingItemId(item.uuid);
   };
 
   render() {

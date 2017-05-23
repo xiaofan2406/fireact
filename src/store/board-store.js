@@ -1,5 +1,5 @@
 import { observable, action, computed, toJS, ObservableMap } from 'mobx';
-import { firebase, boardCacher } from 'utils';
+import { firebase, boardCacher, uuid } from 'utils';
 import { List } from './models';
 
 const listsPath = 'lists';
@@ -11,7 +11,7 @@ class BoardStore {
   @observable isSyncing;
 
   constructor(init) {
-    this.loading = false;
+    this.isLoading = false;
     this.isSyncing = false;
     this._listsRef = null;
     this._itemsRef = null;
@@ -170,6 +170,7 @@ class BoardStore {
   newList = name => {
     this._listsRef.push({
       name,
+      uuid: uuid(),
       createdAt: new Date().toISOString()
     });
   };
@@ -185,6 +186,7 @@ class BoardStore {
         listId,
         isCompleted: false,
         notes: '',
+        uuid: uuid(),
         createdAt: new Date().toISOString()
       });
     }
