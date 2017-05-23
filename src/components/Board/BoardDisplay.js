@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
+import { Loader } from 'widgets';
 
 import BoardLists from './BoardLists';
 
@@ -11,8 +12,7 @@ class BoardDisplay extends React.Component {
     boardStore: PropTypes.object.isRequired
   };
 
-  constructor(props) {
-    super(props);
+  componentWillMount() {
     const { boardStore } = this.props;
     boardStore.initialSync();
   }
@@ -21,7 +21,7 @@ class BoardDisplay extends React.Component {
     const { boardStore } = this.props;
     console.log('render BoardDisplay');
 
-    return boardStore.loading ? <p>loading</p> : <BoardLists />;
+    return boardStore.isLoading ? <Loader color="#c8dbfe" /> : <BoardLists />;
   }
 }
 

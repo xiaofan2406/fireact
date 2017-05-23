@@ -43,25 +43,23 @@ const css = {
 class Loader extends React.Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    loading: PropTypes.bool,
     color: PropTypes.string, // eslint-disable-line
     size: PropTypes.number // eslint-disable-line
   };
   static defaultProps = {
-    loading: true,
     color: '#ffffff',
     size: 60
   };
   render() {
-    const { classes, loading } = this.props;
-    return loading
-      ? <div className={classes.container}>
-          <div className={classes.outer}>
-            <div className={classes.innerFirst} />
-            <div className={classes.innerSecond} />
-          </div>
+    const { classes } = this.props;
+    return (
+      <div className={classes.container}>
+        <div className={classes.outer}>
+          <div className={classes.innerFirst} />
+          <div className={classes.innerSecond} />
         </div>
-      : null;
+      </div>
+    );
   }
 }
 
