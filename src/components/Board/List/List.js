@@ -10,7 +10,16 @@ import ListItems from './ListItems';
 const css = {
   container: {},
   header: {
-    backgroundColor: 'rgb(200, 219, 254)'
+    display: 'flex',
+    justifyContent: 'space-between',
+    color: 'rgb(23, 73, 181)',
+    padding: '2px 2px',
+    borderBottom: '1px solid rgb(228, 229, 233)',
+    marginBottom: '12px',
+    '&:focus': {
+      outline: 'none',
+      backgroundColor: 'rgb(200, 219, 254)'
+    }
   }
 };
 
@@ -18,7 +27,7 @@ function List({ classes, list }) {
   console.log('render List', list.id);
   return (
     <div className={classes.container}>
-      <div className={classes.header}>
+      <div className={classes.header} tabIndex={0} role="button">
         <ListName list={list} />
         <ListMenu list={list} />
       </div>
