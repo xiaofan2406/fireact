@@ -47,8 +47,19 @@ class Item {
   };
 
   @action setName = name => {
-    this.name = name;
-    this.ref.set({ ...this.selfie(), name });
+    if (name !== this.name) {
+      this.name = name;
+      console.log('request');
+      this.ref.set({ ...this.selfie(), name });
+    }
+  };
+
+  @action setNotes = notes => {
+    if (notes !== this.notes) {
+      this.notes = notes;
+      console.log('request');
+      this.ref.set({ ...this.selfie(), notes });
+    }
   };
 
   @action setCompletionStatus = status => {

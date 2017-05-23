@@ -14,7 +14,7 @@ class BoardMenu extends React.Component {
     if (e.which === 27) {
       e.target.value = '';
     } else if (e.which === 13) {
-      boardStore.newList(e.target.value);
+      boardStore.newList(e.target.value.trim());
       e.target.value = '';
     }
   };

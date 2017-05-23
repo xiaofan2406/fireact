@@ -169,7 +169,7 @@ class BoardStore {
 
   newList = name => {
     this._listsRef.push({
-      name: name.trim(),
+      name,
       createdAt: new Date().toISOString()
     });
   };
