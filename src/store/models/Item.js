@@ -5,8 +5,6 @@ class Item {
   @observable name;
   @observable notes;
   @observable isCompleted;
-  @observable isSelected;
-  @observable isEditing;
 
   constructor(init) {
     this.id = init.id;
@@ -20,8 +18,6 @@ class Item {
     this.name = init.name || '';
     this.notes = init.notes || '';
     this.isCompleted = init.isCompleted || false;
-    this.isSelected = false;
-    this.isEditing = false;
   }
 
   selfie = () => ({
@@ -68,20 +64,6 @@ class Item {
     if (this.isCompleted !== status) {
       this.isCompleted = status;
       this.ref.set({ ...this.selfie(), isCompleted: status });
-    }
-  };
-
-  @action setSelectionStatus = status => {
-    this.isSelected = status;
-    if (status === false) {
-      this.isEditing = false;
-    }
-  };
-
-  @action setEditingStatus = status => {
-    this.isEditing = status;
-    if (status === true) {
-      this.isSelected = true;
     }
   };
 }

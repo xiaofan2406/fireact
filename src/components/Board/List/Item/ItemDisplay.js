@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import withCss from 'react-jss';
-import classnames from 'classnames';
 import ItemCheckbox from './ItemCheckbox';
 import ItemContent from './ItemContent';
 
@@ -17,8 +16,7 @@ const css = {
     '&:focus': {
       outline: 'none',
       backgroundColor: 'rgb(200, 219, 254)'
-    },
-    '&.selected': {}
+    }
   }
 };
 
@@ -33,7 +31,7 @@ class ItemDisplay extends React.Component {
   };
 
   // componentDidMount() {
-  //   if (this.props.item.isSelected) {
+  //   if (this.props.viewStore.focusedTarget === this.props.item.uuid) {
   //     this.container.focus();
   //   }
   // }
@@ -44,9 +42,10 @@ class ItemDisplay extends React.Component {
 
   handleKeyUp = event => {
     const { viewStore, item } = this.props;
-    if (event.which === 13 && item.isSelected) {
-      viewStore.setEditingItemId(item.uuid);
-    }
+    // TODO press enter to edit
+    // if (event.which === 13) {
+    //   viewStore.setEditingItemId(item.uuid);
+    // }
     if (event.which === 27) {
       viewStore.unfocusTarget(item.uuid);
     }
@@ -83,15 +82,10 @@ class ItemDisplay extends React.Component {
   render() {
     const { classes, item } = this.props;
     console.log('render ItemDisplay');
-    const classNames = classnames({
-      [classes.wrapper]: true,
-      selected: item.isSelected
-    });
     return (
       <div
-        className={classNames}
-        tabIndex={0}
-        role="button"
+        className={classes.wrapper}
+        tabIndex={-1}
         ref={this.containerRef}
         onKeyUp={this.handleKeyUp}
       >

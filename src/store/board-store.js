@@ -157,16 +157,6 @@ class BoardStore {
 
   hasItem = id => this._items.has(id);
 
-  @action selectOnlyItem = itemId => {
-    this._items
-      .values()
-      .map(item => item.setSelectionStatus(item.id === itemId));
-  };
-
-  @action editOnlyItem = itemId => {
-    this._items.values().map(item => item.setEditingStatus(item.id === itemId));
-  };
-
   newList = name => {
     this._listsRef.push({
       name,
