@@ -32,7 +32,7 @@ class ItemDisplay extends React.Component {
   };
 
   // componentDidMount() {
-  //   if (this.props.viewStore.focusedTarget === this.props.item.uuid) {
+  //   if (this.props.viewStore.focusedTarget === this.props.item.id) {
   //     this.container.focus();
   //   }
   // }
@@ -45,10 +45,10 @@ class ItemDisplay extends React.Component {
     const { viewStore, item } = this.props;
     // TODO press enter to edit
     // if (event.which === 13) {
-    //   viewStore.startEditingItem(item.uuid);
+    //   viewStore.startEditingItem(item.id);
     // }
     if (event.which === 27) {
-      viewStore.blurTarget(item.uuid);
+      viewStore.blurTarget(item.id);
     }
   };
 
@@ -72,12 +72,12 @@ class ItemDisplay extends React.Component {
 
   handleContentSingleClick = () => {
     const { viewStore, item } = this.props;
-    viewStore.focusTarget(item.uuid);
+    viewStore.focusTarget(item.id);
   };
 
   handleContentDoubleClick = () => {
     const { viewStore, item } = this.props;
-    viewStore.startEditingItem(item.uuid);
+    viewStore.startEditingItem(item.id);
   };
 
   render() {

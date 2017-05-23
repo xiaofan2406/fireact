@@ -8,7 +8,7 @@ import ItemEdit from './ItemEdit';
 // TODO refactor this and ItemDisplay for performance
 function Item({ viewStore, item }) {
   console.log('render Item');
-  return viewStore.editingItemId === item.uuid
+  return viewStore.editingItemId === item.id
     ? <ItemEdit item={item} />
     : <ItemDisplay item={item} />;
 }

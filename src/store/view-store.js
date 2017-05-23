@@ -4,22 +4,22 @@ class ViewStore {
   @observable focusedTarget = '';
   @observable editingItemId = '';
 
-  @action focusTarget = uuid => {
-    this.focusedTarget = uuid;
+  @action focusTarget = id => {
+    this.focusedTarget = id;
   };
 
-  @action blurTarget = uuid => {
-    if (this.focusedTarget === uuid) {
+  @action blurTarget = id => {
+    if (this.focusedTarget === id) {
       this.focusedTarget = '';
     }
   };
 
-  @action startEditingItem = uuid => {
-    this.editingItemId = uuid;
+  @action startEditingItem = id => {
+    this.editingItemId = id;
   };
 
-  @action finishEditingItem = uuid => {
-    if (this.editingItemId === uuid) {
+  @action finishEditingItem = id => {
+    if (this.editingItemId === id) {
       this.editingItemId = '';
     }
   };

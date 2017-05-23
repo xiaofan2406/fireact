@@ -8,7 +8,6 @@ class Item {
 
   constructor(init) {
     this.id = init.id;
-    this.uuid = init.uuid;
     this.createdAt = new Date(init.createdAt);
 
     this.listId = init.listId;
@@ -22,7 +21,6 @@ class Item {
 
   // return the data shape in sync with firebase database
   selfie = () => ({
-    uuid: this.uuid,
     createdAt: this.createdAt.toISOString(),
     listId: this.listId,
     name: this.name,
@@ -34,6 +32,7 @@ class Item {
     this.ref.remove();
   };
 
+  // overwrite the current data with the newData
   @action sync = newData => {
     this.listId = newData.listId;
     this.path = newData.path;

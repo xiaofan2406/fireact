@@ -8,7 +8,6 @@ class List {
 
   constructor(init) {
     this.id = init.id;
-    this.uuid = init.uuid;
     this.createdAt = new Date(init.createdAt);
 
     this.path = init.path;
@@ -22,7 +21,6 @@ class List {
   }
 
   selfie = () => ({
-    uuid: this.uuid,
     createdAt: this.createdAt.toISOString(),
     name: this.name
   });

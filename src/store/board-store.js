@@ -58,7 +58,7 @@ class BoardStore {
           console.log(this.lists.get(id));
           return id;
         })
-        .map(id => this.lists.delete(id));
+        .map(id => this.lists.destroy(id));
 
       // add the lists in the server to client or sync its data
       listIds.map(id =>
@@ -78,6 +78,7 @@ class BoardStore {
           path: `${BoardStore.userStore.uid}/${itemsPath}/${id}`
         })
       );
+      // TODO here sync items with _item first?
     }
     this.setLoadingStatus(false);
     this.initListeners();
@@ -158,9 +159,8 @@ class BoardStore {
   hasItem = id => this._items.has(id);
 
   newList = name => {
-    this._listsRef.push({
+    this._listsRef.child(uuid()).set({
       name,
-      uuid: uuid(),
       createdAt: new Date().toISOString()
     });
   };
@@ -172,14 +172,14 @@ class BoardStore {
 
   newItem = listId => {
     if (this.hasList(listId)) {
-      this._itemsRef.push({
+      this._itemsRef.child(uuid()).set({
         listId,
         isCompleted: false,
         notes: '',
-        uuid: uuid(),
         createdAt: new Date().toISOString()
       });
     }
+    // TODO add this item to `inbox`?
   };
 
   autoSave = () => {

@@ -19,7 +19,7 @@ class ItemNotes extends React.Component {
     const { viewStore, item } = this.props;
     if (event.which === 27) {
       item.setNotes(this.editor.innerText);
-      viewStore.finishEditingItem(item.uuid);
+      viewStore.finishEditingItem(item.id);
     }
   };
 
@@ -30,7 +30,7 @@ class ItemNotes extends React.Component {
   render() {
     const { viewStore, item } = this.props;
     console.log('render ItemNotes');
-    return viewStore.editingItemId === item.uuid
+    return viewStore.editingItemId === item.id
       ? <ContentEditable
           tabIndex={0}
           role="button"

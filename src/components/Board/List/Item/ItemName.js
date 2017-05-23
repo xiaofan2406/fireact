@@ -25,7 +25,7 @@ class ItemName extends React.Component {
     const { viewStore, item } = this.props;
     if (event.which === 27 || event.which === 13) {
       this.props.item.setName(this.input.value.trim());
-      viewStore.finishEditingItem(item.uuid);
+      viewStore.finishEditingItem(item.id);
     }
   };
 
@@ -36,7 +36,7 @@ class ItemName extends React.Component {
   render() {
     const { viewStore, item } = this.props;
     console.log('render ItemName');
-    return viewStore.editingItemId === item.uuid
+    return viewStore.editingItemId === item.id
       ? <input
           tabIndex={0}
           defaultValue={item.name}
