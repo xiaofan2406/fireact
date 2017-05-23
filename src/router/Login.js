@@ -28,7 +28,7 @@ class Login extends React.Component {
         console.log(result);
         const info = flatResult(result);
         userStore.login(info);
-        loginCacher.cacher(info);
+        loginCacher.cache(info);
       })
       .catch(console.errer);
   };
