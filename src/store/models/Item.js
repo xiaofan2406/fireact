@@ -20,6 +20,7 @@ class Item {
     this.isCompleted = init.isCompleted || false;
   }
 
+  // return the data shape in sync with firebase database
   selfie = () => ({
     uuid: this.uuid,
     createdAt: this.createdAt.toISOString(),
@@ -39,7 +40,6 @@ class Item {
     this.ref = firebase.database().ref(this.path);
 
     this.name = newData.name;
-    this.name = newData.name || '';
     this.notes = newData.notes || '';
     this.isCompleted = newData.isCompleted || false;
   };

@@ -22,14 +22,14 @@ const css = {
   }
 };
 
-function ItemContent({ classes, item, onContentClick }) {
+function ItemContent({ classes, item }) {
   console.log('render item content');
   const nameClasses = classnames({
     [classes.name]: true,
     placeholder: !item.name
   });
   return (
-    <span className={classes.container} onClick={onContentClick}>
+    <span className={classes.container}>
       <span className={nameClasses}>{item.name || 'New To-Do'}</span>
     </span>
   );
@@ -39,8 +39,7 @@ ItemContent.propTypes = {
   classes: PropTypes.object.isRequired,
   item: PropTypes.shape({
     name: PropTypes.string.isRequired
-  }).isRequired,
-  onContentClick: PropTypes.func.isRequired
+  }).isRequired
 };
 
 const enhance = compose(withCss(css), observer);

@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import withCss from 'react-jss';
 import ItemCheckbox from './ItemCheckbox';
-import ItemContent from './ItemContent';
+import ItemName from './ItemName';
+import ItemNotes from './ItemNotes';
 
 const css = {
   wrapper: {
@@ -44,10 +45,10 @@ class ItemDisplay extends React.Component {
     const { viewStore, item } = this.props;
     // TODO press enter to edit
     // if (event.which === 13) {
-    //   viewStore.setEditingItemId(item.uuid);
+    //   viewStore.startEditingItem(item.uuid);
     // }
     if (event.which === 27) {
-      viewStore.unfocusTarget(item.uuid);
+      viewStore.blurTarget(item.uuid);
     }
   };
 
@@ -71,12 +72,12 @@ class ItemDisplay extends React.Component {
 
   handleContentSingleClick = () => {
     const { viewStore, item } = this.props;
-    viewStore.setFocusedTarget(item.uuid);
+    viewStore.focusTarget(item.uuid);
   };
 
   handleContentDoubleClick = () => {
     const { viewStore, item } = this.props;
-    viewStore.setEditingItemId(item.uuid);
+    viewStore.startEditingItem(item.uuid);
   };
 
   render() {
@@ -88,9 +89,11 @@ class ItemDisplay extends React.Component {
         tabIndex={-1}
         ref={this.containerRef}
         onKeyUp={this.handleKeyUp}
+        onClick={this.handleContentClick}
       >
         <ItemCheckbox item={item} />
-        <ItemContent item={item} onContentClick={this.handleContentClick} />
+        <ItemName item={item} />
+        <ItemNotes item={item} />
       </div>
     );
   }

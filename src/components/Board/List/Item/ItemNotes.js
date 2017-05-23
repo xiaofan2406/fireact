@@ -5,7 +5,7 @@ import { ContentEditable } from 'widgets';
 
 @inject('viewStore')
 @observer
-class ItemEditNotes extends React.Component {
+class ItemNotes extends React.Component {
   static propTypes = {
     viewStore: PropTypes.object.isRequired,
     item: PropTypes.object.isRequired
@@ -28,20 +28,20 @@ class ItemEditNotes extends React.Component {
   };
 
   render() {
-    const { item } = this.props;
-    console.log('render ItemEditNotes');
-    return (
-      <ContentEditable
-        tabIndex={0}
-        role="button"
-        onKeyUp={this.handleKeyUp}
-        onBlur={this.handleBlur}
-        editorRef={this.editorRef}
-        defaultText={item.notes}
-        placeholder="Notes"
-      />
-    );
+    const { viewStore, item } = this.props;
+    console.log('render ItemNotes');
+    return viewStore.editingItemId === item.uuid
+      ? <ContentEditable
+          tabIndex={0}
+          role="button"
+          onKeyUp={this.handleKeyUp}
+          onBlur={this.handleBlur}
+          editorRef={this.editorRef}
+          defaultText={item.notes}
+          placeholder="Notes"
+        />
+      : null;
   }
 }
 
-export default ItemEditNotes;
+export default ItemNotes;
