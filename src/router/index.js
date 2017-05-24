@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Redirect } from 'react-router-dom';
-import { onlyAuth } from 'hocs';
+import { withLogin } from 'hocs';
 import { Layout } from 'components';
 
 import Home from './Home';
@@ -9,14 +9,15 @@ import Login from './Login';
 import Logout from './Logout';
 import Board from './Board';
 
-const HomeRedirect = <Redirect to="/" />;
+const ToHome = () => <Redirect to="/" />;
+const ToBoard = () => <Redirect to="/board" />;
 
 export const routes = [
   {
     path: '/',
     name: 'Home',
     exact: true,
-    component: Home
+    component: withLogin({ assert: false, fallback: ToBoard })(Home)
   },
   {
     path: '/about',
@@ -36,7 +37,7 @@ export const routes = [
   {
     path: '/board',
     name: 'Board',
-    component: onlyAuth(HomeRedirect)(Board)
+    component: withLogin({ fallback: ToHome })(Board)
   }
 ];
 

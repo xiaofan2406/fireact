@@ -4,6 +4,7 @@ import { Link, withRouter } from 'react-router-dom';
 import classnames from 'classnames';
 
 function SmarkLink({ activeClassName, location, ...rest }) {
+  console.log('render SmarkLink');
   return (
     <Link
       className={classnames({

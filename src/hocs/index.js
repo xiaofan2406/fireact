@@ -1,1 +1,1 @@
-export onlyAuth from './onlyAuth';
+export withLogin from './withLogin';

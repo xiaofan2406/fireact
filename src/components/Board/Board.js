@@ -11,6 +11,7 @@ import BoardSyncing from './BoardSyncing';
 const css = {
   Board: {
     backgroundColor: '#ffffff',
+    height: '100%',
     '&.isEditing': {
       backgroundColor: 'rgb(249, 249, 249)'
     }

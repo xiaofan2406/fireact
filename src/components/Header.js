@@ -8,7 +8,7 @@ import logo from './logo.svg';
 import { routes } from '../router';
 
 const css = {
-  header: {
+  Header: {
     height: headerHeight,
     backgroundColor: '#242729',
     display: 'flex',
@@ -48,24 +48,24 @@ const css = {
 };
 
 function Header({ classes }) {
+  console.log('render Header');
+  const nav = routes.map(route => (
+    <SmartLink
+      className={classes.link}
+      activeClassName={classes.linkActive}
+      key={route.path}
+      to={route.path}
+    >
+      {route.name}
+    </SmartLink>
+  ));
   return (
-    <div className={classes.header}>
+    <div className={classes.Header}>
       <div className={classes.brand}>
         <img src={logo} className={classes.logo} alt="logo" />
         <span className={classes.title}>Fireact</span>
       </div>
-      <div className={classes.headerNav}>
-        {routes.map(route => (
-          <SmartLink
-            className={classes.link}
-            activeClassName={classes.linkActive}
-            key={route.path}
-            to={route.path}
-          >
-            {route.name}
-          </SmartLink>
-        ))}
-      </div>
+      <div className={classes.headerNav}>{nav}</div>
     </div>
   );
 }
