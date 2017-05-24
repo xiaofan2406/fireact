@@ -4,6 +4,8 @@ import { inject, observer } from 'mobx-react';
 import { compose } from 'utils';
 import withCss from 'react-jss';
 import classnames from 'classnames';
+import { colors } from 'styles';
+
 import BoardMenu from './BoardMenu';
 import BoardDisplay from './BoardDisplay';
 import BoardSyncing from './BoardSyncing';
@@ -11,9 +13,8 @@ import BoardSyncing from './BoardSyncing';
 const css = {
   Board: {
     backgroundColor: '#ffffff',
-    height: '100%',
     '&.isEditing': {
-      backgroundColor: 'rgb(249, 249, 249)'
+      backgroundColor: colors.greyLighter
     }
   }
 };

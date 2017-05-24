@@ -6,7 +6,8 @@ import { ContentEditable } from 'widgets';
 
 const css = {
   ItemNotes: {
-    margin: '8px 0px 0px 22px'
+    margin: '8px 0px 0px 22px',
+    outline: 'none'
   }
 };
 

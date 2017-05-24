@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import withCss from 'react-jss';
-import { primaryColor, headerHeight } from 'styles';
+import { colors, headerHeight } from 'styles';
 import { SmartLink } from 'widgets';
 
 import logo from './logo.svg';
@@ -43,7 +43,7 @@ const css = {
     }
   },
   linkActive: {
-    borderBottom: `2px solid ${primaryColor}`
+    borderBottom: `2px solid ${colors.primary}`
   }
 };
 

@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 import withCss from 'react-jss';
 import { compose } from 'utils';
+import { colors } from 'styles';
+
 import ListName from './ListName';
 import ListMenu from './ListMenu';
 import ListItems from './ListItems';
@@ -12,13 +14,14 @@ const css = {
   header: {
     display: 'flex',
     justifyContent: 'space-between',
-    color: 'rgb(23, 73, 181)',
+    color: colors.primary,
+    fontWeight: 'bold',
     padding: '2px 2px',
     borderBottom: '1px solid rgb(228, 229, 233)',
     marginBottom: '12px',
     '&:focus': {
       outline: 'none',
-      backgroundColor: 'rgb(200, 219, 254)'
+      backgroundColor: colors.primaryAccent
     }
   }
 };
@@ -27,7 +30,7 @@ function List({ classes, list }) {
   console.log('render List', list.id);
   return (
     <div className={classes.List}>
-      <div className={classes.header} tabIndex={0} role="button">
+      <div className={classes.header} tabIndex={-1}>
         <ListName list={list} />
         <ListMenu list={list} />
       </div>

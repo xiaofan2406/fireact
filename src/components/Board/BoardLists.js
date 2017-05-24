@@ -8,10 +8,10 @@ import List from './List';
 
 const css = {
   BoardLists: {
-    padding: '1em'
+    padding: '2em'
   },
-  single: {
-    margin: '1em'
+  singleList: {
+    margin: '2em'
   }
 };
 
@@ -20,7 +20,7 @@ function BoardLists({ boardStore, classes }) {
     ? <p>nothing here</p>
     : <div className={classes.BoardLists}>
         {boardStore.lists.values().map(list => (
-          <div className={classes.single} key={list.id}>
+          <div className={classes.singleList} key={list.id}>
             <List list={list} />
           </div>
         ))}
