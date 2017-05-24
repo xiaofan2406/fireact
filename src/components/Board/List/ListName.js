@@ -6,8 +6,8 @@ import { Editable } from 'widgets';
 import { compose } from 'utils';
 
 const css = {
-  display: {},
-  editing: {}
+  ListName_display: {},
+  ListName_editing: {}
 };
 
 function ListName({ classes, list }) {
@@ -15,8 +15,8 @@ function ListName({ classes, list }) {
   return (
     <Editable
       value={list.name}
-      displayClass={classes.display}
-      editingClass={classes.editing}
+      displayClass={classes.ListName_display}
+      editingClass={classes.ListName_editing}
       onDone={list.setName}
     />
   );

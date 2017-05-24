@@ -2,101 +2,58 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import withCss from 'react-jss';
+import classnames from 'classnames';
+import { compose } from 'utils';
 import ItemCheckbox from './ItemCheckbox';
 import ItemName from './ItemName';
 import ItemNotes from './ItemNotes';
 
 const css = {
-  wrapper: {
+  ItemDisplay: {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '32px',
+    '&.isEditing': {
+      backgroundColor: '#ffffff',
+      boxShadow: '0 1px 6px rgba(0,0,0,.2)',
+      borderRadius: '4px',
+      margin: '24px -12px 36px -12px',
+      padding: '6px 12px'
+    }
+  },
+  first: {
     display: 'flex',
     alignItems: 'center',
-    height: '28px',
-    padding: '2px 8px',
-    cursor: 'default',
-    userSelect: 'none',
-    '&:focus': {
-      outline: 'none',
-      backgroundColor: 'rgb(200, 219, 254)'
-    }
-  }
+    minHeight: '32px'
+  },
+  second: {}
 };
 
-@withCss(css)
-@inject('viewStore')
-@observer
-class ItemDisplay extends React.Component {
-  static propTypes = {
-    classes: PropTypes.object.isRequired,
-    viewStore: PropTypes.object.isRequired,
-    item: PropTypes.object.isRequired
-  };
-
-  // componentDidMount() {
-  //   if (this.props.viewStore.focusedTarget === this.props.item.id) {
-  //     this.container.focus();
-  //   }
-  // }
-
-  containerRef = ref => {
-    this.container = ref;
-  };
-
-  handleKeyUp = event => {
-    const { viewStore, item } = this.props;
-    // TODO press enter to edit
-    // if (event.which === 13) {
-    //   viewStore.startEditingItem(item.id);
-    // }
-    if (event.which === 27) {
-      viewStore.blurTarget(item.id);
-    }
-  };
-
-  clickCount = 0;
-  doubleClickTimer = null;
-  DOUBLE_CLICK_DELAY = 300;
-
-  handleContentClick = () => {
-    this.clickCount++;
-    if (this.clickCount === 1) {
-      this.handleContentSingleClick();
-      this.doubleClickTimer = setTimeout(() => {
-        this.clickCount = 0;
-      }, this.DOUBLE_CLICK_DELAY);
-    } else {
-      clearTimeout(this.doubleClickTimer);
-      this.handleContentDoubleClick();
-      this.clickCount = 0;
-    }
-  };
-
-  handleContentSingleClick = () => {
-    const { viewStore, item } = this.props;
-    viewStore.focusTarget(item.id);
-  };
-
-  handleContentDoubleClick = () => {
-    const { viewStore, item } = this.props;
-    viewStore.startEditingItem(item.id);
-  };
-
-  render() {
-    const { classes, item } = this.props;
-    console.log('render ItemDisplay');
-    return (
-      <div
-        className={classes.wrapper}
-        tabIndex={-1}
-        ref={this.containerRef}
-        onKeyUp={this.handleKeyUp}
-        onClick={this.handleContentClick}
-      >
+function ItemDisplay({ classes, viewStore, item }) {
+  console.log('render ItemDisplay');
+  const classNames = classnames({
+    [classes.ItemDisplay]: true,
+    isEditing: viewStore.isEditingItem(item)
+  });
+  return (
+    <div className={classNames}>
+      <div className={classes.first}>
         <ItemCheckbox item={item} />
         <ItemName item={item} />
+      </div>
+      <div className={classes.second}>
         <ItemNotes item={item} />
       </div>
-    );
-  }
+    </div>
+  );
 }
 
-export default ItemDisplay;
+ItemDisplay.propTypes = {
+  classes: PropTypes.object.isRequired,
+  viewStore: PropTypes.object.isRequired,
+  item: PropTypes.object.isRequired
+};
+
+const enhance = compose(inject('viewStore'), withCss(css), observer);
+
+export default enhance(ItemDisplay);

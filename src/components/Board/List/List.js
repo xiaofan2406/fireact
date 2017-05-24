@@ -8,7 +8,7 @@ import ListMenu from './ListMenu';
 import ListItems from './ListItems';
 
 const css = {
-  container: {},
+  List: {},
   header: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -26,7 +26,7 @@ const css = {
 function List({ classes, list }) {
   console.log('render List', list.id);
   return (
-    <div className={classes.container}>
+    <div className={classes.List}>
       <div className={classes.header} tabIndex={0} role="button">
         <ListName list={list} />
         <ListMenu list={list} />

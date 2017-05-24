@@ -1,1 +1,1 @@
-export default from './ItemDisplay';
+export default from './Item';

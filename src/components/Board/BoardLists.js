@@ -7,7 +7,7 @@ import { compose } from 'utils';
 import List from './List';
 
 const css = {
-  display: {
+  BoardLists: {
     padding: '1em'
   },
   single: {
@@ -18,7 +18,7 @@ const css = {
 function BoardLists({ boardStore, classes }) {
   return boardStore.isEmpty
     ? <p>nothing here</p>
-    : <div className={classes.display}>
+    : <div className={classes.BoardLists}>
         {boardStore.lists.values().map(list => (
           <div className={classes.single} key={list.id}>
             <List list={list} />

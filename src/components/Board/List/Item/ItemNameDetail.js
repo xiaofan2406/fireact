@@ -6,13 +6,13 @@ import { compose } from 'utils';
 import classnames from 'classnames';
 
 const css = {
-  container: {
+  ItemNameDetail: {
     display: 'inline-block',
-    padding: ' 0px 8px',
     lineHeight: 1,
     cursor: 'default',
     userSelect: 'none',
-    flex: 1
+    flex: 1,
+    fontSize: '15px'
   },
   name: {
     color: 'black',
@@ -22,26 +22,24 @@ const css = {
   }
 };
 
-function ItemContent({ classes, item }) {
-  console.log('render item content');
+function ItemNameDetail({ classes, item }) {
+  console.log('render NameDetail');
   const nameClasses = classnames({
     [classes.name]: true,
     placeholder: !item.name
   });
   return (
-    <span className={classes.container}>
+    <span className={classes.ItemNameDetail}>
       <span className={nameClasses}>{item.name || 'New To-Do'}</span>
     </span>
   );
 }
 
-ItemContent.propTypes = {
+ItemNameDetail.propTypes = {
   classes: PropTypes.object.isRequired,
-  item: PropTypes.shape({
-    name: PropTypes.string.isRequired
-  }).isRequired
+  item: PropTypes.object.isRequired
 };
 
 const enhance = compose(withCss(css), observer);
 
-export default enhance(ItemContent);
+export default enhance(ItemNameDetail);

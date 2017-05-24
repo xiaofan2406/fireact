@@ -1,4 +1,4 @@
-import { observable, action } from 'mobx';
+import { observable, action, computed } from 'mobx';
 
 class ViewStore {
   @observable focusedTarget = '';
@@ -23,6 +23,12 @@ class ViewStore {
       this.editingItemId = '';
     }
   };
+
+  @computed get isInEditMode() {
+    return this.editingItemId !== '';
+  }
+
+  isEditingItem = item => item.id === this.editingItemId;
 }
 
 export default ViewStore;

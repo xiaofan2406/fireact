@@ -58,7 +58,7 @@ class BoardStore {
           console.log(this.lists.get(id));
           return id;
         })
-        .map(id => this.lists.destroy(id));
+        .map(id => this.lists.delete(id));
 
       // add the lists in the server to client or sync its data
       listIds.map(id =>

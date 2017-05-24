@@ -2,9 +2,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import withCss from 'react-jss';
+import classnames from 'classnames';
 
 const css = {
-  container: {
+  ContentEditable: {
     '&:empty:before': {
       content: 'attr(placeholder)',
       display: 'block',
@@ -16,10 +17,11 @@ const css = {
 
 function ContentEditable({ sheet, classes, defaultText, editorRef, ...rest }) {
   console.log('render ContentEditable');
+  const classNames = classnames(classes.ContentEditable, rest.className);
   return (
     <div
       {...rest}
-      className={classes.container}
+      className={classNames}
       ref={editorRef}
       contentEditable
       suppressContentEditableWarning

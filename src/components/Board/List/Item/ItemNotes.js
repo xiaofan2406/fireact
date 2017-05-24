@@ -1,12 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
+import withCss from 'react-jss';
 import { ContentEditable } from 'widgets';
 
+const css = {
+  ItemNotes: {
+    margin: '8px 0px 0px 22px'
+  }
+};
+
 @inject('viewStore')
+@withCss(css)
 @observer
 class ItemNotes extends React.Component {
   static propTypes = {
+    classes: PropTypes.object.isRequired,
     viewStore: PropTypes.object.isRequired,
     item: PropTypes.object.isRequired
   };
@@ -28,10 +37,11 @@ class ItemNotes extends React.Component {
   };
 
   render() {
-    const { viewStore, item } = this.props;
+    const { classes, viewStore, item } = this.props;
     console.log('render ItemNotes');
     return viewStore.editingItemId === item.id
       ? <ContentEditable
+          className={classes.ItemNotes}
           tabIndex={0}
           role="button"
           onKeyUp={this.handleKeyUp}

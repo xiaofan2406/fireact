@@ -3,31 +3,38 @@ import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 import withCss from 'react-jss';
 import { Checkbox } from 'widgets';
+import { compose } from 'utils';
 
 const css = {
-  wrapper: {}
+  ItemCheckbox: {
+    marginRight: '8px',
+    borderRadius: '2px'
+  }
 };
 
-@withCss(css)
-@observer
-class ItemCheckbox extends React.Component {
-  static propTypes = {
-    item: PropTypes.object.isRequired
-  };
-
-  handleToggle = () => {
-    if (this.props.item.isCompleted) {
-      this.props.item.setCompletionStatus(false);
+function ItemCheckbox({ classes, item }) {
+  const handleToggle = () => {
+    if (item.isCompleted) {
+      item.setCompletionStatus(false);
     } else {
-      this.props.item.setCompletionStatus(true);
+      item.setCompletionStatus(true);
     }
   };
 
-  render() {
-    const { item } = this.props;
-    console.log('render checkboxc');
-    return <Checkbox onToggle={this.handleToggle} checked={item.isCompleted} />;
-  }
+  return (
+    <Checkbox
+      className={classes.ItemCheckbox}
+      onToggle={handleToggle}
+      checked={item.isCompleted}
+    />
+  );
 }
 
-export default ItemCheckbox;
+ItemCheckbox.propTypes = {
+  classes: PropTypes.object.isRequired,
+  item: PropTypes.object.isRequired
+};
+
+const enhance = compose(withCss(css), observer);
+
+export default enhance(ItemCheckbox);

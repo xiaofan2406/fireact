@@ -5,9 +5,8 @@ import checkImage from 'assets/check.png';
 import classnames from 'classnames';
 
 // TODO animations
-
 const css = {
-  wrapper: {
+  Checkbox: {
     display: 'inline-block',
     border: '1px solid #eeeeee',
     width: ({ size }) => size,
@@ -15,7 +14,7 @@ const css = {
     backgroundSize: ({ size }) => `${size - 2}px ${size - 2}px`,
     backgroundPosition: '1px 1px',
     backgroundRepeat: 'no-repeat',
-
+    backgroundColor: '#ffffff',
     '&.checked': {
       border: 'none',
       backgroundImage: `url(${checkImage})`,
@@ -24,32 +23,23 @@ const css = {
   }
 };
 
-@withCss(css)
-class Checkbox extends React.Component {
-  static propTypes = {
-    sheet: PropTypes.object.isRequired,
-    classes: PropTypes.object.isRequired,
-    checked: PropTypes.bool.isRequired,
-    onToggle: PropTypes.func.isRequired,
-    size: PropTypes.number
-  };
-
-  static defaultProps = {
-    size: 14
-  };
-
-  handleClick = () => {
-    this.props.onToggle();
-  };
-
-  render() {
-    const { sheet, classes, checked, onToggle, ...rest } = this.props;
-    const classNames = classnames({
-      [classes.wrapper]: true,
-      checked
-    });
-    return <div className={classNames} onClick={this.handleClick} {...rest} />;
-  }
+function Checkbox({ sheet, classes, checked, onToggle, ...rest }) {
+  const classNames = classnames(classes.Checkbox, rest.className, {
+    checked
+  });
+  return <div {...rest} className={classNames} onClick={onToggle} />;
 }
 
-export default Checkbox;
+Checkbox.propTypes = {
+  sheet: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
+  checked: PropTypes.bool.isRequired,
+  onToggle: PropTypes.func.isRequired,
+  size: PropTypes.number
+};
+
+Checkbox.defaultProps = {
+  size: 14
+};
+
+export default withCss(css)(Checkbox);

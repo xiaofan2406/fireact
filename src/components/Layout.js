@@ -8,7 +8,7 @@ import Header from './Header';
 
 const css = {
   main: {
-    padding: '1em'
+    // padding: '1em'
   }
 };
 
