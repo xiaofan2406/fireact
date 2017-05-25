@@ -6,7 +6,7 @@ import Item from './Item';
 function ListItems({ list }) {
   console.log('render ListItems');
   return list.isEmpty
-    ? <p>you got nothing</p>
+    ? null
     : <div>
         {list.items.values().map(item => <Item item={item} key={item.id} />)}
       </div>;

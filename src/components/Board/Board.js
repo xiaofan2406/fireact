@@ -4,15 +4,16 @@ import { inject, observer } from 'mobx-react';
 import { compose } from 'utils';
 import withCss from 'react-jss';
 import classnames from 'classnames';
-import { colors } from 'styles';
+import { colors, variables } from 'styles';
 
-import BoardMenu from './BoardMenu';
+import BoardHeader from './BoardHeader';
 import BoardDisplay from './BoardDisplay';
 import BoardSyncing from './BoardSyncing';
 
 const css = {
   Board: {
     backgroundColor: '#ffffff',
+    minHeight: `calc(100vh - ${variables.Header.height}px)`,
     '&.isEditing': {
       backgroundColor: colors.grey50
     }
@@ -28,7 +29,7 @@ function Board({ classes, viewStore }) {
   return (
     <div className={classNames}>
       <BoardSyncing />
-      <BoardMenu />
+      <BoardHeader />
       <BoardDisplay />
     </div>
   );

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import withCss from 'react-jss';
-import { theme, headerHeight } from 'styles';
+import { theme, variables } from 'styles';
 import { SmartLink } from 'widgets';
 
 import logo from './logo.svg';
@@ -9,7 +9,7 @@ import { routes } from '../router';
 
 const css = {
   Header: {
-    height: headerHeight,
+    height: variables.Header.height,
     backgroundColor: '#242729',
     display: 'flex',
     alignItems: 'center',
@@ -29,15 +29,15 @@ const css = {
     color: '#fff'
   },
   headerNav: {
-    height: headerHeight
+    height: variables.Header.height
   },
   link: {
     color: '#fff',
     textDecoration: 'none',
     padding: '0 0.5em',
     display: 'inline-block',
-    lineHeight: headerHeight,
-    height: headerHeight,
+    lineHeight: `${variables.Header.height}px`,
+    height: variables.Header.height,
     '&:hover': {
       backgroundColor: '#3b4045'
     }

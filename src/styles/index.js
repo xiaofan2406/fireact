@@ -2,8 +2,6 @@ import * as palette from './colors';
 
 export * as colors from './colors';
 
-export const headerHeight = '42px';
-
 export const theme = {
   primaryColor: palette.blue800,
   primaryAccent: palette.blue100,
@@ -30,6 +28,12 @@ export const spacing = {
 };
 
 export const variables = {
+  BoardHeader: {
+    height: 48
+  },
+  Header: {
+    height: 42
+  },
   ListMenu: {
     button: {
       width: 48

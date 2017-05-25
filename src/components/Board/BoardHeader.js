@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import { compose } from 'utils';
 
-function BoardMenu({ boardStore }) {
-  console.log('render BoardMenu');
+function BoardHeader({ boardStore }) {
+  console.log('render BoardHeader');
 
   const newList = e => {
     if (e.which === 27) {
@@ -22,10 +22,10 @@ function BoardMenu({ boardStore }) {
   );
 }
 
-BoardMenu.propTypes = {
+BoardHeader.propTypes = {
   boardStore: PropTypes.object.isRequired
 };
 
 const enhance = compose(inject('boardStore'), observer);
 
-export default enhance(BoardMenu);
+export default enhance(BoardHeader);
