@@ -1,25 +1,44 @@
-// global variables
-export const fontFamily = '"Open Sans", sans-serif';
-export const fontSize = '14px';
+import * as palette from './colors';
+
+export * as colors from './colors';
+
 export const headerHeight = '42px';
 
-// spacing
-export const space = 8;
-export const externalSpace = 8;
+export const theme = {
+  primaryColor: palette.blue800,
+  primaryAccent: palette.blue100,
+  border: `1px solid ${palette.grey200}`,
+  borderTransparent: '1px solid transparent',
+  boxShadow: `0 1px 6px ${palette.grey200}`,
+  fontSize: 14,
+  headingSize: 16
+};
 
-// colors
-export const greyLighter = '#f9f9f9';
-export const greyLight = '#e9e9e9';
-export const greyNormal = '#c9c9c9';
-export const greyDark = '#a9a9a9';
-export const primary = '#1976D2';
-export const primaryAccent = '#BBDEFB';
+export const size = {
+  unit: 6,
+  small: 12,
+  regular: 20,
+  large: 32
+};
 
-export const colors = {
-  greyLighter,
-  greyLight,
-  greyNormal,
-  greyDark,
-  primary,
-  primaryAccent
+export const spacing = {
+  unit: 2,
+  internal: 6,
+  internalBreath: 12,
+  external: 8,
+  externalBreath: 24
+};
+
+export const variables = {
+  ListMenu: {
+    button: {
+      width: 48
+    }
+  },
+  ItemDisplay: {
+    minHeight: 32
+  },
+  ItemCheckbox: {
+    width: 14
+  }
 };

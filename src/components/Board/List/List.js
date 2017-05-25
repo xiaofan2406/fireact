@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 import withCss from 'react-jss';
 import { compose } from 'utils';
-import { colors } from 'styles';
+import { theme, spacing } from 'styles';
 
 import ListName from './ListName';
 import ListMenu from './ListMenu';
@@ -14,14 +14,15 @@ const css = {
   header: {
     display: 'flex',
     justifyContent: 'space-between',
-    color: colors.primary,
-    fontWeight: 'bold',
-    padding: '2px 2px',
-    borderBottom: '1px solid rgb(228, 229, 233)',
-    marginBottom: '12px',
+    color: theme.primaryColor,
+    borderBottom: theme.border,
+    borderTop: theme.borderTransparent,
+    borderRadius: spacing.internal,
+    padding: [spacing.internal, spacing.internalBreath],
+    marginBottom: spacing.external,
     '&:focus': {
       outline: 'none',
-      backgroundColor: colors.primaryAccent
+      backgroundColor: theme.primaryAccent
     }
   }
 };

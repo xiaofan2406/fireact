@@ -2,17 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import withCss from 'react-jss';
+import { spacing, theme } from 'styles';
 
 import ItemDisplay from './ItemDisplay';
 
 const css = {
   Item: {
-    padding: '0px 8px',
+    padding: [0, spacing.internalBreath],
+    margin: [spacing.unit],
+    borderRadius: spacing.internal,
     cursor: 'default',
     userSelect: 'none',
     '&:focus': {
       outline: 'none',
-      backgroundColor: 'rgb(200, 219, 254)'
+      backgroundColor: theme.primaryAccent
     }
   }
 };

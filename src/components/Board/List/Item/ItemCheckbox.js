@@ -4,11 +4,12 @@ import { observer } from 'mobx-react';
 import withCss from 'react-jss';
 import { Checkbox } from 'widgets';
 import { compose } from 'utils';
+import { spacing, variables } from 'styles';
 
 const css = {
   ItemCheckbox: {
-    marginRight: '8px',
-    borderRadius: '2px'
+    marginRight: spacing.external,
+    borderRadius: spacing.unit
   }
 };
 
@@ -26,6 +27,7 @@ function ItemCheckbox({ classes, item }) {
       className={classes.ItemCheckbox}
       onToggle={handleToggle}
       checked={item.isCompleted}
+      size={variables.ItemCheckbox.width}
     />
   );
 }

@@ -4,6 +4,7 @@ import { observer } from 'mobx-react';
 import withCss from 'react-jss';
 import { compose } from 'utils';
 import classnames from 'classnames';
+import { colors } from 'styles';
 
 const css = {
   ItemNameDetail: {
@@ -11,13 +12,12 @@ const css = {
     lineHeight: 1,
     cursor: 'default',
     userSelect: 'none',
-    flex: 1,
-    fontSize: '15px'
+    flex: 1
   },
   name: {
-    color: 'black',
+    color: colors.black,
     '&.placeholder': {
-      color: 'grey'
+      color: colors.grey500
     }
   }
 };

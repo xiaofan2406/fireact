@@ -37,6 +37,7 @@ module.exports = {
     'no-param-reassign': 0, // e.target.value = '';
     'no-plusplus': 0, // allow i++
     'no-confusing-arrow': 0,
+    'no-mixed-operators': 0,
     indent: 0,
     'react/jsx-indent': 0,
     'react/jsx-indent-props': 0,

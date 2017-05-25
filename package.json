@@ -7,7 +7,7 @@
     "prebuild": "rm -rf ./build",
     "build": "NODE_ENV=production ./node_modules/.bin/webpack --config ./config/webpack.prod.js",
     "lint": "./node_modules/.bin/eslint -c .eslintrc.js ./src ./config",
-    "prod": "./node_modules/.bin/pushstate-server ./build 9000"
+    "prod": "node prod.js"
   },
   "engines": {
     "node": "^6.x",

@@ -7,8 +7,7 @@ import ItemNameDetail from './ItemNameDetail';
 const css = {
   ItemName: {
     outline: 'none',
-    border: 'none',
-    fontSize: '15px'
+    border: 'none'
   }
 };
 

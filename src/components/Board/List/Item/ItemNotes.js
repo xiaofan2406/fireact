@@ -3,10 +3,17 @@ import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import withCss from 'react-jss';
 import { ContentEditable } from 'widgets';
+import { spacing, variables } from 'styles';
 
 const css = {
   ItemNotes: {
-    margin: '8px 0px 0px 22px',
+    margin: [
+      spacing.external,
+      0,
+      0,
+      variables.ItemCheckbox.width + spacing.external
+    ],
+    paddingBottom: spacing.internalBreath,
     outline: 'none'
   }
 };

@@ -14,7 +14,7 @@ const css = {
   Board: {
     backgroundColor: '#ffffff',
     '&.isEditing': {
-      backgroundColor: colors.greyLighter
+      backgroundColor: colors.grey50
     }
   }
 };

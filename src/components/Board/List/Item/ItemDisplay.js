@@ -4,6 +4,8 @@ import { inject, observer } from 'mobx-react';
 import withCss from 'react-jss';
 import classnames from 'classnames';
 import { compose } from 'utils';
+import { colors, theme, spacing, variables } from 'styles';
+
 import ItemCheckbox from './ItemCheckbox';
 import ItemName from './ItemName';
 import ItemNotes from './ItemNotes';
@@ -12,19 +14,23 @@ const css = {
   ItemDisplay: {
     display: 'flex',
     flexDirection: 'column',
-    minHeight: '32px',
     '&.isEditing': {
-      backgroundColor: '#ffffff',
-      boxShadow: '0 1px 6px rgba(0,0,0,.2)',
-      borderRadius: '4px',
-      margin: '24px -12px 36px -12px',
-      padding: '6px 12px'
+      backgroundColor: colors.white,
+      boxShadow: theme.boxShadow,
+      borderRadius: spacing.internal,
+      margin: [
+        spacing.externalBreath,
+        -spacing.internalBreath,
+        spacing.externalBreath * 2,
+        -spacing.internalBreath
+      ],
+      padding: [spacing.internal, spacing.internalBreath]
     }
   },
   first: {
     display: 'flex',
     alignItems: 'center',
-    minHeight: '32px'
+    minHeight: variables.ItemDisplay.minHeight
   },
   second: {}
 };

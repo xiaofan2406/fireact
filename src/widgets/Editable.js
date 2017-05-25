@@ -4,8 +4,17 @@ import withCss from 'react-jss';
 import classnames from 'classnames';
 
 const css = {
-  container: {
+  Editable: {
     cursor: 'default',
+    '&:empty:before': {
+      content: 'attr(placeholder)',
+      display: 'block'
+    },
+    '&.singleLine': {
+      textOverflow: 'ellipsis',
+      overflow: 'hidden',
+      whiteSpace: 'nowrap'
+    },
     '&.isEditing': {
       cursor: 'text'
     }
@@ -15,10 +24,19 @@ const css = {
 @withCss(css)
 class Editable extends React.Component {
   static propTypes = {
+    sheet: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired,
     value: PropTypes.string.isRequired,
-    onDone: PropTypes.func.isRequired
+    displayClass: PropTypes.string.isRequired,
+    editingClass: PropTypes.string.isRequired,
+    onDone: PropTypes.func.isRequired,
+    singleLine: PropTypes.bool
   };
+
+  static defaultProps = {
+    singleLine: true
+  };
+
   state = {
     isEditing: false
   };
@@ -33,6 +51,13 @@ class Editable extends React.Component {
     sel.addRange(range);
   }
 
+  finishEditing = () => {
+    this.props.onDone(this.container.innerText.trim());
+    this.setState({
+      isEditing: false
+    });
+  };
+
   handleDoubleClick = () => {
     if (!this.state.isEditing) {
       this.setState({
@@ -41,21 +66,23 @@ class Editable extends React.Component {
     }
   };
 
+  handleKeyDown = event => {
+    const { singleLine } = this.props;
+    if (event.which === 13 && singleLine) {
+      event.preventDefault();
+      this.finishEditing();
+    }
+  };
+
   handleKeyUp = event => {
     if (event.which === 27) {
-      this.props.onDone(this.container.innerText.trim());
-      this.setState({
-        isEditing: false
-      });
+      this.finishEditing();
     }
   };
 
   handleBlur = () => {
     if (this.state.isEditing) {
-      this.props.onDone(this.container.innerText.trim());
-      this.setState({
-        isEditing: false
-      });
+      this.finishEditing();
     }
   };
 
@@ -64,19 +91,32 @@ class Editable extends React.Component {
   };
 
   render() {
-    const { classes, value } = this.props;
+    const {
+      sheet,
+      classes,
+      value,
+      displayClass,
+      editingClass,
+      onDone,
+      singleLine,
+      ...rest
+    } = this.props;
     const { isEditing } = this.state;
-    const classNames = classnames({
-      [classes.container]: true,
-      isEditing
+    const classNames = classnames(classes.Editable, rest.className, {
+      isEditing,
+      singleLine: !isEditing,
+      [displayClass]: !isEditing,
+      [editingClass]: isEditing
     });
 
     return (
       <div
+        {...rest}
         className={classNames}
         contentEditable={isEditing}
         suppressContentEditableWarning={isEditing}
         onDoubleClick={this.handleDoubleClick}
+        onKeyDown={this.handleKeyDown}
         onKeyUp={this.handleKeyUp}
         onBlur={this.handleBlur}
         ref={this.containerRef}

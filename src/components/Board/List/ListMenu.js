@@ -1,12 +1,39 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
+import withCss from 'react-jss';
+import { size, spacing, theme, variables } from 'styles';
+
+const css = {
+  ListMenu: {
+    display: 'flex'
+  },
+  button: {
+    appearance: 'none',
+    height: size.regular,
+    width: variables.ListMenu.button.width,
+    margin: [0, spacing.unit],
+    padding: [spacing.unit],
+    backgroundColor: 'transparent',
+    border: theme.borderTransparent,
+    borderRadius: spacing.internal,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    outline: 'none',
+    '&:hover': {
+      border: theme.border
+    }
+  }
+};
 
 @inject('boardStore')
+@withCss(css)
 @observer
 class ListMenu extends React.Component {
   static propTypes = {
     boardStore: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
     list: PropTypes.object.isRequired
   };
 
@@ -26,10 +53,15 @@ class ListMenu extends React.Component {
 
   render() {
     console.log('render ListMenu');
+    const { classes } = this.props;
     return (
-      <div>
-        <button onClick={this.handleAddClick}>+</button>
-        <button onClick={this.handleRemoveClick}>X</button>
+      <div className={classes.ListMenu}>
+        <button className={classes.button} onClick={this.handleAddClick}>
+          <i className="fa fa-plus" aria-hidden="true" />
+        </button>
+        <button className={classes.button} onClick={this.handleRemoveClick}>
+          <i className="fa fa-remove" aria-hidden="true" />
+        </button>
       </div>
     );
   }

@@ -6,6 +6,7 @@ import classnames from 'classnames';
 
 const css = {
   ContentEditable: {
+    cursor: 'text',
     '&:empty:before': {
       content: 'attr(placeholder)',
       display: 'block',
