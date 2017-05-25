@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import withCss from 'react-jss';
 
 const css = {
-  container: {},
+  Loader: {},
   outer: {
     width: ({ size }) => `${size}px`,
     height: ({ size }) => `${size}px`,
@@ -53,7 +53,7 @@ class Loader extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <div className={classes.container}>
+      <div className={classes.Loader}>
         <div className={classes.outer}>
           <div className={classes.innerFirst} />
           <div className={classes.innerSecond} />

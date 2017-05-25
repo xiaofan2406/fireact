@@ -5,15 +5,10 @@ import withCss from 'react-jss';
 import { compose } from 'utils';
 import { spacing } from 'styles';
 
-import BoardListsEmpty from './BoardListsEmpty';
 import List from './List';
 
 const css = {
   BoardLists: {
-    flex: 1,
-    position: 'relative'
-  },
-  lists: {
     padding: spacing.externalBreath
   },
   singleList: {
@@ -29,15 +24,11 @@ const css = {
 function BoardLists({ classes, boardStore }) {
   return (
     <div className={classes.BoardLists}>
-      {boardStore.isEmpty
-        ? <BoardListsEmpty />
-        : <div className={classes.lists}>
-            {boardStore.lists.values().map(list => (
-              <div className={classes.singleList} key={list.id}>
-                <List list={list} />
-              </div>
-            ))}
-          </div>}
+      {boardStore.lists.values().map(list => (
+        <div className={classes.singleList} key={list.id}>
+          <List list={list} />
+        </div>
+      ))}
     </div>
   );
 }

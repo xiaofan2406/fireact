@@ -31,8 +31,9 @@ export const variables = {
   BoardHeader: {
     height: 48
   },
-  BoardListsEmpty: {
-    width: 240
+  BoardStatus: {
+    width: 240,
+    height: 64
   },
   Header: {
     height: 42

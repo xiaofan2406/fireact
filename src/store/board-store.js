@@ -42,6 +42,7 @@ class BoardStore {
       .database()
       .ref(`${BoardStore.userStore.uid}/${itemsPath}`);
 
+    // TODO try catch
     const [lists, items] = (await Promise.all([
       this._listsRef.once('value'),
       this._itemsRef.once('value')
@@ -68,6 +69,9 @@ class BoardStore {
           path: `${BoardStore.userStore.uid}/${listsPath}/${id}`
         })
       );
+    } else {
+      // server contains no list for this user
+      this.lists.clear();
     }
 
     if (items) {
