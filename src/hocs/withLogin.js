@@ -5,7 +5,6 @@ import { inject } from 'mobx-react';
 function withLogin({ assert = true, fallback: Fallback }) {
   return Component => {
     function WithLogin({ isAuthed, ...rest }) {
-      console.log('yo');
       if (isAuthed === assert) {
         return <Component {...rest} />;
       }

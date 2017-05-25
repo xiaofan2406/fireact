@@ -12,7 +12,9 @@ import BoardSyncing from './BoardSyncing';
 
 const css = {
   Board: {
-    backgroundColor: '#ffffff',
+    display: 'flex',
+    flexDirection: 'column',
+    backgroundColor: colors.white,
     minHeight: `calc(100vh - ${variables.Header.height}px)`,
     '&.isEditing': {
       backgroundColor: colors.grey50

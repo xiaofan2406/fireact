@@ -10,6 +10,10 @@ import List from './List';
 
 const css = {
   BoardLists: {
+    flex: 1,
+    position: 'relative'
+  },
+  lists: {
     padding: spacing.externalBreath
   },
   singleList: {
@@ -22,16 +26,20 @@ const css = {
   }
 };
 
-function BoardLists({ boardStore, classes }) {
-  return boardStore.isEmpty
-    ? <BoardListsEmpty />
-    : <div className={classes.BoardLists}>
-        {boardStore.lists.values().map(list => (
-          <div className={classes.singleList} key={list.id}>
-            <List list={list} />
-          </div>
-        ))}
-      </div>;
+function BoardLists({ classes, boardStore }) {
+  return (
+    <div className={classes.BoardLists}>
+      {boardStore.isEmpty
+        ? <BoardListsEmpty />
+        : <div className={classes.lists}>
+            {boardStore.lists.values().map(list => (
+              <div className={classes.singleList} key={list.id}>
+                <List list={list} />
+              </div>
+            ))}
+          </div>}
+    </div>
+  );
 }
 
 BoardLists.propTypes = {

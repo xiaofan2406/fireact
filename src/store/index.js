@@ -12,7 +12,7 @@ export default initialState => {
   const boardStore = new BoardStore(initBoard);
   const viewStore = new ViewStore(initView);
 
-  BoardStore.withUserStore(userStore);
+  BoardStore.injectSotre({ userStore, viewStore });
 
   return {
     userStore,

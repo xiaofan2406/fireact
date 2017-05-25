@@ -24,8 +24,8 @@ class BoardStore {
     this._items = new ObservableMap();
   }
 
-  static withUserStore(userStore) {
-    this.userStore = userStore;
+  static injectSotre(stores) {
+    Object.assign(this, stores);
   }
 
   initialSync = async () => {
@@ -170,15 +170,18 @@ class BoardStore {
     this.lists.delete(id);
   };
 
-  newItem = listId => {
+  newItem = async listId => {
     if (this.hasList(listId)) {
-      this._itemsRef.child(uuid()).set({
+      const itemId = uuid();
+      await this._itemsRef.child(itemId).set({
         listId,
         isCompleted: false,
         notes: '',
         createdAt: new Date().toISOString()
       });
+      return itemId;
     }
+    return Promise.reolve();
     // TODO add this item to `inbox`?
   };
 
