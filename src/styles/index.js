@@ -35,13 +35,11 @@ export const variables = {
     width: 240,
     height: 64
   },
-  Header: {
-    height: 42
+  Layout: {
+    headerHeight: 42
   },
   ListMenu: {
-    button: {
-      width: 48
-    }
+    buttonWidth: 48
   },
   ItemDisplay: {
     minHeight: 32

@@ -11,7 +11,7 @@ const css = {
   button: {
     appearance: 'none',
     height: size.regular,
-    width: variables.ListMenu.button.width,
+    width: variables.ListMenu.buttonWidth,
     margin: [0, spacing.unit],
     padding: [spacing.unit],
     backgroundColor: 'transparent',

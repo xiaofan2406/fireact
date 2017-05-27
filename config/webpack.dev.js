@@ -29,7 +29,7 @@ module.exports = {
       {
         test: /\.js$/,
         include: paths.srcDir,
-        loader: 'babel-loader',
+        loader: require.resolve('babel-loader'),
         options: {
           babelrc: false,
           presets: babelrc,
@@ -38,7 +38,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        use: [require.resolve('style-loader'), require.resolve('css-loader')]
       }
     ]
   },
@@ -47,8 +47,8 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       inject: true,
-      template: `${paths.srcDir}/index.html`,
-      favicon: `${paths.srcDir}/favicon.ico`
+      template: `${paths.srcDir}/assets/index.html`,
+      favicon: `${paths.srcDir}/assets/favicon.ico`
     }),
     new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"development"' }),
     new webpack.HotModuleReplacementPlugin(),
@@ -56,15 +56,25 @@ module.exports = {
   ],
   devServer: {
     compress: true,
-    contentBase: paths.buildDir,
-    historyApiFallback: true,
+    historyApiFallback: { disableDotRule: true },
     hot: true,
     publicPath: '/',
     stats: 'errors-only',
     watchOptions: {
       ignored: /node_modules/
     },
+    https: process.env.HTTPS === 'true',
     host: process.env.HOST || devIp,
-    port: process.env.PORT || devPort
+    port: process.env.PORT || devPort,
+    setup(app) {
+      app.use((req, res, next) => {
+        if (req.url === '/service-worker.js') {
+          res.setHeader('Content-Type', 'text/javascript');
+          res.send();
+        } else {
+          next();
+        }
+      });
+    }
   }
 };

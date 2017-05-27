@@ -1,7 +1,9 @@
+const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
+const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 const common = require('./webpack.common');
 const { paths } = require('./configs');
 const pkg = require('../package.json');
@@ -11,6 +13,7 @@ module.exports = {
   bail: true,
   devtool: 'source-map',
   entry: {
+    polyfill: require.resolve('./polyfills'),
     client: `${paths.srcDir}/index.js`,
     vendor: Object.keys(pkg.dependencies)
   },
@@ -19,7 +22,10 @@ module.exports = {
     path: paths.buildDir,
     filename: 'js/[name].[chunkhash:8].js',
     chunkFilename: 'js/[name].[chunkhash:8].chunk.js',
-    publicPath: '/'
+    publicPath: '/',
+    // Point sourcemap entries to original disk location
+    devtoolModuleFilenameTemplate: info =>
+      path.relative(paths.srcDir, info.absoluteResourcePath)
   },
   module: {
     strictExportPresence: true,
@@ -28,17 +34,24 @@ module.exports = {
       {
         test: /\.js$/,
         include: paths.srcDir,
-        loader: 'babel-loader',
+        loader: require.resolve('babel-loader'),
         options: {
-          babelrc: false,
           presets: babelrc
         }
       },
       {
         test: /\.css$/,
         loader: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: 'css-loader'
+          fallback: require.resolve('style-loader'),
+          use: [
+            {
+              loader: require.resolve('css-loader'),
+              options: {
+                minimize: true,
+                sourceMap: true
+              }
+            }
+          ]
         })
       }
     ]
@@ -50,8 +63,8 @@ module.exports = {
     new ExtractTextPlugin('css/[name].[contenthash:8].css'),
     new HtmlWebpackPlugin({
       inject: true,
-      template: `${paths.srcDir}/index.html`,
-      favicon: `${paths.srcDir}/favicon.ico`,
+      template: `${paths.srcDir}/assets/index.html`,
+      favicon: `${paths.srcDir}/assets/favicon.ico`,
       minify: {
         removeComments: true,
         collapseWhitespace: true,
@@ -85,6 +98,30 @@ module.exports = {
     }),
     new ManifestPlugin({
       fileName: 'asset-manifest.json'
+    }),
+    // Frome create-react-app
+    new SWPrecacheWebpackPlugin({
+      // By default, a cache-busting query parameter is appended to requests
+      // used to populate the caches, to ensure the responses are fresh.
+      // If a URL is already hashed by Webpack, then there is no concern
+      // about it being stale, and the cache-busting can be skipped.
+      dontCacheBustUrlsMatching: /\.\w{8}\./,
+      filename: 'service-worker.js',
+      logger(message) {
+        if (message.indexOf('Total precache size is') === 0) return;
+        console.log(message);
+      },
+      minify: true,
+      // For unknown URLs, fallback to the index page
+      navigateFallback: '/index.html',
+      // Ignores URLs starting from /__ (useful for Firebase):
+      // https://github.com/facebookincubator/create-react-app/issues/2237#issuecomment-302693219
+      navigateFallbackWhitelist: [/^(?!\/__).*/],
+      // Don't precache sourcemaps (they're large) and build asset manifest:
+      staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/],
+      // Work around Windows path issue in SWPrecacheWebpackPlugin:
+      // https://github.com/facebookincubator/create-react-app/issues/2235
+      stripPrefix: `${paths.buildDir.replace(/\\/g, '/')}/`
     })
   ]
 };

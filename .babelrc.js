@@ -13,8 +13,7 @@ const plugins = [
     {
       helpers: false,
       polyfill: false,
-      regenerator: true,
-      moduleName: path.dirname(require.resolve('babel-runtime/package'))
+      regenerator: true
     }
   ],
   [require.resolve('babel-plugin-transform-regenerator'), { async: false }],

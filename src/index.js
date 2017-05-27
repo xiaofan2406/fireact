@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'mobx-react';
 import { useStrict } from 'mobx';
-import { loginCacher, boardCacher } from 'utils';
+import { loginCacher, boardCacher, serviceWorker } from 'utils';
 
 import Router from './router';
 import createStore from './store';
@@ -43,4 +43,5 @@ if (process.env.NODE_ENV === 'development') {
     </Provider>,
     rootElement
   );
+  serviceWorker();
 }

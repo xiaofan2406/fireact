@@ -7,12 +7,7 @@ import { spacing, variables } from 'styles';
 
 const css = {
   ItemNotes: {
-    margin: [
-      spacing.external,
-      0,
-      0,
-      variables.ItemCheckbox.width + spacing.external
-    ],
+    margin: [spacing.external, 0, 0, variables.ItemCheckbox.width + spacing.external],
     paddingBottom: spacing.internalBreath,
     outline: 'none'
   }

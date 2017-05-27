@@ -15,7 +15,7 @@ const css = {
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: colors.white,
-    minHeight: `calc(100vh - ${variables.Header.height}px)`,
+    minHeight: `calc(100vh - ${variables.Layout.headerHeight}px)`,
     '&.isEditing': {
       backgroundColor: colors.grey50
     }

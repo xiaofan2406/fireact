@@ -7,7 +7,7 @@
     "prebuild": "rm -rf ./build",
     "build": "NODE_ENV=production ./node_modules/.bin/webpack --config ./config/webpack.prod.js",
     "lint": "./node_modules/.bin/eslint -c .eslintrc.js ./src ./config",
-    "prod": "NODE_ENV=production node ./config/test-prod-server.js"
+    "prod": "NODE_ENV=production node ./config/test-prod-build"
   },
   "engines": {
     "node": "^6.x",
@@ -15,12 +15,15 @@
   },
   "keywords": [
     "fireact",
+    "firebase",
     "react",
     "react-router",
     "mobx",
     "babel",
     "webpack",
-    "eslint"
+    "eslint",
+    "prettier",
+    "progressive web app"
   ],
   "author": "Xiaofan Wu",
   "repository": {
@@ -56,7 +59,7 @@
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.5.1",
     "babel-preset-react": "^6.24.1",
-    "css-loader": "^0.28.2",
+    "css-loader": "^0.28.3",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.1",
     "eslint-import-resolver-webpack": "^0.8.1",
@@ -69,11 +72,12 @@
     "html-webpack-plugin": "^2.28.0",
     "json-loader": "^0.5.4",
     "mobx-react-devtools": "^4.2.13",
-    "pushstate-server": "^3.0.0",
     "react-hot-loader": "next",
+    "serve": "^5.1.5",
     "style-loader": "^0.18.1",
+    "sw-precache-webpack-plugin": "^0.9.2",
     "url-loader": "^0.5.8",
-    "webpack": "^2.6.0",
+    "webpack": "^2.6.1",
     "webpack-dev-server": "^2.4.5",
     "webpack-manifest-plugin": "^1.1.0"
   }
