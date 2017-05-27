@@ -1,14 +1,14 @@
 import { observable, action, computed, toJS, ObservableMap } from 'mobx';
 import { firebase, boardCacher, uuid } from 'utils';
-import { List } from './models';
+import { List, Item } from './models';
 
 const listsPath = 'lists';
 const itemsPath = 'items';
 
 class BoardStore {
-  @observable lists;
   @observable isLoading;
   @observable isSyncing;
+  @observable errorMessage;
   @observable view = {
     isEditingItem: false
   };
@@ -16,22 +16,28 @@ class BoardStore {
   constructor(init) {
     this.isLoading = false;
     this.isSyncing = false;
-    this._listsRef = null;
-    this._itemsRef = null;
-
+    this.inbox = new ObservableMap();
     this.lists = new ObservableMap();
+    this.items = new ObservableMap();
+
     if (init.lists) {
       Object.values(init.lists).map(listData => this.addList(listData));
     }
 
-    this.items = new ObservableMap();
+    if (init.items) {
+      Object.values(init.items).map(itemData => this.addItem(itemData));
+    }
+
+    this._listsRef = null;
+    this._itemsRef = null;
   }
 
-  static injectStore(stores) {
-    Object.assign(this, stores);
+  static injectStore({ userStore }) {
+    Object.assign(this, { userStore });
   }
 
   initialSync = async () => {
+    this.setErrorMessage();
     this.setSyncingStatus(true);
     if (this.isEmpty) {
       this.setLoadingStatus(true);
@@ -45,52 +51,63 @@ class BoardStore {
       .database()
       .ref(`${BoardStore.userStore.uid}/${itemsPath}`);
 
-    // TODO try catch
-    const [lists, items] = (await Promise.all([
-      this._listsRef.once('value'),
-      this._itemsRef.once('value')
-    ])).map(result => result.val());
+    try {
+      const [lists, items] = (await Promise.all([
+        this._listsRef.once('value'),
+        this._itemsRef.once('value')
+      ])).map(result => result.val());
 
-    if (lists) {
-      const listIds = Object.keys(lists);
+      if (lists) {
+        const listIds = Object.keys(lists);
 
-      // remove cached list that are no longer in the server
-      this.lists
-        .keys()
-        .filter(id => !listIds.includes(id))
-        .map(id => {
-          console.log(this.lists.get(id));
-          return id;
-        })
-        .map(id => this.lists.delete(id));
+        // remove cached lists that are no longer in the server
+        this.lists
+          .keys()
+          .filter(id => !listIds.includes(id))
+          .map(id => this.lists.delete(id));
 
-      // add the lists in the server to client or sync its data
-      listIds.map(id =>
-        this.addList({
-          id,
-          ...lists[id],
-          path: `${BoardStore.userStore.uid}/${listsPath}/${id}`
-        })
-      );
-    } else {
-      // server contains no list for this user
-      this.lists.clear();
+        // add the lists in the server to client or sync its data
+        listIds.map(id =>
+          this.addList({
+            id,
+            ...lists[id],
+            path: `${BoardStore.userStore.uid}/${listsPath}/${id}`
+          })
+        );
+      } else {
+        // server contains no lists for this user
+        this.lists.clear();
+      }
+
+      if (items) {
+        const itemIds = Object.keys(items);
+
+        // remove cached items that are no longer in the server
+        this.items
+          .keys()
+          .filter(id => !itemIds.includes(id))
+          .map(id => this.items.delete(id));
+
+        itemIds.map(id =>
+          this.addItem({
+            id,
+            ...items[id],
+            path: `${BoardStore.userStore.uid}/${itemsPath}/${id}`
+          })
+        );
+      } else {
+        // server contains no items for this user
+        this.items.clear();
+      }
+
+      this.setLoadingStatus(false);
+      this.initListeners();
+      this.autoSave();
+      this.setSyncingStatus(false);
+    } catch (e) {
+      // TODO check firebase docs to see the error shape
+      this.setErrorMessage(JSON.stringify(e));
     }
-
-    if (items) {
-      Object.keys(items).map(id =>
-        this.addItemToList({
-          id,
-          ...items[id],
-          path: `${BoardStore.userStore.uid}/${itemsPath}/${id}`
-        })
-      );
-      // TODO here sync items with _item first?
-    }
-    this.setLoadingStatus(false);
-    this.initListeners();
-    this.autoSave();
-    this.setSyncingStatus(false);
   };
 
   @action setSyncingStatus = status => {
@@ -99,6 +116,10 @@ class BoardStore {
 
   @action setLoadingStatus = status => {
     this.isLoading = status;
+  };
+
+  @action setErrorMessage = message => {
+    this.errorMessage = message;
   };
 
   @computed get isEmpty() {
@@ -121,19 +142,15 @@ class BoardStore {
         path: `${BoardStore.userStore.uid}/${itemsPath}/${snapshot.key}`,
         ...snapshot.val()
       };
-      this.addItemToList(itemData);
+      this.addItem(itemData);
     });
 
-    // NOTE this isn't trigger in the front-end
     this._listsRef.on('child_removed', snapshot => {
-      if (this.hasList(snapshot.key)) {
-        this.removeList(snapshot.key);
-      }
+      this.removeList(snapshot.key);
     });
 
-    // NOTE this isn't trigger in the front-end
     this._itemsRef.on('child_removed', snapshot => {
-      this.removeItemFromList(snapshot.val());
+      this.removeItem(snapshot.key);
     });
   };
 
@@ -144,20 +161,51 @@ class BoardStore {
     } else {
       this.lists.get(listData.id).sync(listData);
     }
+    return this.lists.get(listData.id);
   };
 
-  @action addItemToList = itemData => {
-    if (this.hasList(itemData.listId)) {
-      const item = this.lists.get(itemData.listId).addItem(itemData);
-      this.items.set(item.id, item);
+  @action addItem = itemData => {
+    let item;
+    if (!itemData.listId || !this.hasList(itemData.listId)) {
+      itemData.listId = '';
+      item = new Item(itemData);
+      this.inbox.set(item.id, item);
+    } else {
+      item = this.lists.get(itemData.listId).addItem(itemData);
     }
-    // TODO add the item to `inbox`
+    this.items.set(item.id, item);
+    return item;
   };
 
-  @action removeItemFromList = itemData => {
-    if (this.hasList(itemData.listId)) {
-      this.lists.get(itemData.listId).removeItem(itemData.id);
-      this.items.delete(itemData.id);
+  @action removeList = id => {
+    if (this.hasList(id)) {
+      this.lists.get(id).items.forEach(item => {
+        item.move(null);
+      });
+
+      this.lists.get(id).destroy();
+      this.lists.delete(id);
+    } else {
+      console.log('[removeList] hum... this should not happen');
+    }
+  };
+
+  @action removeItem = id => {
+    if (this.hasItem(id)) {
+      const item = this.items.get(id);
+      const list = this.lists.get(item.listId);
+
+      if (this.inbox.has(id)) {
+        this.inbox.delete(id);
+      } else if (list) {
+        list.removeItem(id);
+      } else {
+        // item's list id is not in the board, and the item is not inbox
+        console.log('[removeItem 1] hum... this should not happen');
+      }
+      this.items.delete(id);
+    } else {
+      console.log('[removeItem 2] hum... this should not happen');
     }
   };
 
@@ -166,30 +214,24 @@ class BoardStore {
   hasItem = id => this.items.has(id);
 
   newList = name => {
-    this._listsRef.child(uuid()).set({
+    const listId = uuid();
+    this._listsRef.child(listId).set({
       name,
       createdAt: new Date().toISOString()
     });
-  };
-
-  @action removeList = id => {
-    this.lists.get(id).destroy();
-    this.lists.delete(id);
+    return listId;
   };
 
   newItem = listId => {
-    if (this.hasList(listId)) {
-      const itemId = uuid();
-      this._itemsRef.child(itemId).set({
-        listId,
-        isCompleted: false,
-        notes: '',
-        createdAt: new Date().toISOString()
-      });
-      return itemId;
-    }
-    return null;
-    // TODO add this item to `inbox`?
+    const itemId = uuid();
+    this._itemsRef.child(itemId).set({
+      listId,
+      isCompleted: false,
+      isTrashed: false,
+      notes: '',
+      createdAt: new Date().toISOString()
+    });
+    return itemId;
   };
 
   @action startEditingItem = id => {
@@ -200,6 +242,7 @@ class BoardStore {
         item.finishEditing();
       }
     });
+    this.view.isEditingItem = true;
   };
 
   @action finishEditingItem = id => {
@@ -220,7 +263,8 @@ class BoardStore {
 
   getCachableData = () =>
     toJS({
-      lists: this.lists
+      lists: this.lists.values().map(list => list.getCachableData()),
+      items: this.items
     });
 
   stopAutoSave = () => {

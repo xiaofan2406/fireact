@@ -15,11 +15,7 @@ const css = {
 
 function ItemCheckbox({ classes, item }) {
   const handleToggle = () => {
-    if (item.isCompleted) {
-      item.setCompletionStatus(false);
-    } else {
-      item.setCompletionStatus(true);
-    }
+    item.setCompletionStatus(!item.isCompleted);
   };
 
   return (

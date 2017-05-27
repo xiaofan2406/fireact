@@ -5,7 +5,7 @@ class UserStore {
   @observable displayName;
   @observable token;
 
-  constructor(init = {}) {
+  constructor(init) {
     this.uid = init.uid || null;
     this.email = init.email || null;
     this.displayName = init.displayName || null;

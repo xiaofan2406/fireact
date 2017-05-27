@@ -4,21 +4,24 @@ import { firebase } from 'utils';
 class Item {
   @observable name;
   @observable notes;
+  @observable listId;
   @observable isCompleted;
+  @observable isTrashed;
   @observable isEditing;
 
   constructor(init) {
     this.id = init.id;
     this.createdAt = new Date(init.createdAt);
 
-    this.listId = init.listId;
     this.path = init.path;
     this.ref = firebase.database().ref(this.path);
     this.isEditing = false;
 
     this.name = init.name || '';
     this.notes = init.notes || '';
+    this.listId = init.listId || '';
     this.isCompleted = init.isCompleted || false;
+    this.isTrashed = init.isTrashed || false;
   }
 
   // return the data shape in sync with firebase database
@@ -27,7 +30,8 @@ class Item {
     listId: this.listId,
     name: this.name,
     notes: this.notes,
-    isCompleted: this.isCompleted
+    isCompleted: this.isCompleted,
+    isTrashed: this.isTrashed
   });
 
   destroy = () => {
@@ -66,6 +70,18 @@ class Item {
       this.isCompleted = status;
       this.ref.set({ ...this.selfie(), isCompleted: status });
     }
+  };
+
+  @action trash = () => {
+    this.isTrashed = true;
+  };
+
+  @action restore = () => {
+    this.isTrashed = false;
+  };
+
+  @action move = listId => {
+    this.listId = listId;
   };
 
   @action startEditing = () => {

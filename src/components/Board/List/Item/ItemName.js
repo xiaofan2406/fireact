@@ -35,6 +35,7 @@ class ItemName extends React.Component {
     const { boardStore, item } = this.props;
     if (event.which === 27 || event.which === 13) {
       item.setName(this.input.value.trim());
+      console.log('what?');
       boardStore.finishEditingItem(item.id);
     }
   };

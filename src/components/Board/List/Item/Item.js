@@ -37,6 +37,7 @@ class Item extends React.Component {
   handleKeyUp = event => {
     const { boardStore, item } = this.props;
     if (event.which === 13) {
+      console.log('lul');
       boardStore.startEditingItem(item.id);
     }
     if (event.which === 27) {

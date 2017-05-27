@@ -1,9 +1,8 @@
-import { observable, action, computed, ObservableMap } from 'mobx';
+import { observable, action, computed, ObservableMap, toJS } from 'mobx';
 import { firebase } from 'utils';
 import Item from './Item';
 
 class List {
-  @observable items;
   @observable name;
 
   constructor(init) {
@@ -15,9 +14,6 @@ class List {
 
     this.name = init.name || '';
     this.items = new ObservableMap();
-    if (init.items) {
-      Object.values(init.items).map(itemData => this.addItem(itemData));
-    }
   }
 
   selfie = () => ({
@@ -33,8 +29,7 @@ class List {
 
   @action addItem = itemData => {
     if (!this.hasItem(itemData.id)) {
-      const item = new Item(itemData);
-      this.items.set(itemData.id, item);
+      this.items.set(itemData.id, new Item(itemData));
     } else {
       this.items.get(itemData.id).sync(itemData);
     }
@@ -60,6 +55,13 @@ class List {
     this.name = name;
     this.ref.set({ ...this.selfie(), name });
   };
+
+  getCachableData = () =>
+    toJS({
+      id: this.id,
+      path: this.path,
+      name: this.name
+    });
 }
 
 export default List;
