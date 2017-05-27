@@ -14,21 +14,19 @@ class ViewStore {
     }
   };
 
-  @action startEditingItem = id => {
+  @action startEditingItem(id) {
     this.editingItemId = id;
-  };
+  }
 
-  @action finishEditingItem = id => {
-    if (this.editingItemId === id) {
-      this.editingItemId = '';
-    }
-  };
+  @action finishEditingItem() {
+    this.editingItemId = '';
+  }
 
   @computed get isInEditMode() {
     return this.editingItemId !== '';
   }
-
-  isEditingItem = item => item.id === this.editingItemId;
+  //
+  // isEditingItem = item => item.id === this.editingItemId;
 }
 
 export default ViewStore;

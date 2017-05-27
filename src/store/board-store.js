@@ -174,10 +174,10 @@ class BoardStore {
     this.lists.delete(id);
   };
 
-  newItem = async listId => {
+  newItem = listId => {
     if (this.hasList(listId)) {
       const itemId = uuid();
-      await this._itemsRef.child(itemId).set({
+      this._itemsRef.child(itemId).set({
         listId,
         isCompleted: false,
         notes: '',
@@ -185,7 +185,7 @@ class BoardStore {
       });
       return itemId;
     }
-    return Promise.reolve();
+    return null;
     // TODO add this item to `inbox`?
   };
 

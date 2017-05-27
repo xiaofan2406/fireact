@@ -23,7 +23,7 @@ const css = {
 };
 
 function ItemNameDetail({ classes, item }) {
-  console.log('render NameDetail');
+  console.log('render ItemNameDetail');
   const nameClasses = classnames({
     [classes.name]: true,
     placeholder: !item.name

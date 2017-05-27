@@ -39,7 +39,7 @@ function ItemDisplay({ classes, viewStore, item }) {
   console.log('render ItemDisplay');
   const classNames = classnames({
     [classes.ItemDisplay]: true,
-    isEditing: viewStore.isEditingItem(item)
+    isEditing: viewStore.editingItemId === item.id
   });
   return (
     <div className={classNames}>

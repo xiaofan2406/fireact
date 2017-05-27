@@ -74,10 +74,6 @@ class Item extends React.Component {
     viewStore.startEditingItem(item.id);
   };
 
-  handleBlur = () => {
-    console.log('blured');
-  };
-
   render() {
     const { classes, item } = this.props;
     console.log('render Item');
@@ -87,7 +83,6 @@ class Item extends React.Component {
         tabIndex={-1}
         ref={this.containerRef}
         onKeyUp={this.handleKeyUp}
-        onBlur={this.handleBlur}
         onClick={this.handleContentClick}
       >
         <ItemDisplay item={item} />
