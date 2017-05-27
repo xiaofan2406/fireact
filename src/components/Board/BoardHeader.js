@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
-import { compose } from 'utils';
+import { compose, keyCodes } from 'utils';
 import withCss from 'react-jss';
 import { variables } from 'styles';
 
@@ -15,9 +15,9 @@ function BoardHeader({ classes, boardStore }) {
   console.log('render BoardHeader');
 
   const newList = e => {
-    if (e.which === 27) {
+    if (e.which === keyCodes.ESC) {
       e.target.value = '';
-    } else if (e.which === 13) {
+    } else if (e.which === keyCodes.ENTER) {
       boardStore.newList(e.target.value.trim());
       e.target.value = '';
     }

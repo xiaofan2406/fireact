@@ -8,6 +8,7 @@ class Item {
   @observable isCompleted;
   @observable isTrashed;
   @observable isEditing;
+  @observable isSelected;
 
   constructor(init) {
     this.id = init.id;
@@ -16,6 +17,7 @@ class Item {
     this.path = init.path;
     this.ref = firebase.database().ref(this.path);
     this.isEditing = false;
+    this.isSelected = false;
 
     this.name = init.name || '';
     this.notes = init.notes || '';
@@ -72,24 +74,26 @@ class Item {
     }
   };
 
+  @action move = listId => {
+    this.listId = listId;
+  };
+
   @action trash = () => {
     this.isTrashed = true;
   };
-
   @action restore = () => {
     this.isTrashed = false;
-  };
-
-  @action move = listId => {
-    this.listId = listId;
   };
 
   @action startEditing = () => {
     this.isEditing = true;
   };
-
   @action finishEditing = () => {
     this.isEditing = false;
+  };
+
+  @action setSelectionStatus = status => {
+    this.isSelected = status;
   };
 }
 

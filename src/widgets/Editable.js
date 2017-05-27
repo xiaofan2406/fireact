@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import withCss from 'react-jss';
 import classnames from 'classnames';
+import { keyCodes } from 'utils';
 
 const css = {
   Editable: {
@@ -68,14 +69,14 @@ class Editable extends React.Component {
 
   handleKeyDown = event => {
     const { singleLine } = this.props;
-    if (event.which === 13 && singleLine) {
+    if (event.which === keyCodes.ENTER && singleLine) {
       event.preventDefault();
       this.finishEditing();
     }
   };
 
   handleKeyUp = event => {
-    if (event.which === 27) {
+    if (event.which === keyCodes.ESC) {
       this.finishEditing();
     }
   };

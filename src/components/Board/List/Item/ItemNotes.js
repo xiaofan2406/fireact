@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import withCss from 'react-jss';
 import { ContentEditable } from 'widgets';
 import { spacing, variables } from 'styles';
+import { keyCodes } from 'utils';
 
 const css = {
   ItemNotes: {
@@ -34,10 +35,11 @@ class ItemNotes extends React.Component {
 
   handleKeyUp = event => {
     const { boardStore, item } = this.props;
-    if (event.which === 27) {
+    if (event.which === keyCodes.ESC) {
       item.setNotes(this.editor.innerText);
       boardStore.finishEditingItem(item.id);
     }
+    event.stopPropagation();
   };
 
   handleBlur = () => {

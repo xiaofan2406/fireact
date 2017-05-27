@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import withCss from 'react-jss';
+import { keyCodes } from 'utils';
+
 import ItemNameDetail from './ItemNameDetail';
 
 const css = {
@@ -21,6 +23,12 @@ class ItemName extends React.Component {
     item: PropTypes.object.isRequired
   };
 
+  componentDidMount() {
+    if (this.input) {
+      this.input.focus();
+    }
+  }
+
   componentDidUpdate() {
     if (this.input) {
       this.input.focus();
@@ -33,11 +41,11 @@ class ItemName extends React.Component {
 
   handleKeyUp = event => {
     const { boardStore, item } = this.props;
-    if (event.which === 27 || event.which === 13) {
+    if (event.which === keyCodes.ENTER || event.which === keyCodes.ESC) {
       item.setName(this.input.value.trim());
       boardStore.finishEditingItem(item.id);
-      event.stopPropagation();
     }
+    event.stopPropagation();
   };
 
   handleBlur = () => {

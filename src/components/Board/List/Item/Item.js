@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import withCss from 'react-jss';
 import { spacing, theme } from 'styles';
+import { keyCodes } from 'utils';
 
 import ItemDisplay from './ItemDisplay';
 
@@ -30,45 +31,62 @@ class Item extends React.Component {
     item: PropTypes.object.isRequired
   };
 
+  componentDidMount() {
+    document.addEventListener('click', this.handleOutsideClick);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleOutsideClick);
+  }
+
   containerRef = ref => {
     this.container = ref;
   };
 
   handleKeyUp = event => {
     const { boardStore, item } = this.props;
-    if (event.which === 13) {
+    if (event.which === keyCodes.ENTER) {
       boardStore.startEditingItem(item.id);
     }
-    if (event.which === 27) {
-      // boardStore.blurTarget(item.id);
-      // this.container.blur();
+    if (event.which === keyCodes.ESC) {
+      boardStore.unselectItem(item.id);
+      this.container.blur();
     }
   };
 
-  clickCount = 0;
-  doubleClickTimer = null;
-  DOUBLE_CLICK_DELAY = 300;
-
-  handleContentClick = () => {
-    this.clickCount++;
-    if (this.clickCount === 1) {
-      this.handleContentSingleClick();
-      this.doubleClickTimer = setTimeout(() => {
-        this.clickCount = 0;
-      }, this.DOUBLE_CLICK_DELAY);
-    } else {
-      clearTimeout(this.doubleClickTimer);
-      this.handleContentDoubleClick();
-      this.clickCount = 0;
+  handleOutsideClick = event => {
+    if (this.container && !this.container.contains(event.target)) {
+      const { boardStore, item } = this.props;
+      boardStore.finishEditingItem(item.id);
     }
   };
 
-  handleContentSingleClick = () => {
-    // const { boardStore, item } = this.props;
-    // boardStore.focusTarget(item.id);
-  };
+  // clickCount = 0;
+  // doubleClickTimer = null;
+  // DOUBLE_CLICK_DELAY = 300;
+  //
+  // handleContentClick = () => {
+  //   this.clickCount++;
+  //   if (this.clickCount === 1) {
+  //     this.handleContentSingleClick();
+  //     this.doubleClickTimer = setTimeout(() => {
+  //       this.clickCount = 0;
+  //     }, this.DOUBLE_CLICK_DELAY);
+  //   } else {
+  //     clearTimeout(this.doubleClickTimer);
+  //     this.handleContentDoubleClick();
+  //     this.clickCount = 0;
+  //   }
+  // };
+  //
+  // handleContentSingleClick = () => {
+  //   const { boardStore, item } = this.props;
+  //   if (!item.isSelected) {
+  //     boardStore.selectOnlyItem(item.id);
+  //   }
+  // };
 
-  handleContentDoubleClick = () => {
+  handleDoubleClick = () => {
     const { boardStore, item } = this.props;
     boardStore.startEditingItem(item.id);
   };
@@ -83,6 +101,7 @@ class Item extends React.Component {
         role="button"
         ref={this.containerRef}
         onKeyUp={this.handleKeyUp}
+        onDoubleClick={this.handleDoubleClick}
         onClick={this.handleContentClick}
       >
         <ItemDisplay item={item} />

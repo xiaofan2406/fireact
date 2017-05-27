@@ -9,9 +9,6 @@ class BoardStore {
   @observable isLoading;
   @observable isSyncing;
   @observable errorMessage;
-  @observable view = {
-    isEditingItem: false
-  };
 
   constructor(init) {
     this.isLoading = false;
@@ -247,17 +244,27 @@ class BoardStore {
         item.finishEditing();
       }
     });
-    this.view.isEditingItem = true;
   };
 
   @action finishEditingItem = id => {
     this.items.get(id).finishEditing();
-    this.view.isEditingItem = false;
   };
 
   @computed get isEditingItem() {
-    return this.view.isEditingItem;
+    return this.items.values().some(item => item.isEditing);
   }
+
+  @action selectItem = id => {
+    this.items.get(id).setSelectionStatus(true);
+  };
+
+  @action selectOnlyItem = id => {
+    this.items.values().map(item => item.setSelectionStatus(item.id === id));
+  };
+
+  @action unselectItem = id => {
+    this.items.get(id).setSelectionStatus(false);
+  };
 
   autoSave = () => {
     boardCacher.cache(this.getCachableData());
