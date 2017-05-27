@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { inject, observer } from 'mobx-react';
+import { observer } from 'mobx-react';
 import withCss from 'react-jss';
 import classnames from 'classnames';
 import { compose } from 'utils';
@@ -35,11 +35,11 @@ const css = {
   second: {}
 };
 
-function ItemDisplay({ classes, viewStore, item }) {
+function ItemDisplay({ classes, item }) {
   console.log('render ItemDisplay');
   const classNames = classnames({
     [classes.ItemDisplay]: true,
-    isEditing: viewStore.editingItemId === item.id
+    isEditing: item.isEditing
   });
   return (
     <div className={classNames}>
@@ -56,10 +56,9 @@ function ItemDisplay({ classes, viewStore, item }) {
 
 ItemDisplay.propTypes = {
   classes: PropTypes.object.isRequired,
-  viewStore: PropTypes.object.isRequired,
   item: PropTypes.object.isRequired
 };
 
-const enhance = compose(inject('viewStore'), withCss(css), observer);
+const enhance = compose(withCss(css), observer);
 
 export default enhance(ItemDisplay);

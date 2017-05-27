@@ -20,13 +20,13 @@ const css = {
   }
 };
 
+@inject('boardStore')
 @withCss(css)
-@inject('viewStore')
 @observer
 class Item extends React.Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    viewStore: PropTypes.object.isRequired,
+    boardStore: PropTypes.object.isRequired,
     item: PropTypes.object.isRequired
   };
 
@@ -35,14 +35,13 @@ class Item extends React.Component {
   };
 
   handleKeyUp = event => {
-    const { viewStore, item } = this.props;
-    // TODO press enter to edit
-    // if (event.which === 13) {
-    //   viewStore.startEditingItem(item.id);
-    // }
+    const { boardStore, item } = this.props;
+    if (event.which === 13) {
+      boardStore.startEditingItem(item.id);
+    }
     if (event.which === 27) {
-      viewStore.blurTarget(item.id);
-      this.container.blur();
+      // boardStore.blurTarget(item.id);
+      // this.container.blur();
     }
   };
 
@@ -65,13 +64,13 @@ class Item extends React.Component {
   };
 
   handleContentSingleClick = () => {
-    const { viewStore, item } = this.props;
-    viewStore.focusTarget(item.id);
+    // const { boardStore, item } = this.props;
+    // boardStore.focusTarget(item.id);
   };
 
   handleContentDoubleClick = () => {
-    const { viewStore, item } = this.props;
-    viewStore.startEditingItem(item.id);
+    const { boardStore, item } = this.props;
+    boardStore.startEditingItem(item.id);
   };
 
   render() {

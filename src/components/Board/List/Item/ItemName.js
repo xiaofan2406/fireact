@@ -11,13 +11,13 @@ const css = {
   }
 };
 
-@inject('viewStore')
+@inject('boardStore')
 @withCss(css)
 @observer
 class ItemName extends React.Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    viewStore: PropTypes.object.isRequired,
+    boardStore: PropTypes.object.isRequired,
     item: PropTypes.object.isRequired
   };
 
@@ -32,21 +32,22 @@ class ItemName extends React.Component {
   };
 
   handleKeyUp = event => {
-    const { viewStore, item } = this.props;
+    const { boardStore, item } = this.props;
     if (event.which === 27 || event.which === 13) {
-      this.props.item.setName(this.input.value.trim());
-      viewStore.finishEditingItem(item.id);
+      item.setName(this.input.value.trim());
+      boardStore.finishEditingItem(item.id);
     }
   };
 
   handleBlur = () => {
-    this.props.item.setName(this.input.value.trim());
+    const { item } = this.props;
+    item.setName(this.input.value.trim());
   };
 
   render() {
-    const { classes, viewStore, item } = this.props;
+    const { classes, item } = this.props;
     console.log('render ItemName');
-    return viewStore.editingItemId === item.id
+    return item.isEditing
       ? <input
           className={classes.ItemName}
           tabIndex={0}

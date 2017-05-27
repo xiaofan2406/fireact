@@ -5,6 +5,7 @@ class Item {
   @observable name;
   @observable notes;
   @observable isCompleted;
+  @observable isEditing;
 
   constructor(init) {
     this.id = init.id;
@@ -13,6 +14,7 @@ class Item {
     this.listId = init.listId;
     this.path = init.path;
     this.ref = firebase.database().ref(this.path);
+    this.isEditing = false;
 
     this.name = init.name || '';
     this.notes = init.notes || '';
@@ -64,6 +66,14 @@ class Item {
       this.isCompleted = status;
       this.ref.set({ ...this.selfie(), isCompleted: status });
     }
+  };
+
+  @action startEditing = () => {
+    this.isEditing = true;
+  };
+
+  @action finishEditing = () => {
+    this.isEditing = false;
   };
 }
 

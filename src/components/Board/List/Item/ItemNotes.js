@@ -18,13 +18,13 @@ const css = {
   }
 };
 
-@inject('viewStore')
+@inject('boardStore')
 @withCss(css)
 @observer
 class ItemNotes extends React.Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    viewStore: PropTypes.object.isRequired,
+    boardStore: PropTypes.object.isRequired,
     item: PropTypes.object.isRequired
   };
 
@@ -33,21 +33,22 @@ class ItemNotes extends React.Component {
   };
 
   handleKeyUp = event => {
-    const { viewStore, item } = this.props;
+    const { boardStore, item } = this.props;
     if (event.which === 27) {
       item.setNotes(this.editor.innerText);
-      viewStore.finishEditingItem(item.id);
+      boardStore.finishEditingItem(item.id);
     }
   };
 
   handleBlur = () => {
-    this.props.item.setNotes(this.editor.innerText);
+    const { item } = this.props;
+    item.setNotes(this.editor.innerText);
   };
 
   render() {
-    const { classes, viewStore, item } = this.props;
+    const { classes, item } = this.props;
     console.log('render ItemNotes');
-    return viewStore.editingItemId === item.id
+    return item.isEditing
       ? <ContentEditable
           className={classes.ItemNotes}
           tabIndex={0}

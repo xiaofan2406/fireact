@@ -9,6 +9,9 @@ class BoardStore {
   @observable lists;
   @observable isLoading;
   @observable isSyncing;
+  @observable view = {
+    isEditingItem: false
+  };
 
   constructor(init) {
     this.isLoading = false;
@@ -21,10 +24,10 @@ class BoardStore {
       Object.values(init.lists).map(listData => this.addList(listData));
     }
 
-    this._items = new ObservableMap();
+    this.items = new ObservableMap();
   }
 
-  static injectSotre(stores) {
+  static injectStore(stores) {
     Object.assign(this, stores);
   }
 
@@ -146,7 +149,7 @@ class BoardStore {
   @action addItemToList = itemData => {
     if (this.hasList(itemData.listId)) {
       const item = this.lists.get(itemData.listId).addItem(itemData);
-      this._items.set(item.id, item);
+      this.items.set(item.id, item);
     }
     // TODO add the item to `inbox`
   };
@@ -154,13 +157,13 @@ class BoardStore {
   @action removeItemFromList = itemData => {
     if (this.hasList(itemData.listId)) {
       this.lists.get(itemData.listId).removeItem(itemData.id);
-      this._items.delete(itemData.id);
+      this.items.delete(itemData.id);
     }
   };
 
   hasList = id => this.lists.has(id);
 
-  hasItem = id => this._items.has(id);
+  hasItem = id => this.items.has(id);
 
   newList = name => {
     this._listsRef.child(uuid()).set({
@@ -188,6 +191,25 @@ class BoardStore {
     return null;
     // TODO add this item to `inbox`?
   };
+
+  @action startEditingItem = id => {
+    this.items.forEach(item => {
+      if (item.id === id) {
+        item.startEditing();
+      } else {
+        item.finishEditing();
+      }
+    });
+  };
+
+  @action finishEditingItem = id => {
+    this.items.get(id).finishEditing();
+    this.view.isEditingItem = false;
+  };
+
+  @computed get isEditingItem() {
+    return this.view.isEditingItem;
+  }
 
   autoSave = () => {
     boardCacher.cache(this.getCachableData());

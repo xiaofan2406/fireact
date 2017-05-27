@@ -27,13 +27,12 @@ const css = {
   }
 };
 
-@inject('boardStore', 'viewStore')
+@inject('boardStore')
 @withCss(css)
 @observer
 class ListMenu extends React.Component {
   static propTypes = {
     boardStore: PropTypes.object.isRequired,
-    // viewStore: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired,
     list: PropTypes.object.isRequired
   };
@@ -41,7 +40,6 @@ class ListMenu extends React.Component {
   handleAddClick = () => {
     const { boardStore, list } = this.props;
     boardStore.newItem(list.id);
-    // viewStore.startEditingItem(itemId);
   };
 
   handleRemoveClick = () => {

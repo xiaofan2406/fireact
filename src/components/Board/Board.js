@@ -6,9 +6,10 @@ import withCss from 'react-jss';
 import classnames from 'classnames';
 import { colors, variables } from 'styles';
 
+import BoardSyncing from './BoardSyncing';
 import BoardHeader from './BoardHeader';
 import BoardDisplay from './BoardDisplay';
-import BoardSyncing from './BoardSyncing';
+import BoardEvents from './BoardEvents';
 
 const css = {
   Board: {
@@ -22,26 +23,27 @@ const css = {
   }
 };
 
-function Board({ classes, viewStore }) {
+function Board({ classes, boardStore }) {
   console.log('render Board');
   const classNames = classnames({
     [classes.Board]: true,
-    isEditing: viewStore.isInEditMode
+    isEditing: boardStore.isEditingItem
   });
   return (
     <div className={classNames}>
       <BoardSyncing />
       <BoardHeader />
       <BoardDisplay />
+      <BoardEvents />
     </div>
   );
 }
 
 Board.propTypes = {
   classes: PropTypes.object.isRequired,
-  viewStore: PropTypes.object.isRequired
+  boardStore: PropTypes.object.isRequired
 };
 
-const enhance = compose(inject('viewStore'), withCss(css), observer);
+const enhance = compose(inject('boardStore'), withCss(css), observer);
 
 export default enhance(Board);
