@@ -166,12 +166,12 @@ class BoardStore {
 
   @action addItem = itemData => {
     let item;
-    if (!itemData.listId || !this.hasList(itemData.listId)) {
+    if (itemData.listId && this.hasList(itemData.listId)) {
+      item = this.lists.get(itemData.listId).addItem(itemData);
+    } else {
       itemData.listId = '';
       item = new Item(itemData);
       this.inbox.set(item.id, item);
-    } else {
-      item = this.lists.get(itemData.listId).addItem(itemData);
     }
     this.items.set(item.id, item);
     return item;
@@ -223,15 +223,20 @@ class BoardStore {
   };
 
   newItem = listId => {
-    const itemId = uuid();
-    this._itemsRef.child(itemId).set({
+    // add client side data first
+    const itemData = {
+      id: uuid(),
       listId,
+      createdAt: new Date().toISOString(),
       isCompleted: false,
       isTrashed: false,
-      notes: '',
-      createdAt: new Date().toISOString()
-    });
-    return itemId;
+      notes: ''
+    };
+
+    this.addItem(itemData);
+    this.startEditingItem(itemData.id);
+
+    this._itemsRef.child(itemData.id).set(itemData);
   };
 
   @action startEditingItem = id => {

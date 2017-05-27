@@ -35,8 +35,8 @@ class ItemName extends React.Component {
     const { boardStore, item } = this.props;
     if (event.which === 27 || event.which === 13) {
       item.setName(this.input.value.trim());
-      console.log('what?');
       boardStore.finishEditingItem(item.id);
+      event.stopPropagation();
     }
   };
 
@@ -51,7 +51,6 @@ class ItemName extends React.Component {
     return item.isEditing
       ? <input
           className={classes.ItemName}
-          tabIndex={0}
           defaultValue={item.name}
           ref={this.inputRef}
           onKeyUp={this.handleKeyUp}

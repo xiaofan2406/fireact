@@ -37,7 +37,6 @@ class Item extends React.Component {
   handleKeyUp = event => {
     const { boardStore, item } = this.props;
     if (event.which === 13) {
-      console.log('lul');
       boardStore.startEditingItem(item.id);
     }
     if (event.which === 27) {
@@ -80,7 +79,8 @@ class Item extends React.Component {
     return (
       <div
         className={classes.Item}
-        tabIndex={-1}
+        tabIndex={0}
+        role="button"
         ref={this.containerRef}
         onKeyUp={this.handleKeyUp}
         onClick={this.handleContentClick}
