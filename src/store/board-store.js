@@ -254,18 +254,6 @@ class BoardStore {
     return this.items.values().some(item => item.isEditing);
   }
 
-  @action selectItem = id => {
-    this.items.get(id).setSelectionStatus(true);
-  };
-
-  @action selectOnlyItem = id => {
-    this.items.values().map(item => item.setSelectionStatus(item.id === id));
-  };
-
-  @action unselectItem = id => {
-    this.items.get(id).setSelectionStatus(false);
-  };
-
   autoSave = () => {
     boardCacher.cache(this.getCachableData());
     this.autoSaveInterval = setInterval(() => {

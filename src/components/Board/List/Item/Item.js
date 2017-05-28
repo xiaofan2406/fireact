@@ -62,31 +62,6 @@ class Item extends React.Component {
     }
   };
 
-  // clickCount = 0;
-  // doubleClickTimer = null;
-  // DOUBLE_CLICK_DELAY = 300;
-  //
-  // handleContentClick = () => {
-  //   this.clickCount++;
-  //   if (this.clickCount === 1) {
-  //     this.handleContentSingleClick();
-  //     this.doubleClickTimer = setTimeout(() => {
-  //       this.clickCount = 0;
-  //     }, this.DOUBLE_CLICK_DELAY);
-  //   } else {
-  //     clearTimeout(this.doubleClickTimer);
-  //     this.handleContentDoubleClick();
-  //     this.clickCount = 0;
-  //   }
-  // };
-  //
-  // handleContentSingleClick = () => {
-  //   const { boardStore, item } = this.props;
-  //   if (!item.isSelected) {
-  //     boardStore.selectOnlyItem(item.id);
-  //   }
-  // };
-
   handleDoubleClick = () => {
     const { boardStore, item } = this.props;
     boardStore.startEditingItem(item.id);
