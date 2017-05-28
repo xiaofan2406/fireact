@@ -18,6 +18,7 @@ const css = {
     backgroundColor: colors.white,
     minHeight: `calc(100vh - ${variables.Layout.headerHeight}px)`,
     '&.isEditing': {
+      transition: 'background-color, 0.2s',
       backgroundColor: colors.grey100
     }
   }
