@@ -1,9 +1,10 @@
 import { observable, action, computed, toJS, ObservableMap } from 'mobx';
 import { firebase, boardCacher, uuid } from 'utils';
-import { List, Item } from './models';
+import { List } from './models';
 
 const listsPath = 'lists';
 const itemsPath = 'items';
+const inboxListId = '__inbox__';
 
 class BoardStore {
   @observable isLoading;
@@ -13,7 +14,6 @@ class BoardStore {
   constructor(init) {
     this.isLoading = false;
     this.isSyncing = false;
-    this.inbox = new ObservableMap();
     this.lists = new ObservableMap();
     this.items = new ObservableMap();
 
@@ -98,6 +98,8 @@ class BoardStore {
         this.items.clear();
       }
 
+      await this.ensureInboxExist();
+
       this.setLoadingStatus(false);
       this.initListeners();
       this.autoSave();
@@ -105,6 +107,15 @@ class BoardStore {
     } catch (e) {
       // TODO check firebase docs to see the error shape
       this.setErrorMessage(JSON.stringify(e));
+    }
+  };
+
+  ensureInboxExist = async () => {
+    if (!this.hasList(inboxListId)) {
+      await this._listsRef.child(inboxListId).set({
+        name: 'Inbox',
+        createdAt: new Date().toISOString()
+      });
     }
   };
 
@@ -163,14 +174,10 @@ class BoardStore {
   };
 
   @action addItem = itemData => {
-    let item;
-    if (itemData.listId && this.hasList(itemData.listId)) {
-      item = this.lists.get(itemData.listId).addItem(itemData);
-    } else {
-      itemData.listId = '';
-      item = new Item(itemData);
-      this.inbox.set(item.id, item);
+    if (!itemData.listId || !this.hasList(itemData.listId)) {
+      itemData.listId = inboxListId;
     }
+    const item = this.lists.get(itemData.listId).addItem(itemData);
     this.items.set(item.id, item);
     return item;
   };
@@ -193,12 +200,10 @@ class BoardStore {
       const item = this.items.get(id);
       const list = this.lists.get(item.listId);
 
-      if (this.inbox.has(id)) {
-        this.inbox.delete(id);
-      } else if (list) {
+      if (list) {
         list.removeItem(id);
       } else {
-        // item's list id is not in the board, and the item is not inbox
+        // item's list id is not in the board
         console.log('[removeItem 1] hum... this should not happen');
       }
       this.items.delete(id);
@@ -217,8 +222,8 @@ class BoardStore {
       createdAt: new Date().toISOString()
     };
 
-    this.addList(listData);
-    this._listsRef.child(listData.id).set(listData);
+    const list = this.addList(listData);
+    this._listsRef.child(listData.id).set(list.selfie());
   };
 
   newItem = listId => {
@@ -233,10 +238,9 @@ class BoardStore {
       notes: ''
     };
 
-    this.addItem(itemData);
-    this.startEditingItem(itemData.id);
-
-    this._itemsRef.child(itemData.id).set(itemData);
+    const item = this.addItem(itemData);
+    this.startEditingItem(item.id);
+    this._itemsRef.child(item.id).set(item.selfie());
   };
 
   @action startEditingItem = id => {
