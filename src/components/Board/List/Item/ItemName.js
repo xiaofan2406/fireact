@@ -22,8 +22,7 @@ class ItemName extends React.Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     boardStore: PropTypes.object.isRequired,
-    item: PropTypes.object.isRequired,
-    getContainer: PropTypes.func.isRequired
+    item: PropTypes.object.isRequired
   };
 
   componentDidMount() {
@@ -43,14 +42,14 @@ class ItemName extends React.Component {
   };
 
   handleKeyUp = event => {
-    const { boardStore, item, getContainer } = this.props;
+    const { boardStore, item } = this.props;
     if (event.which === keyCodes.ENTER || event.which === keyCodes.ESC) {
       // stop ESC key event being propagated to Item
       event.stopPropagation();
 
       item.setName(this.input.value.trim());
       boardStore.finishEditingItem(item.id);
-      getContainer().focus();
+      item.getContainer().focus();
     }
   };
 

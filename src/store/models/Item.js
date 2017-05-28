@@ -22,6 +22,9 @@ class Item {
     this.listId = init.listId || '';
     this.isCompleted = init.isCompleted || false;
     this.isTrashed = init.isTrashed || false;
+    // a function to get its container ref
+    // assigned in `Item`
+    this.getContainer = () => {};
   }
 
   // return the data shape in sync with firebase database

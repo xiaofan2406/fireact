@@ -35,13 +35,14 @@ class Item extends React.Component {
     // mousedown not click, because 'dragging' can happen,
     // and mouseup outside is registered as a click
     document.addEventListener('mousedown', this.handleOutsideClick);
+    this.props.item.getContainer = this.getContainer;
   }
 
   componentWillUnmount() {
     document.removeEventListener('mousedown', this.handleOutsideClick);
   }
 
-  getContainerRef = () => this.container;
+  getContainer = () => this.container;
 
   containerRef = ref => {
     this.container = ref;
@@ -82,7 +83,7 @@ class Item extends React.Component {
         onDoubleClick={this.handleDoubleClick}
         onClick={this.handleContentClick}
       >
-        <ItemDisplay item={item} getContainer={this.getContainerRef} />
+        <ItemDisplay item={item} />
       </div>
     );
   }

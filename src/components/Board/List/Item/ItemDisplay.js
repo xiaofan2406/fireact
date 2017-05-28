@@ -44,8 +44,7 @@ const css = {
 class ItemDisplay extends React.Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    item: PropTypes.object.isRequired,
-    getContainer: PropTypes.func.isRequired
+    item: PropTypes.object.isRequired
   };
 
   componentDidMount() {
@@ -84,21 +83,19 @@ class ItemDisplay extends React.Component {
   };
 
   render() {
-    const { classes, item, getContainer } = this.props;
+    const { classes, item } = this.props;
     console.log('render ItemDisplay');
 
     return (
       <div className={classes.ItemDisplay} ref={this.containerRef}>
         <div className={classes.topRow}>
           <ItemCheckbox item={item} />
-          {item.isEditing
-            ? <ItemName item={item} getContainer={getContainer} />
-            : <ItemMeta item={item} />}
+          {item.isEditing ? <ItemName item={item} /> : <ItemMeta item={item} />}
 
         </div>
         {item.isEditing
           ? <div className={classes.bottomRow}>
-              <ItemNotes item={item} getContainer={getContainer} />
+              <ItemNotes item={item} />
               <ItemAction item={item} />
             </div>
           : null}

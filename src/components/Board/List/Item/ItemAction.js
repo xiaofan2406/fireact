@@ -12,7 +12,7 @@ const css = {
 };
 
 function ItemAction({ classes, item }) {
-  console.log('render ItemAction', item);
+  console.log('render ItemAction');
   return (
     <div className={classes.ItemAction}>
       ItemAction<ItemActionSave item={item} />

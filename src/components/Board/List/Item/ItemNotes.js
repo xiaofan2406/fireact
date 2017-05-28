@@ -20,8 +20,7 @@ class ItemNotes extends React.Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     boardStore: PropTypes.object.isRequired,
-    item: PropTypes.object.isRequired,
-    getContainer: PropTypes.func.isRequired
+    item: PropTypes.object.isRequired
   };
 
   editorRef = ref => {
@@ -29,7 +28,7 @@ class ItemNotes extends React.Component {
   };
 
   handleKeyUp = event => {
-    const { boardStore, item, getContainer } = this.props;
+    const { boardStore, item } = this.props;
 
     if (event.which === keyCodes.ESC) {
       // stop ESC key event being propagated to Item
@@ -37,7 +36,7 @@ class ItemNotes extends React.Component {
 
       item.setNotes(this.editor.innerText);
       boardStore.finishEditingItem(item.id);
-      getContainer().focus();
+      item.getContainer().focus();
     }
   };
 
