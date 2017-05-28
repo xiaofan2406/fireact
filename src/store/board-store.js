@@ -163,6 +163,10 @@ class BoardStore {
     });
   };
 
+  @computed get availableLists() {
+    return this.lists.keys().filter(id => id !== inboxListId);
+  }
+
   @action addList = listData => {
     if (!this.hasList(listData.id)) {
       const list = new List(listData);

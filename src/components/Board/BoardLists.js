@@ -24,7 +24,7 @@ const css = {
 function BoardLists({ classes, boardStore }) {
   return (
     <div className={classes.BoardLists}>
-      {boardStore.lists.values().map(list => (
+      {boardStore.availableLists.map(list => (
         <div className={classes.singleList} key={list.id}>
           <List list={list} />
         </div>
