@@ -34,6 +34,13 @@ const css = {
 
 function BoardHeader({ classes, boardStore }) {
   console.log('render BoardHeader');
+  const handleMouseDown = () => {
+    boardStore.reselectList();
+  };
+  const handleMouseUp = () => {
+    boardStore.newItem();
+  };
+
   return (
     <div className={classes.BoardHeader}>
       <span className={classes.title}>Board</span>
@@ -45,7 +52,8 @@ function BoardHeader({ classes, boardStore }) {
           title="New List"
         />
         <IconButton
-          onClick={boardStore.newItem}
+          onMouseDown={handleMouseDown}
+          onMouseUp={handleMouseUp}
           className={classes.icon}
           iconName="plus-square"
           title="New Item"

@@ -27,6 +27,7 @@ class BoardStore {
 
     this._listsRef = null;
     this._itemsRef = null;
+    this.selectedList = { prev: null, current: null };
   }
 
   static injectStore({ userStore }) {
@@ -221,6 +222,7 @@ class BoardStore {
   };
 
   newItem = listId => {
+    listId = listId || this.selectedList.current;
     // add client side data first
     const itemData = {
       id: uuid(),
@@ -254,6 +256,23 @@ class BoardStore {
   @computed get isEditingItem() {
     return this.items.values().some(item => item.isEditing);
   }
+
+  selectList = id => {
+    // safely assume id is included in lists' ids
+    if (id) {
+      this.selectedList.prev = id;
+    }
+  };
+
+  reselectList = () => {
+    this.selectedList.current = this.selectedList.prev;
+  };
+
+  unselectList = id => {
+    if (id === this.selectedList.prev) {
+      this.selectedList.prev = null;
+    }
+  };
 
   autoSave = () => {
     boardCacher.cache(this.getCachableData());

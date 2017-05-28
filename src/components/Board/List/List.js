@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import withCss from 'react-jss';
 import { compose } from 'utils';
 import { theme, spacing } from 'styles';
@@ -27,11 +27,23 @@ const css = {
   }
 };
 
-function List({ classes, list }) {
+function List({ classes, boardStore, list }) {
   console.log('render List', list.id);
+  const handleFocus = () => {
+    boardStore.selectList(list.id);
+  };
+  const handleBlur = () => {
+    boardStore.unselectList(list.id);
+  };
+
   return (
     <div className={classes.List}>
-      <div className={classes.header} tabIndex={-1}>
+      <div
+        className={classes.header}
+        tabIndex={-1}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+      >
         <ListName list={list} />
         <ListMenu list={list} />
       </div>
@@ -42,9 +54,10 @@ function List({ classes, list }) {
 
 List.propTypes = {
   classes: PropTypes.object.isRequired,
+  boardStore: PropTypes.object.isRequired,
   list: PropTypes.object.isRequired
 };
 
-const enhance = compose(withCss(css), observer);
+const enhance = compose(inject('boardStore'), withCss(css), observer);
 
 export default enhance(List);
