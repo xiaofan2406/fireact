@@ -47,6 +47,10 @@ class List {
     return this.items.size === 0;
   }
 
+  @computed get activeItems() {
+    return this.items.values().filter(item => !item.isTrashed);
+  }
+
   destroy = () => {
     this.ref.remove();
   };

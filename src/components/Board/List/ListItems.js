@@ -8,7 +8,7 @@ function ListItems({ list }) {
   return list.isEmpty
     ? null
     : <div>
-        {list.items.values().map(item => <Item item={item} key={item.id} />)}
+        {list.activeItems.map(item => <Item item={item} key={item.id} />)}
       </div>;
 }
 

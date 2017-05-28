@@ -49,7 +49,6 @@ class ItemName extends React.Component {
 
       item.setName(this.input.value.trim());
       boardStore.finishEditingItem(item.id);
-      item.getContainer().focus();
     }
   };
 

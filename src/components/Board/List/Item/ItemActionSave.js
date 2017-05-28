@@ -12,7 +12,6 @@ function ItemActionSave({ classes, boardStore, item }) {
   console.log('render action');
   const save = () => {
     boardStore.finishEditingItem(item.id);
-    item.getContainer().focus();
   };
   return (
     <button className={classes.ItemActionSave} onClick={save}> Save </button>

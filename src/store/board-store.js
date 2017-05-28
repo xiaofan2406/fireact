@@ -247,7 +247,7 @@ class BoardStore {
   };
 
   @action finishEditingItem = id => {
-    this.items.get(id).finishEditing();
+    this.items.get(id).finishEditing().getContainer().focus();
   };
 
   @computed get isEditingItem() {

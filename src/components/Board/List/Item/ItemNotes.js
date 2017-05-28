@@ -36,7 +36,6 @@ class ItemNotes extends React.Component {
 
       item.setNotes(this.editor.innerText);
       boardStore.finishEditingItem(item.id);
-      item.getContainer().focus();
     }
   };
 

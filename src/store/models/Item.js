@@ -22,8 +22,7 @@ class Item {
     this.listId = init.listId || '';
     this.isCompleted = init.isCompleted || false;
     this.isTrashed = init.isTrashed || false;
-    // a function to get its container ref
-    // assigned in `Item`
+    // a function to get its container ref, assigned in `Item`
     this.getContainer = () => {};
   }
 
@@ -50,12 +49,12 @@ class Item {
     this.name = newData.name;
     this.notes = newData.notes || '';
     this.isCompleted = newData.isCompleted || false;
+    this.isTrashed = newData.isTrashed || false;
   };
 
   @action setName = name => {
     if (name !== this.name) {
       this.name = name;
-      console.log('request');
       this.ref.set({ ...this.selfie(), name });
     }
   };
@@ -63,7 +62,6 @@ class Item {
   @action setNotes = notes => {
     if (notes !== this.notes) {
       this.notes = notes;
-      console.log('request');
       this.ref.set({ ...this.selfie(), notes });
     }
   };
@@ -84,11 +82,17 @@ class Item {
   };
 
   @action trash = () => {
-    this.isTrashed = true;
+    if (!this.isTrashed) {
+      this.isTrashed = true;
+      this.ref.set({ ...this.selfie(), isTrashed: true });
+    }
   };
 
   @action restore = () => {
-    this.isTrashed = false;
+    if (this.isTrashed) {
+      this.isTrashed = false;
+      this.ref.set({ ...this.selfie(), isTrashed: false });
+    }
   };
 
   @action startEditing = () => {
@@ -97,6 +101,7 @@ class Item {
 
   @action finishEditing = () => {
     this.isEditing = false;
+    return this;
   };
 }
 

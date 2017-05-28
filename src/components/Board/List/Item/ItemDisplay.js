@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import withCss from 'react-jss';
 import { colors, theme, spacing, variables } from 'styles';
 import { TweenLite } from 'gsap';
@@ -39,11 +39,13 @@ const css = {
   }
 };
 
+@inject('boardStore')
 @withCss(css)
 @observer
 class ItemDisplay extends React.Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
+    boardStore: PropTypes.object.isRequired,
     item: PropTypes.object.isRequired
   };
 
@@ -57,6 +59,10 @@ class ItemDisplay extends React.Component {
         { className: '+=isEditing', lazy: true }
       );
     }
+
+    // mousedown not click, because 'dragging' can happen,
+    // and mouseup outside is registered as a click
+    document.addEventListener('mousedown', this.handleOutsideClick);
   }
 
   componentDidUpdate() {
@@ -78,8 +84,26 @@ class ItemDisplay extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleOutsideClick);
+  }
+
   containerRef = ref => {
     this.container = ref;
+  };
+
+  handleOutsideClick = event => {
+    const { boardStore, item } = this.props;
+    if (
+      item.isEditing &&
+      this.container &&
+      !this.container.contains(event.target)
+    ) {
+      // prevent blur element
+      event.preventDefault();
+
+      boardStore.finishEditingItem(item.id);
+    }
   };
 
   render() {

@@ -32,14 +32,7 @@ class Item extends React.Component {
   };
 
   componentDidMount() {
-    // mousedown not click, because 'dragging' can happen,
-    // and mouseup outside is registered as a click
-    document.addEventListener('mousedown', this.handleOutsideClick);
     this.props.item.getContainer = this.getContainer;
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('mousedown', this.handleOutsideClick);
   }
 
   getContainer = () => this.container;
@@ -56,12 +49,8 @@ class Item extends React.Component {
     if (event.which === keyCodes.ESC) {
       this.container.blur();
     }
-  };
-
-  handleOutsideClick = event => {
-    if (this.container && !this.container.contains(event.target)) {
-      const { boardStore, item } = this.props;
-      boardStore.finishEditingItem(item.id);
+    if ([keyCodes.BACKSPACE, keyCodes.DELETE].includes(event.which)) {
+      item.trash();
     }
   };
 
@@ -81,7 +70,6 @@ class Item extends React.Component {
         ref={this.containerRef}
         onKeyUp={this.handleKeyUp}
         onDoubleClick={this.handleDoubleClick}
-        onClick={this.handleContentClick}
       >
         <ItemDisplay item={item} />
       </div>
