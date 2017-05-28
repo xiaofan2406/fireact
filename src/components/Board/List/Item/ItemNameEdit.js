@@ -4,10 +4,8 @@ import { inject, observer } from 'mobx-react';
 import withCss from 'react-jss';
 import { keyCodes } from 'utils';
 
-import ItemNameDetail from './ItemNameDetail';
-
 const css = {
-  ItemName: {
+  ItemNameEdit: {
     outline: 'none',
     border: 'none'
   }
@@ -16,11 +14,12 @@ const css = {
 @inject('boardStore')
 @withCss(css)
 @observer
-class ItemName extends React.Component {
+class ItemNameEdit extends React.Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     boardStore: PropTypes.object.isRequired,
-    item: PropTypes.object.isRequired
+    item: PropTypes.object.isRequired,
+    getContainer: PropTypes.func.isRequired
   };
 
   componentDidMount() {
@@ -40,11 +39,12 @@ class ItemName extends React.Component {
   };
 
   handleKeyUp = event => {
-    const { boardStore, item } = this.props;
+    const { boardStore, item, getContainer } = this.props;
     if (event.which === keyCodes.ENTER || event.which === keyCodes.ESC) {
       item.setName(this.input.value.trim());
       boardStore.finishEditingItem(item.id);
     }
+    getContainer().focus();
     event.stopPropagation();
   };
 
@@ -55,18 +55,18 @@ class ItemName extends React.Component {
 
   render() {
     const { classes, item } = this.props;
-    console.log('render ItemName');
-    return item.isEditing
-      ? <input
-          className={classes.ItemName}
-          defaultValue={item.name}
-          ref={this.inputRef}
-          onKeyUp={this.handleKeyUp}
-          onBlur={this.handleBlur}
-          placeholder="New To-Do"
-        />
-      : <ItemNameDetail item={item} />;
+    console.log('render ItemNameEdit');
+    return (
+      <input
+        className={classes.ItemNameEdit}
+        defaultValue={item.name}
+        ref={this.inputRef}
+        onKeyUp={this.handleKeyUp}
+        onBlur={this.handleBlur}
+        placeholder="New To-Do"
+      />
+    );
   }
 }
 
-export default ItemName;
+export default ItemNameEdit;

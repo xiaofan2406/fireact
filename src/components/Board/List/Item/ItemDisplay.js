@@ -7,8 +7,9 @@ import { compose } from 'utils';
 import { colors, theme, spacing, variables } from 'styles';
 
 import ItemCheckbox from './ItemCheckbox';
-import ItemName from './ItemName';
+import ItemNameEdit from './ItemNameEdit';
 import ItemNotes from './ItemNotes';
+import ItemNameDetail from './ItemNameDetail';
 
 const css = {
   ItemDisplay: {
@@ -35,7 +36,7 @@ const css = {
   second: {}
 };
 
-function ItemDisplay({ classes, item }) {
+function ItemDisplay({ classes, item, getContainer }) {
   console.log('render ItemDisplay');
   const classNames = classnames({
     [classes.ItemDisplay]: true,
@@ -45,10 +46,15 @@ function ItemDisplay({ classes, item }) {
     <div className={classNames}>
       <div className={classes.first}>
         <ItemCheckbox item={item} />
-        <ItemName item={item} />
+        {item.isEditing
+          ? <ItemNameEdit item={item} getContainer={getContainer} />
+          : <ItemNameDetail item={item} />}
+
       </div>
       <div className={classes.second}>
-        <ItemNotes item={item} />
+        {item.isEditing
+          ? <ItemNotes item={item} getContainer={getContainer} />
+          : null}
       </div>
     </div>
   );
@@ -56,7 +62,8 @@ function ItemDisplay({ classes, item }) {
 
 ItemDisplay.propTypes = {
   classes: PropTypes.object.isRequired,
-  item: PropTypes.object.isRequired
+  item: PropTypes.object.isRequired,
+  getContainer: PropTypes.func.isRequired
 };
 
 const enhance = compose(withCss(css), observer);

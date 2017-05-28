@@ -39,6 +39,8 @@ class Item extends React.Component {
     document.removeEventListener('click', this.handleOutsideClick);
   }
 
+  getContainerRef = () => this.container;
+
   containerRef = ref => {
     this.container = ref;
   };
@@ -49,7 +51,6 @@ class Item extends React.Component {
       boardStore.startEditingItem(item.id);
     }
     if (event.which === keyCodes.ESC) {
-      boardStore.unselectItem(item.id);
       this.container.blur();
     }
   };
@@ -104,7 +105,7 @@ class Item extends React.Component {
         onDoubleClick={this.handleDoubleClick}
         onClick={this.handleContentClick}
       >
-        <ItemDisplay item={item} />
+        <ItemDisplay item={item} getContainer={this.getContainerRef} />
       </div>
     );
   }

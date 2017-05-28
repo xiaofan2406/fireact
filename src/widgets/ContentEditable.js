@@ -17,7 +17,6 @@ const css = {
 };
 
 function ContentEditable({ sheet, classes, defaultText, editorRef, ...rest }) {
-  console.log('render ContentEditable');
   const classNames = classnames(classes.ContentEditable, rest.className);
   return (
     <div

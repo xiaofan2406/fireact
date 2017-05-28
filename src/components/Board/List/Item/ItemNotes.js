@@ -26,7 +26,8 @@ class ItemNotes extends React.Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     boardStore: PropTypes.object.isRequired,
-    item: PropTypes.object.isRequired
+    item: PropTypes.object.isRequired,
+    getContainer: PropTypes.func.isRequired
   };
 
   editorRef = ref => {
@@ -34,12 +35,14 @@ class ItemNotes extends React.Component {
   };
 
   handleKeyUp = event => {
-    const { boardStore, item } = this.props;
+    const { boardStore, item, getContainer } = this.props;
+
     if (event.which === keyCodes.ESC) {
+      event.stopPropagation();
       item.setNotes(this.editor.innerText);
       boardStore.finishEditingItem(item.id);
+      getContainer().focus();
     }
-    event.stopPropagation();
   };
 
   handleBlur = () => {
@@ -50,18 +53,18 @@ class ItemNotes extends React.Component {
   render() {
     const { classes, item } = this.props;
     console.log('render ItemNotes');
-    return item.isEditing
-      ? <ContentEditable
-          className={classes.ItemNotes}
-          tabIndex={0}
-          role="button"
-          onKeyUp={this.handleKeyUp}
-          onBlur={this.handleBlur}
-          editorRef={this.editorRef}
-          defaultText={item.notes}
-          placeholder="Notes"
-        />
-      : null;
+    return (
+      <ContentEditable
+        className={classes.ItemNotes}
+        tabIndex={0}
+        role="button"
+        onKeyUp={this.handleKeyUp}
+        onBlur={this.handleBlur}
+        editorRef={this.editorRef}
+        defaultText={item.notes}
+        placeholder="Notes"
+      />
+    );
   }
 }
 
