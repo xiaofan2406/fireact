@@ -9,6 +9,7 @@ import ItemCheckbox from './ItemCheckbox';
 import ItemName from './ItemName';
 import ItemNotes from './ItemNotes';
 import ItemMeta from './ItemMeta';
+import ItemAction from './ItemAction';
 
 const css = {
   ItemDisplay: {
@@ -33,7 +34,9 @@ const css = {
     alignItems: 'center',
     minHeight: variables.ItemDisplay.minHeight
   },
-  bottomRow: {}
+  bottomRow: {
+    paddingLeft: variables.ItemCheckbox.width + spacing.external
+  }
 };
 
 @withCss(css)
@@ -93,11 +96,12 @@ class ItemDisplay extends React.Component {
             : <ItemMeta item={item} />}
 
         </div>
-        <div className={classes.bottomRow}>
-          {item.isEditing
-            ? <ItemNotes item={item} getContainer={getContainer} />
-            : null}
-        </div>
+        {item.isEditing
+          ? <div className={classes.bottomRow}>
+              <ItemNotes item={item} getContainer={getContainer} />
+              <ItemAction item={item} />
+            </div>
+          : null}
       </div>
     );
   }
