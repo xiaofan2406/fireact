@@ -1,31 +1,57 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
-import { compose, keyCodes } from 'utils';
+import { compose } from 'utils';
 import withCss from 'react-jss';
-import { variables } from 'styles';
+import { spacing, theme, colors } from 'styles';
+import { IconButton } from 'widgets';
 
 const css = {
   BoardHeader: {
-    height: variables.BoardHeader.height
+    height: '100%',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderBottom: theme.border,
+    boxShadow: theme.boxShadow,
+    padding: [spacing.internal, spacing.internalBreath]
+  },
+  title: {
+    padding: [0, spacing.internalBreath],
+    fontSize: theme.headingSize
+  },
+  menu: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  icon: {
+    color: colors.grey700
+  },
+  user: {
+    padding: [0, spacing.internalBreath]
   }
 };
 
 function BoardHeader({ classes, boardStore }) {
   console.log('render BoardHeader');
-
-  const newList = e => {
-    if (e.which === keyCodes.ESC) {
-      e.target.value = '';
-    } else if (e.which === keyCodes.ENTER) {
-      boardStore.newList(e.target.value.trim());
-      e.target.value = '';
-    }
-  };
-
   return (
     <div className={classes.BoardHeader}>
-      <input placeholder="Name for a new list" onKeyUp={newList} type="text" />
+      <span className={classes.title}>Board</span>
+      <div className={classes.menu}>
+        <IconButton
+          onClick={boardStore.newList}
+          className={classes.icon}
+          iconName="plus"
+          title="New List"
+        />
+        <IconButton
+          onClick={boardStore.newItem}
+          className={classes.icon}
+          iconName="plus-square"
+          title="New Item"
+        />
+      </div>
+      <div className={classes.user}>user info </div>
     </div>
   );
 }

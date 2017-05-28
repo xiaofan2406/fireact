@@ -210,13 +210,14 @@ class BoardStore {
 
   hasItem = id => this.items.has(id);
 
-  newList = name => {
-    const listId = uuid();
-    this._listsRef.child(listId).set({
-      name,
+  newList = () => {
+    const listData = {
+      id: uuid(),
       createdAt: new Date().toISOString()
-    });
-    return listId;
+    };
+
+    this.addList(listData);
+    this._listsRef.child(listData.id).set(listData);
   };
 
   newItem = listId => {

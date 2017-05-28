@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import withCss from 'react-jss';
-import { size, spacing, theme, variables } from 'styles';
+import { sizes, spacing, theme, variables } from 'styles';
 
 const css = {
   ListMenu: {
@@ -10,7 +10,7 @@ const css = {
   },
   button: {
     appearance: 'none',
-    height: size.regular,
+    height: sizes.regular,
     width: variables.ListMenu.buttonWidth,
     margin: [0, spacing.unit],
     padding: [spacing.unit],

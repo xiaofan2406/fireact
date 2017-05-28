@@ -64,7 +64,8 @@ class List {
     toJS({
       id: this.id,
       path: this.path,
-      name: this.name
+      name: this.name,
+      createdAt: this.createdAt
     });
 }
 

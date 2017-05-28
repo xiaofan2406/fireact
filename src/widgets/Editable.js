@@ -27,15 +27,18 @@ class Editable extends React.Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired,
-    value: PropTypes.string.isRequired,
     displayClass: PropTypes.string.isRequired,
     editingClass: PropTypes.string.isRequired,
     onDone: PropTypes.func.isRequired,
-    singleLine: PropTypes.bool
+    value: PropTypes.string,
+    singleLine: PropTypes.bool,
+    autoTrim: PropTypes.bool
   };
 
   static defaultProps = {
-    singleLine: true
+    value: '',
+    singleLine: true,
+    autoTrim: false
   };
 
   state = {
@@ -53,7 +56,10 @@ class Editable extends React.Component {
   }
 
   finishEditing = () => {
-    this.props.onDone(this.container.innerText.trim());
+    const { autoTrim, onDone } = this.props;
+    const innerText = this.container.innerText;
+    onDone(autoTrim ? innerText.trim() : innerText);
+
     this.setState({
       isEditing: false
     });
@@ -100,6 +106,7 @@ class Editable extends React.Component {
       editingClass,
       onDone,
       singleLine,
+      autoTrim,
       ...rest
     } = this.props;
     const { isEditing } = this.state;

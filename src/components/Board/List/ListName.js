@@ -17,7 +17,9 @@ const css = {
     }
   },
   ListName_display: {},
-  ListName_editing: {}
+  ListName_editing: {
+    outline: 'none'
+  }
 };
 
 function ListName({ classes, list }) {
@@ -30,6 +32,7 @@ function ListName({ classes, list }) {
       editingClass={classes.ListName_editing}
       onDone={list.setName}
       placeholder="New Heading"
+      autoTrim
     />
   );
 }

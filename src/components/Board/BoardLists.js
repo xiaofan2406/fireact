@@ -9,7 +9,7 @@ import List from './List';
 
 const css = {
   BoardLists: {
-    padding: spacing.externalBreath
+    padding: spacing.internalBreath
   },
   singleList: {
     margin: [
