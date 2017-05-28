@@ -7,14 +7,7 @@ import classnames from 'classnames';
 import { colors } from 'styles';
 
 const css = {
-  ItemNameDetail: {
-    display: 'inline-block',
-    lineHeight: 1,
-    cursor: 'default',
-    userSelect: 'none',
-    flex: 1
-  },
-  name: {
+  ItemMetaName: {
     color: colors.black,
     '&.placeholder': {
       color: colors.grey500
@@ -22,24 +15,22 @@ const css = {
   }
 };
 
-function ItemNameDetail({ classes, item }) {
-  console.log('render ItemNameDetail');
-  const nameClasses = classnames({
-    [classes.name]: true,
+function ItemMetaName({ classes, item }) {
+  console.log('render ItemMetaName');
+
+  const classNames = classnames({
+    [classes.ItemMetaName]: true,
     placeholder: !item.name
   });
-  return (
-    <span className={classes.ItemNameDetail}>
-      <span className={nameClasses}>{item.name || 'New To-Do'}</span>
-    </span>
-  );
+
+  return <span className={classNames}>{item.name || 'New To-Do'}</span>;
 }
 
-ItemNameDetail.propTypes = {
+ItemMetaName.propTypes = {
   classes: PropTypes.object.isRequired,
   item: PropTypes.object.isRequired
 };
 
 const enhance = compose(withCss(css), observer);
 
-export default enhance(ItemNameDetail);
+export default enhance(ItemMetaName);

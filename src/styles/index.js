@@ -46,5 +46,8 @@ export const variables = {
   },
   ItemCheckbox: {
     width: 14
+  },
+  ItemMeta: {
+    lineHeight: 1.2
   }
 };

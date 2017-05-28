@@ -7,9 +7,9 @@ import { compose } from 'utils';
 import { colors, theme, spacing, variables } from 'styles';
 
 import ItemCheckbox from './ItemCheckbox';
-import ItemNameEdit from './ItemNameEdit';
+import ItemName from './ItemName';
 import ItemNotes from './ItemNotes';
-import ItemNameDetail from './ItemNameDetail';
+import ItemMeta from './ItemMeta';
 
 const css = {
   ItemDisplay: {
@@ -28,12 +28,12 @@ const css = {
       padding: [spacing.internal, spacing.internalBreath]
     }
   },
-  first: {
+  topRow: {
     display: 'flex',
     alignItems: 'center',
     minHeight: variables.ItemDisplay.minHeight
   },
-  second: {}
+  bottomRow: {}
 };
 
 function ItemDisplay({ classes, item, getContainer }) {
@@ -44,14 +44,14 @@ function ItemDisplay({ classes, item, getContainer }) {
   });
   return (
     <div className={classNames}>
-      <div className={classes.first}>
+      <div className={classes.topRow}>
         <ItemCheckbox item={item} />
         {item.isEditing
-          ? <ItemNameEdit item={item} getContainer={getContainer} />
-          : <ItemNameDetail item={item} />}
+          ? <ItemName item={item} getContainer={getContainer} />
+          : <ItemMeta item={item} />}
 
       </div>
-      <div className={classes.second}>
+      <div className={classes.bottomRow}>
         {item.isEditing
           ? <ItemNotes item={item} getContainer={getContainer} />
           : null}

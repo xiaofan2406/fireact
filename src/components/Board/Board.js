@@ -18,7 +18,7 @@ const css = {
     backgroundColor: colors.white,
     minHeight: `calc(100vh - ${variables.Layout.headerHeight}px)`,
     '&.isEditing': {
-      backgroundColor: colors.grey50
+      backgroundColor: colors.grey100
     }
   }
 };

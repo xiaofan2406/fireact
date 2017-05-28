@@ -1,4 +1,4 @@
-import { observable, action } from 'mobx';
+import { observable, action, computed } from 'mobx';
 import { firebase } from 'utils';
 
 class Item {
@@ -64,6 +64,10 @@ class Item {
       this.ref.set({ ...this.selfie(), notes });
     }
   };
+
+  @computed get hasNotes() {
+    return this.notes !== '';
+  }
 
   @action setCompletionStatus = status => {
     if (this.isCompleted !== status) {

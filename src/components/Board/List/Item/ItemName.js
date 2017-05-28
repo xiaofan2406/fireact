@@ -3,18 +3,22 @@ import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import withCss from 'react-jss';
 import { keyCodes } from 'utils';
+import { variables } from 'styles';
 
 const css = {
-  ItemNameEdit: {
+  ItemName: {
+    flex: 1,
+    padding: 0,
     outline: 'none',
-    border: 'none'
+    border: 'none',
+    lineHeight: variables.ItemMeta.lineHeight
   }
 };
 
 @inject('boardStore')
 @withCss(css)
 @observer
-class ItemNameEdit extends React.Component {
+class ItemName extends React.Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     boardStore: PropTypes.object.isRequired,
@@ -43,8 +47,9 @@ class ItemNameEdit extends React.Component {
     if (event.which === keyCodes.ENTER || event.which === keyCodes.ESC) {
       item.setName(this.input.value.trim());
       boardStore.finishEditingItem(item.id);
+
+      getContainer().focus();
     }
-    getContainer().focus();
     event.stopPropagation();
   };
 
@@ -55,18 +60,19 @@ class ItemNameEdit extends React.Component {
 
   render() {
     const { classes, item } = this.props;
-    console.log('render ItemNameEdit');
+    console.log('render ItemName');
     return (
       <input
-        className={classes.ItemNameEdit}
+        className={classes.ItemName}
         defaultValue={item.name}
         ref={this.inputRef}
         onKeyUp={this.handleKeyUp}
         onBlur={this.handleBlur}
         placeholder="New To-Do"
+        spellCheck={false}
       />
     );
   }
 }
 
-export default ItemNameEdit;
+export default ItemName;
