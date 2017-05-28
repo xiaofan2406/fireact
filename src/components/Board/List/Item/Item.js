@@ -32,6 +32,8 @@ class Item extends React.Component {
   };
 
   componentDidMount() {
+    // mousedown not click, because 'dragging' can happen,
+    // and mouseup outside is registered as a click
     document.addEventListener('mousedown', this.handleOutsideClick);
   }
 

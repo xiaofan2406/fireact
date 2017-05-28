@@ -45,12 +45,13 @@ class ItemName extends React.Component {
   handleKeyUp = event => {
     const { boardStore, item, getContainer } = this.props;
     if (event.which === keyCodes.ENTER || event.which === keyCodes.ESC) {
+      // stop ESC key event being propagated to Item
+      event.stopPropagation();
+
       item.setName(this.input.value.trim());
       boardStore.finishEditingItem(item.id);
-
       getContainer().focus();
     }
-    event.stopPropagation();
   };
 
   handleBlur = () => {

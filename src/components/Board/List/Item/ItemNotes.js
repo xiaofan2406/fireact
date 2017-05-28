@@ -38,7 +38,9 @@ class ItemNotes extends React.Component {
     const { boardStore, item, getContainer } = this.props;
 
     if (event.which === keyCodes.ESC) {
+      // stop ESC key event being propagated to Item
       event.stopPropagation();
+
       item.setNotes(this.editor.innerText);
       boardStore.finishEditingItem(item.id);
       getContainer().focus();
