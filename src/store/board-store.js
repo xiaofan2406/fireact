@@ -228,6 +228,7 @@ class BoardStore {
 
     const list = this.addList(listData);
     this.selectList(list.id);
+    list.startEditing();
     this._listsRef.child(listData.id).set(list.selfie());
   };
 

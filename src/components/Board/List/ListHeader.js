@@ -34,7 +34,17 @@ class ListHeader extends React.Component {
     list: PropTypes.object.isRequired
   };
 
-  componentDidMount() {}
+  componentDidMount() {
+    if (this.container) {
+      this.props.list.getHeaderNode = this.getHeaderNode;
+    }
+  }
+
+  getHeaderNode = () => this.container;
+
+  containerRef = ref => {
+    this.container = ref;
+  };
 
   handleFocus = () => {
     const { boardStore, list } = this.props;

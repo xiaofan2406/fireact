@@ -4,16 +4,19 @@ import Item from './Item';
 
 class List {
   @observable name;
+  @observable isEditing;
 
   constructor(init) {
-    this.id = init.id;
     this.createdAt = new Date(init.createdAt);
+    this.name = init.name || '';
 
+    // client side only states
+    this.id = init.id;
     this.path = init.path;
     this.ref = firebase.database().ref(this.path);
-
-    this.name = init.name || '';
     this.items = new ObservableMap();
+    this.isEditing = init.isEditing || false;
+    this.getHeaderNode = () => {};
   }
 
   selfie = () => ({
@@ -58,6 +61,15 @@ class List {
   @action setName = name => {
     this.name = name;
     this.ref.set({ ...this.selfie(), name });
+  };
+
+  @action startEditing = () => {
+    this.isEditing = true;
+  };
+
+  @action finishEditing = () => {
+    this.isEditing = false;
+    this.getHeaderNode().focus();
   };
 
   getCachableData = () =>

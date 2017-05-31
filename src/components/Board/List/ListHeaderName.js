@@ -23,14 +23,20 @@ const css = {
 };
 
 function ListHeaderName({ classes, list }) {
-  console.log('render ListHeaderName');
+  const finishEditing = name => {
+    list.setName(name);
+    list.finishEditing();
+  };
+
   return (
     <Editable
       className={classes.ListHeaderName}
       value={list.name}
       displayClass={classes.ListHeaderName_display}
       editingClass={classes.ListHeaderName_editing}
-      onDone={list.setName}
+      isEditing={list.isEditing}
+      onDone={finishEditing}
+      onDoubleClick={list.startEditing}
       placeholder="New Heading"
       autoTrim
     />

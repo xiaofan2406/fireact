@@ -30,33 +30,22 @@ class Editable extends React.Component {
     displayClass: PropTypes.string.isRequired,
     editingClass: PropTypes.string.isRequired,
     onDone: PropTypes.func.isRequired,
-    isEditing: PropTypes.bool.isRequired,
     value: PropTypes.string,
     singleLine: PropTypes.bool,
-    autoTrim: PropTypes.bool,
-    onKeyDown: PropTypes.func
+    autoTrim: PropTypes.bool
   };
 
   static defaultProps = {
     value: '',
     singleLine: true,
-    autoTrim: false,
-    onKeyDown: null
+    autoTrim: false
   };
 
-  componentDidMount() {
-    if (this.props.isEditing) {
-      this.selfFocus();
-    }
-  }
+  state = {
+    isEditing: false
+  };
 
   componentDidUpdate() {
-    if (this.props.isEditing) {
-      this.selfFocus();
-    }
-  }
-
-  selfFocus = () => {
     this.container.focus();
     const range = document.createRange();
     range.selectNodeContents(this.container);
@@ -64,28 +53,42 @@ class Editable extends React.Component {
     const sel = window.getSelection();
     sel.removeAllRanges();
     sel.addRange(range);
-  };
+  }
 
   finishEditing = () => {
     const { autoTrim, onDone } = this.props;
     const innerText = this.container.innerText;
     onDone(autoTrim ? innerText.trim() : innerText);
-    // TODO if not autotrim replace newline with br
+
+    this.setState({
+      isEditing: false
+    });
+  };
+
+  handleDoubleClick = () => {
+    if (!this.state.isEditing) {
+      this.setState({
+        isEditing: true
+      });
+    }
   };
 
   handleKeyDown = event => {
-    if (keyboard.isEnter(event) && this.props.singleLine) {
+    const { singleLine } = this.props;
+    if (keyboard.isEnter(event) && singleLine) {
       event.preventDefault();
       this.finishEditing();
-      return;
-    }
-    if (this.props.onKeyDown) {
-      this.props.onKeyDown(event);
     }
   };
 
   handleKeyUp = event => {
     if (keyboard.isEsc(event)) {
+      this.finishEditing();
+    }
+  };
+
+  handleBlur = () => {
+    if (this.state.isEditing) {
       this.finishEditing();
     }
   };
@@ -104,26 +107,26 @@ class Editable extends React.Component {
       onDone,
       singleLine,
       autoTrim,
-      isEditing,
       ...rest
     } = this.props;
-
-    console.log('render Editable', isEditing);
-
+    const { isEditing } = this.state;
     const classNames = classnames(classes.Editable, rest.className, {
       isEditing,
       singleLine: !isEditing,
       [displayClass]: !isEditing,
       [editingClass]: isEditing
     });
+
     return (
       <div
         {...rest}
         className={classNames}
         contentEditable={isEditing}
         suppressContentEditableWarning={isEditing}
+        onDoubleClick={this.handleDoubleClick}
         onKeyDown={this.handleKeyDown}
         onKeyUp={this.handleKeyUp}
+        onBlur={this.handleBlur}
         ref={this.containerRef}
       >
         {value}
