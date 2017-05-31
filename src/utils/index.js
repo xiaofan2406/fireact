@@ -4,7 +4,7 @@ export firebase from './firebase';
 export * as cacher from './cacher';
 export { login as loginCacher, board as boardCacher } from './cacher';
 
-export * as keyCodes from './keyCodes';
+export * as keyboard from './keyboard';
 
 export serviceWorker from './serviceWorker';
 export uuid from './uuid';

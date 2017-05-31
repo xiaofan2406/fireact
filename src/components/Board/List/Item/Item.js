@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import withCss from 'react-jss';
 import { spacing, theme } from 'styles';
-import { keyCodes } from 'utils';
+import { keyboard } from 'utils';
 
 import ItemDisplay from './ItemDisplay';
 
@@ -43,13 +43,13 @@ class Item extends React.Component {
 
   handleKeyUp = event => {
     const { boardStore, item } = this.props;
-    if (event.which === keyCodes.ENTER) {
+    if (keyboard.isEnter(event)) {
       boardStore.startEditingItem(item.id);
     }
-    if (event.which === keyCodes.ESC) {
+    if (keyboard.isEsc(event)) {
       this.container.blur();
     }
-    if ([keyCodes.BACKSPACE, keyCodes.DELETE].includes(event.which)) {
+    if (keyboard.isRemove(event)) {
       item.trash();
     }
   };

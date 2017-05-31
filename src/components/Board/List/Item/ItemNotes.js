@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react';
 import withCss from 'react-jss';
 import { ContentEditable } from 'widgets';
 import { spacing } from 'styles';
-import { keyCodes } from 'utils';
+import { keyboard } from 'utils';
 
 const css = {
   ItemNotes: {
@@ -30,7 +30,7 @@ class ItemNotes extends React.Component {
   handleKeyUp = event => {
     const { boardStore, item } = this.props;
 
-    if (event.which === keyCodes.ESC) {
+    if (keyboard.isEsc(event)) {
       // stop ESC key event being propagated to Item
       event.stopPropagation();
 

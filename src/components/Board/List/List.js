@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import withCss from 'react-jss';
-import { compose } from 'utils';
+import { compose, keyboard } from 'utils';
 import { theme, spacing } from 'styles';
 
 import ListName from './ListName';
@@ -35,6 +35,11 @@ function List({ classes, boardStore, list }) {
   const handleBlur = () => {
     boardStore.unselectList(list.id);
   };
+  const handleKeyUp = event => {
+    if (keyboard.isEsc(event)) {
+      event.target.blur();
+    }
+  };
 
   return (
     <div className={classes.List}>
@@ -42,6 +47,7 @@ function List({ classes, boardStore, list }) {
         className={classes.header}
         tabIndex={-1}
         onFocus={handleFocus}
+        onKeyUp={handleKeyUp}
         onBlur={handleBlur}
       >
         <ListName list={list} />
