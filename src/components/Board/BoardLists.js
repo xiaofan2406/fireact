@@ -14,6 +14,7 @@ const css = {
 };
 
 function BoardLists({ classes, boardStore }) {
+  console.log('render BoardLists');
   return (
     <div className={classes.BoardLists}>
       {boardStore.availableLists.map(list => (

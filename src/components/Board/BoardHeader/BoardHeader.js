@@ -6,6 +6,8 @@ import withCss from 'react-jss';
 import { spacing, theme, colors } from 'styles';
 import { IconButton } from 'widgets';
 
+import BoardSyncing from './BoardSyncing';
+
 const css = {
   BoardHeader: {
     height: '100%',
@@ -18,7 +20,12 @@ const css = {
   },
   title: {
     padding: [0, spacing.internalBreath],
-    fontSize: theme.headingSize
+    fontSize: theme.headingSize,
+    display: 'flex',
+    alignItems: 'center'
+  },
+  name: {
+    marginRight: spacing.external
   },
   menu: {
     display: 'flex',
@@ -41,7 +48,10 @@ function BoardHeader({ classes, boardStore }) {
 
   return (
     <div className={classes.BoardHeader}>
-      <span className={classes.title}>Board</span>
+      <span className={classes.title}>
+        <span className={classes.name}>Board</span>
+        <BoardSyncing />
+      </span>
       <div className={classes.menu}>
         <IconButton
           onClick={boardStore.newList}

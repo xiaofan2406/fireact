@@ -6,7 +6,6 @@ import withCss from 'react-jss';
 import classnames from 'classnames';
 import { colors, variables } from 'styles';
 
-import BoardSyncing from './BoardSyncing';
 import BoardHeader from './BoardHeader';
 import BoardDisplay from './BoardDisplay';
 import BoardEvents from './BoardEvents';
@@ -32,7 +31,6 @@ function Board({ classes, boardStore }) {
   });
   return (
     <div className={classNames}>
-      <BoardSyncing />
       <BoardHeader />
       <BoardDisplay />
       <BoardEvents />

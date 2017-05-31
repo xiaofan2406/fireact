@@ -115,7 +115,6 @@ class ItemDisplay extends React.Component {
         <div className={classes.topRow}>
           <ItemCheckbox item={item} />
           {item.isEditing ? <ItemName item={item} /> : <ItemMeta item={item} />}
-
         </div>
         {item.isEditing
           ? <div className={classes.bottomRow}>

@@ -4,7 +4,7 @@ import { Loader } from 'widgets';
 
 // eslint-disable-next-line
 function BoardSyncing({ isSyncing }) {
-  return isSyncing ? <Loader color="#c8dbfe" size={30} /> : null;
+  return isSyncing ? <Loader color="#c8dbfe" size={24} /> : null;
 }
 
 export default inject(stores => ({
