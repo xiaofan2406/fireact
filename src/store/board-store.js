@@ -131,8 +131,12 @@ class BoardStore {
     this.errorMessage = message;
   };
 
+  @computed get availableLists() {
+    return this.lists.values().filter(list => list.id !== inboxListId);
+  }
+
   @computed get isEmpty() {
-    return this.lists.size === 0;
+    return this.availableLists.length === 0;
   }
 
   initListeners = () => {
@@ -162,10 +166,6 @@ class BoardStore {
       this.removeItem(snapshot.key);
     });
   };
-
-  @computed get availableLists() {
-    return this.lists.keys().filter(id => id !== inboxListId);
-  }
 
   @action addList = listData => {
     if (!this.hasList(listData.id)) {
