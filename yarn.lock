@@ -49,8 +49,8 @@ ajv@^4.11.2, ajv@^4.7.0, ajv@^4.9.1:
     json-stable-stringify "^1.0.1"
 
 ajv@^5.0.0:
-  version "5.1.4"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-5.1.4.tgz#56f4ab21d42c2ae59e07de655dca6f8f3549809b"
+  version "5.1.5"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-5.1.5.tgz#8734931b601f00d4feef7c65738d77d1b65d1f68"
   dependencies:
     co "^4.6.0"
     json-stable-stringify "^1.0.1"
@@ -757,6 +757,12 @@ babel-plugin-transform-react-jsx@^6.24.1:
     babel-plugin-syntax-jsx "^6.8.0"
     babel-runtime "^6.22.0"
 
+babel-plugin-transform-react-remove-prop-types@^0.4.5:
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-react-remove-prop-types/-/babel-plugin-transform-react-remove-prop-types-0.4.5.tgz#79d1958437ae23d4fbc0b11d1a041498ddb23877"
+  dependencies:
+    babel-traverse "^6.24.1"
+
 babel-plugin-transform-regenerator@^6.22.0, babel-plugin-transform-regenerator@^6.24.1:
   version "6.24.1"
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-regenerator/-/babel-plugin-transform-regenerator-6.24.1.tgz#b8da305ad43c3c99b4848e4fe4037b770d23c418"
@@ -1150,12 +1156,12 @@ caniuse-api@^1.5.2:
     lodash.uniq "^4.5.0"
 
 caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
-  version "1.0.30000673"
-  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000673.tgz#f3333f7ba6871a190f7a26ed20c1285bc96ca072"
+  version "1.0.30000676"
+  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000676.tgz#82ea578237637c8ff34a28acaade373b624c4ea8"
 
 caniuse-lite@^1.0.30000670:
-  version "1.0.30000673"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000673.tgz#4f1c5fefb304f712c526614d83b19476c16e662a"
+  version "1.0.30000676"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000676.tgz#1e962123f48073f0c51c4ea0651dd64d25786498"
 
 capture-stack-trace@^1.0.0:
   version "1.0.0"
@@ -1862,8 +1868,8 @@ ee-first@1.1.1:
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
 
 electron-to-chromium@^1.2.7, electron-to-chromium@^1.3.11:
-  version "1.3.12"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.12.tgz#62f33e4a59b4855f0de4bb8972bf1b841b98b6d2"
+  version "1.3.13"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.13.tgz#1b3a5eace6e087bb5e257a100b0cbfe81b2891fc"
 
 elliptic@^6.0.0:
   version "6.4.0"
@@ -2434,9 +2440,9 @@ find-up@^2.0.0:
   dependencies:
     locate-path "^2.0.0"
 
-firebase@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/firebase/-/firebase-4.0.0.tgz#a128092910e44224babc33e19b562ae3716ec4d5"
+firebase@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/firebase/-/firebase-4.1.0.tgz#2fcabb7f84f552295f9f51fc38f1138eb85f39e2"
   dependencies:
     dom-storage "^2.0.2"
     faye-websocket "0.9.3"
@@ -3029,8 +3035,8 @@ is-date-object@^1.0.1:
   resolved "https://registry.yarnpkg.com/is-date-object/-/is-date-object-1.0.1.tgz#9aa20eb6aeebbff77fbd33e74ca01b33581d3a16"
 
 is-dotfile@^1.0.0:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/is-dotfile/-/is-dotfile-1.0.2.tgz#2c132383f39199f8edc268ca01b9b007d205cc4d"
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/is-dotfile/-/is-dotfile-1.0.3.tgz#a6a2f32ffd2dfb04f5ca25ecd0f6b83cf798a1e1"
 
 is-equal-shallow@^0.1.3:
   version "0.1.3"
@@ -3347,8 +3353,8 @@ jss-compose@^3.0.0:
     warning "^3.0.0"
 
 jss-default-unit@^6.0.0:
-  version "6.1.1"
-  resolved "https://registry.yarnpkg.com/jss-default-unit/-/jss-default-unit-6.1.1.tgz#a9a04887a3860d2a8ceb73ddfbc2ddcf808bacb2"
+  version "6.1.2"
+  resolved "https://registry.yarnpkg.com/jss-default-unit/-/jss-default-unit-6.1.2.tgz#6c460154129b7be304a4a4dcd2b283584954aec5"
 
 jss-expand@^3.0.0:
   version "3.0.1"
@@ -3395,8 +3401,8 @@ jss-vendor-prefixer@^5.0.0:
     css-vendor "^0.3.8"
 
 jss@^7.0.0:
-  version "7.1.3"
-  resolved "https://registry.yarnpkg.com/jss/-/jss-7.1.3.tgz#9c0e8c63f6faba4ae9f599ef271b6a3df983ff7a"
+  version "7.1.5"
+  resolved "https://registry.yarnpkg.com/jss/-/jss-7.1.5.tgz#7d27b07b0f2f7f1a2ec9fe0ee1e2ab3f9d903de5"
   dependencies:
     is-in-browser "1.0.2"
     warning "3.0.0"
@@ -3833,6 +3839,10 @@ mz@^2.6.0:
     object-assign "^4.0.1"
     thenify-all "^1.0.0"
 
+name-all-modules-plugin@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/name-all-modules-plugin/-/name-all-modules-plugin-1.0.1.tgz#0abfb6ad835718b9fb4def0674e06657a954375c"
+
 nan@^2.3.0:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.6.2.tgz#e4ff34e6c95fdfb5aecc08de6596f43605a7db45"
@@ -3921,8 +3931,8 @@ node-libs-browser@^2.0.0:
     vm-browserify "0.0.4"
 
 node-pre-gyp@^0.6.29:
-  version "0.6.34"
-  resolved "https://registry.yarnpkg.com/node-pre-gyp/-/node-pre-gyp-0.6.34.tgz#94ad1c798a11d7fc67381b50d47f8cc18d9799f7"
+  version "0.6.36"
+  resolved "https://registry.yarnpkg.com/node-pre-gyp/-/node-pre-gyp-0.6.36.tgz#db604112cb74e0d477554e9b505b17abddfab786"
   dependencies:
     mkdirp "^0.5.1"
     nopt "^4.0.1"
@@ -4016,7 +4026,7 @@ oauth-sign@~0.8.1:
   version "0.8.2"
   resolved "https://registry.yarnpkg.com/oauth-sign/-/oauth-sign-0.8.2.tgz#46a6ab7f0aead8deae9ec0565780b7d4efeb9d43"
 
-object-assign@^4.0.1, object-assign@^4.1.0:
+object-assign@^4.0.1, object-assign@^4.1.0, object-assign@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
 
@@ -5655,8 +5665,8 @@ ua-parser-js@^0.7.9:
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.12.tgz#04c81a99bdd5dc52263ea29d24c6bf8d4818a4bb"
 
 uglify-js@3.0.x:
-  version "3.0.11"
-  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.0.11.tgz#81f594b9a24dad76e39da92f8f06e5b3bc8c2e11"
+  version "3.0.13"
+  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.0.13.tgz#1871d736aa1e550c728d7e5a6556579e70925d68"
   dependencies:
     commander "~2.9.0"
     source-map "~0.5.1"

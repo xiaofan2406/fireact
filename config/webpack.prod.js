@@ -4,9 +4,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
+const NameAllModulesPlugin = require('name-all-modules-plugin');
 const common = require('./webpack.common');
 const { paths } = require('./configs');
-const pkg = require('../package.json');
+const pkg = require('../package');
 const babelrc = require('../.babelrc');
 
 module.exports = {
@@ -14,18 +15,18 @@ module.exports = {
   devtool: 'source-map',
   entry: {
     polyfill: require.resolve('./polyfills'),
-    client: `${paths.srcDir}/index.js`,
+    main: `${paths.srcPath}/index.js`,
     vendor: Object.keys(pkg.dependencies)
   },
   resolve: common.resolve,
   output: {
-    path: paths.buildDir,
+    path: paths.distPath,
     filename: 'js/[name].[chunkhash:8].js',
     chunkFilename: 'js/[name].[chunkhash:8].chunk.js',
     publicPath: '/',
     // Point sourcemap entries to original disk location
     devtoolModuleFilenameTemplate: info =>
-      path.relative(paths.srcDir, info.absoluteResourcePath)
+      path.relative(paths.srcPath, info.absoluteResourcePath)
   },
   module: {
     strictExportPresence: true,
@@ -33,7 +34,7 @@ module.exports = {
       ...common.rules,
       {
         test: /\.js$/,
-        include: paths.srcDir,
+        include: paths.srcPath,
         loader: require.resolve('babel-loader'),
         options: {
           presets: babelrc
@@ -60,11 +61,29 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"production"' }),
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new ExtractTextPlugin('css/[name].[contenthash:8].css'),
+    new webpack.NamedModulesPlugin(),
+    new webpack.NamedChunksPlugin(chunk => {
+      if (chunk.name) {
+        return chunk.name;
+      }
+      return chunk.modules
+        .map(m => path.relative(m.context, m.request))
+        .join('_');
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      minChunks: Infinity
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'runtime'
+    }),
+    new NameAllModulesPlugin(),
+    // all plugins above has to stay before the following plugins
+    // otherwise, the build would actually give unexpected results
     new HtmlWebpackPlugin({
       inject: true,
-      template: `${paths.srcDir}/assets/index.html`,
-      favicon: `${paths.srcDir}/assets/favicon.ico`,
+      template: `${paths.srcPath}/assets/index.html`,
+      favicon: `${paths.srcPath}/assets/favicon.ico`,
       minify: {
         removeComments: true,
         collapseWhitespace: true,
@@ -80,26 +99,21 @@ module.exports = {
     }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
-        screw_ie8: true,
-        warnings: false
-      },
-      mangle: {
-        screw_ie8: true
+        warnings: false,
+        comparisons: false
       },
       output: {
-        comments: false,
-        screw_ie8: true
+        comments: false
       },
       sourceMap: true
     }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      filename: 'js/[name].[chunkhash:8].js'
-    }),
+    new ExtractTextPlugin('css/[name].[contenthash:8].css'),
     new ManifestPlugin({
       fileName: 'asset-manifest.json'
     }),
-    // Frome create-react-app
+    // From create-react-app
+    // Generate a service worker script that will precache, and keep up to date,
+    // the HTML & assets that are part of the Webpack build.
     new SWPrecacheWebpackPlugin({
       // By default, a cache-busting query parameter is appended to requests
       // used to populate the caches, to ensure the responses are fresh.
@@ -121,7 +135,7 @@ module.exports = {
       staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/],
       // Work around Windows path issue in SWPrecacheWebpackPlugin:
       // https://github.com/facebookincubator/create-react-app/issues/2235
-      stripPrefix: `${paths.buildDir.replace(/\\/g, '/')}/`
+      stripPrefix: `${paths.distPath.replace(/\\/g, '/')}/`
     })
   ]
 };

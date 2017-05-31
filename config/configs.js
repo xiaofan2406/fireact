@@ -14,22 +14,20 @@ function getLocalIp() {
   return detail && detail.address;
 }
 
-const projectDir = path.join(__dirname, '..');
-const srcDir = path.join(projectDir, 'src');
-const buildDir = path.join(projectDir, 'build');
-const nodeModulesDir = path.join(projectDir, 'node_modules');
+const projectPath = path.join(__dirname, '..');
+const srcPath = path.join(projectPath, 'src');
+const distPath = path.join(projectPath, 'dist');
 
-const devPort = 8080;
-const testBuildPort = 9000;
+const devServerPort = 8080;
+const testProdPort = 9000;
 
 module.exports = {
-  devPort,
-  devIp: getLocalIp(),
-  testBuildPort,
+  devServerPort,
+  devServerIp: getLocalIp(),
+  testProdPort,
   paths: {
-    projectDir,
-    srcDir,
-    buildDir,
-    nodeModulesDir
+    projectPath,
+    srcPath,
+    distPath
   }
 };

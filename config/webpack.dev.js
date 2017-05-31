@@ -1,21 +1,21 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const common = require('./webpack.common');
-const { devPort, devIp, paths } = require('./configs');
+const { devServerPort, devServerIp, paths } = require('./configs');
 const babelrc = require('../.babelrc');
 
 module.exports = {
   devtool: 'cheap-module-source-map',
   entry: [
     'react-hot-loader/patch',
-    `webpack-dev-server/client?http://${devIp}:${devPort}`,
+    `webpack-dev-server/client?http://${devServerIp}:${devServerPort}`,
     'webpack/hot/only-dev-server',
-    `${paths.srcDir}/index.js`
+    `${paths.srcPath}/index.js`
   ],
   resolve: common.resolve,
   output: {
     // For dev, `path` and `filename` are not important because of using webpack-dev-server
-    path: paths.buildDir,
+    path: paths.distPath,
     filename: 'bundle.js',
     // Necessary for HMR to know where to load the hot update chunks
     publicPath: '/',
@@ -28,7 +28,7 @@ module.exports = {
       ...common.rules,
       {
         test: /\.js$/,
-        include: paths.srcDir,
+        include: paths.srcPath,
         loader: require.resolve('babel-loader'),
         options: {
           babelrc: false,
@@ -47,8 +47,8 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       inject: true,
-      template: `${paths.srcDir}/assets/index.html`,
-      favicon: `${paths.srcDir}/assets/favicon.ico`
+      template: `${paths.srcPath}/assets/index.html`,
+      favicon: `${paths.srcPath}/assets/favicon.ico`
     }),
     new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"development"' }),
     new webpack.HotModuleReplacementPlugin(),
@@ -64,8 +64,8 @@ module.exports = {
       ignored: /node_modules/
     },
     https: process.env.HTTPS === 'true',
-    host: process.env.HOST || devIp,
-    port: process.env.PORT || devPort,
+    host: process.env.HOST || devServerIp,
+    port: process.env.PORT || devServerPort,
     setup(app) {
       app.use((req, res, next) => {
         if (req.url === '/service-worker.js') {

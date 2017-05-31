@@ -49,6 +49,9 @@ React with Firebase
   - No PostCSS, SASS or CSS Module setup
   - Includes a Semantic UI [`reset.css`](https://github.com/Semantic-Org/Semantic-UI/blob/master/dist/components/reset.css)
 
+##### Progressive Web App
+  - Based on [create-react-app](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#making-a-progressive-web-app)
+
 ##### [React Router v4](https://reacttraining.com/react-router)
 
 
@@ -64,6 +67,9 @@ React with Firebase
 ##### Performance
   - used [Google Lighthouse](https://developers.google.com/web/tools/lighthouse/) as a baseline
 
+##### Code Splitting
+  - [Read me](https://medium.com/webpack/predictable-long-term-caching-with-webpack-d3eee1d3fa31)
+
 
 ## Folders
 Path                | Import alias | Description
@@ -74,7 +80,7 @@ src/**assets/**     | `assets`     | Common static assets folder
 src/**components/** | `components` | React components folder
 src/**hocs/**       | `hocs`       | Higher-order components folder
 src/**router/**     | `router`     | React Router setup and route-level components folder
-src/**store/**      | `store`      | Mobx store folder
+src/**store/**      |              | Mobx store folder
 src/**styles/**     | `styles`     | Global CSS and JSS folder
 src/**utils/**      | `utils`      | JavaScript helper functions folder
 src/**widgets/**    | `widgets`    | Small shared React components folder

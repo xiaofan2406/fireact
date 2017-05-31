@@ -4,20 +4,20 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.json'],
     alias: {
-      assets: `${paths.srcDir}/assets`,
-      components: `${paths.srcDir}/components`,
-      hocs: `${paths.srcDir}/hocs`,
-      router: `${paths.srcDir}/router`,
-      styles: `${paths.srcDir}/styles`,
-      utils: `${paths.srcDir}/utils`,
-      widgets: `${paths.srcDir}/widgets`
+      assets: `${paths.srcPath}/assets`,
+      components: `${paths.srcPath}/components`,
+      hocs: `${paths.srcPath}/hocs`,
+      router: `${paths.srcPath}/router`,
+      styles: `${paths.srcPath}/styles`,
+      utils: `${paths.srcPath}/utils`,
+      widgets: `${paths.srcPath}/widgets`
     }
   },
   rules: [
     {
       test: /\.js$/,
       enforce: 'pre',
-      include: paths.srcDir,
+      include: paths.srcPath,
       loader: require.resolve('eslint-loader')
     },
     {
