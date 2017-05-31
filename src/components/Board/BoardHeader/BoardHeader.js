@@ -7,6 +7,7 @@ import { spacing, theme, colors } from 'styles';
 import { IconButton } from 'widgets';
 
 import BoardSyncing from './BoardSyncing';
+import BoardUser from './BoardUser';
 
 const css = {
   BoardHeader: {
@@ -33,9 +34,6 @@ const css = {
   },
   icon: {
     color: colors.grey700
-  },
-  user: {
-    padding: [0, spacing.internalBreath]
   }
 };
 
@@ -66,7 +64,7 @@ function BoardHeader({ classes, boardStore }) {
           title="New Item"
         />
       </div>
-      <div className={classes.user}>user info </div>
+      <BoardUser />
     </div>
   );
 }
