@@ -7,7 +7,7 @@ import { compose } from 'utils';
 import { spacing, theme, colors } from 'styles';
 
 const css = {
-  ListName: {
+  ListHeaderName: {
     fontSize: theme.headingSize,
     fontWeight: 'bold',
     flex: 1,
@@ -16,20 +16,20 @@ const css = {
       color: colors.blueA100
     }
   },
-  ListName_display: {},
-  ListName_editing: {
+  ListHeaderName_display: {},
+  ListHeaderName_editing: {
     outline: 'none'
   }
 };
 
-function ListName({ classes, list }) {
-  console.log('render ListName');
+function ListHeaderName({ classes, list }) {
+  console.log('render ListHeaderName');
   return (
     <Editable
-      className={classes.ListName}
+      className={classes.ListHeaderName}
       value={list.name}
-      displayClass={classes.ListName_display}
-      editingClass={classes.ListName_editing}
+      displayClass={classes.ListHeaderName_display}
+      editingClass={classes.ListHeaderName_editing}
       onDone={list.setName}
       placeholder="New Heading"
       autoTrim
@@ -37,11 +37,11 @@ function ListName({ classes, list }) {
   );
 }
 
-ListName.propTypes = {
+ListHeaderName.propTypes = {
   classes: PropTypes.object.isRequired,
   list: PropTypes.object.isRequired
 };
 
 const enhance = compose(withCss(css), observer);
 
-export default enhance(ListName);
+export default enhance(ListHeaderName);

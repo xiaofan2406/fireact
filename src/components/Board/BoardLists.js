@@ -10,14 +10,6 @@ import List from './List';
 const css = {
   BoardLists: {
     padding: spacing.internalBreath
-  },
-  singleList: {
-    margin: [
-      spacing.externalBreath,
-      spacing.externalBreath,
-      spacing.externalBreath * 2,
-      spacing.externalBreath
-    ]
   }
 };
 
@@ -25,9 +17,7 @@ function BoardLists({ classes, boardStore }) {
   return (
     <div className={classes.BoardLists}>
       {boardStore.availableLists.map(list => (
-        <div className={classes.singleList} key={list.id}>
-          <List list={list} />
-        </div>
+        <List list={list} key={list.id} />
       ))}
     </div>
   );

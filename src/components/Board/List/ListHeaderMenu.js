@@ -5,13 +5,13 @@ import withCss from 'react-jss';
 import { sizes, spacing, theme, variables } from 'styles';
 
 const css = {
-  ListMenu: {
+  ListHeaderMenu: {
     display: 'flex'
   },
   button: {
     appearance: 'none',
     height: sizes.regular,
-    width: variables.ListMenu.buttonWidth,
+    width: variables.ListHeaderMenu.buttonWidth,
     margin: [0, spacing.unit],
     padding: [spacing.unit],
     backgroundColor: 'transparent',
@@ -30,7 +30,7 @@ const css = {
 @inject('boardStore')
 @withCss(css)
 @observer
-class ListMenu extends React.Component {
+class ListHeaderMenu extends React.Component {
   static propTypes = {
     boardStore: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired,
@@ -52,10 +52,10 @@ class ListMenu extends React.Component {
   };
 
   render() {
-    console.log('render ListMenu');
+    console.log('render ListHeaderMenu');
     const { classes } = this.props;
     return (
-      <div className={classes.ListMenu}>
+      <div className={classes.ListHeaderMenu}>
         <button className={classes.button} onClick={this.handleAddClick}>
           <i className="fa fa-plus" aria-hidden="true" />
         </button>
@@ -67,4 +67,4 @@ class ListMenu extends React.Component {
   }
 }
 
-export default ListMenu;
+export default ListHeaderMenu;

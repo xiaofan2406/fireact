@@ -44,7 +44,7 @@ export const variables = {
   Layout: {
     headerHeight: 42
   },
-  ListMenu: {
+  ListHeaderMenu: {
     buttonWidth: 48
   },
   ItemDisplay: {

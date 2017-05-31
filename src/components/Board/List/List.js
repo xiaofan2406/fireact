@@ -1,58 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { inject, observer } from 'mobx-react';
+import { observer } from 'mobx-react';
 import withCss from 'react-jss';
-import { compose, keyboard } from 'utils';
-import { theme, spacing } from 'styles';
+import { compose } from 'utils';
+import { spacing } from 'styles';
 
-import ListName from './ListName';
-import ListMenu from './ListMenu';
+import ListHeader from './ListHeader';
 import ListItems from './ListItems';
 
 const css = {
-  List: {},
-  header: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    color: theme.primaryColor,
-    borderBottom: theme.border,
-    borderTop: theme.borderTransparent,
-    borderRadius: spacing.internal,
-    padding: [spacing.internal, spacing.internalBreath],
-    marginBottom: spacing.external,
-    '&:focus': {
-      outline: 'none',
-      backgroundColor: theme.primaryAccent
-    }
+  List: {
+    margin: [
+      spacing.externalBreath,
+      spacing.externalBreath,
+      spacing.externalBreath * 2,
+      spacing.externalBreath
+    ]
   }
 };
 
-function List({ classes, boardStore, list }) {
-  console.log('render List', list.id);
-  const handleFocus = () => {
-    boardStore.selectList(list.id);
-  };
-  const handleBlur = () => {
-    boardStore.unselectList(list.id);
-  };
-  const handleKeyUp = event => {
-    if (keyboard.isEsc(event)) {
-      event.target.blur();
-    }
-  };
-
+function List({ classes, list }) {
+  console.log('render List');
   return (
     <div className={classes.List}>
-      <div
-        className={classes.header}
-        tabIndex={-1}
-        onFocus={handleFocus}
-        onKeyUp={handleKeyUp}
-        onBlur={handleBlur}
-      >
-        <ListName list={list} />
-        <ListMenu list={list} />
-      </div>
+      <ListHeader list={list} />
       <ListItems list={list} />
     </div>
   );
@@ -60,10 +31,9 @@ function List({ classes, boardStore, list }) {
 
 List.propTypes = {
   classes: PropTypes.object.isRequired,
-  boardStore: PropTypes.object.isRequired,
   list: PropTypes.object.isRequired
 };
 
-const enhance = compose(inject('boardStore'), withCss(css), observer);
+const enhance = compose(withCss(css), observer);
 
 export default enhance(List);

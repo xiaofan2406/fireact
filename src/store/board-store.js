@@ -227,6 +227,7 @@ class BoardStore {
     };
 
     const list = this.addList(listData);
+    this.selectList(list.id);
     this._listsRef.child(listData.id).set(list.selfie());
   };
 
@@ -267,9 +268,7 @@ class BoardStore {
 
   selectList = id => {
     // safely assume id is included in lists' ids
-    if (id) {
-      this.selectedList.prev = id;
-    }
+    this.selectedList.prev = id;
   };
 
   reselectList = () => {
