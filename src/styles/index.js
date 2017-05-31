@@ -34,15 +34,15 @@ export const spacing = {
 };
 
 export const variables = {
+  Layout: {
+    minWidth: 320
+  },
   BoardHeader: {
     height: 48
   },
   BoardStatus: {
     width: 240,
     height: 64
-  },
-  Layout: {
-    headerHeight: 42
   },
   ListHeaderMenu: {
     buttonWidth: 48

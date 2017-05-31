@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react';
 import { compose } from 'utils';
 import withCss from 'react-jss';
 import classnames from 'classnames';
-import { colors, variables } from 'styles';
+import { colors } from 'styles';
 
 import BoardHeader from './BoardHeader';
 import BoardDisplay from './BoardDisplay';
@@ -15,7 +15,7 @@ const css = {
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: colors.white,
-    minHeight: `calc(100vh - ${variables.Layout.headerHeight}px)`,
+    minHeight: '100vh',
     '&.isEditing': {
       transition: 'background-color, 0.2s',
       backgroundColor: colors.grey100
