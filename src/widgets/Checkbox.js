@@ -24,9 +24,7 @@ const css = {
 };
 
 function Checkbox({ sheet, classes, checked, onToggle, ...rest }) {
-  const classNames = classnames(classes.Checkbox, rest.className, {
-    checked
-  });
+  const classNames = classnames(classes.Checkbox, rest.className, { checked });
   return <div {...rest} className={classNames} onClick={onToggle} />;
 }
 

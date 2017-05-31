@@ -45,7 +45,7 @@ function BoardHeader({ classes, boardStore }) {
   const handleClick = () => {
     boardStore.newItem();
   };
-
+  // TODO break this down
   return (
     <div className={classes.BoardHeader}>
       <span className={classes.title}>

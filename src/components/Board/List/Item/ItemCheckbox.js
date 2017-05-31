@@ -4,12 +4,13 @@ import { observer } from 'mobx-react';
 import withCss from 'react-jss';
 import { Checkbox } from 'widgets';
 import { compose } from 'utils';
-import { spacing, variables } from 'styles';
+import { spacing, variables, theme } from 'styles';
 
 const css = {
   ItemCheckbox: {
     marginRight: spacing.external,
-    borderRadius: spacing.unit
+    borderRadius: spacing.unit,
+    border: theme.border
   }
 };
 
