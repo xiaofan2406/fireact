@@ -51,11 +51,6 @@ class ListHeader extends React.Component {
     boardStore.selectList(list.id);
   };
 
-  handleBlur = () => {
-    const { boardStore, list } = this.props;
-    boardStore.unselectList(list.id);
-  };
-
   handleKeyUp = event => {
     if (keyboard.isEsc(event)) {
       event.target.blur();
@@ -70,7 +65,6 @@ class ListHeader extends React.Component {
         className={classes.ListHeader}
         tabIndex={-1}
         onFocus={this.handleFocus}
-        onBlur={this.handleBlur}
         onKeyUp={this.handleKeyUp}
         ref={this.containerRef}
       >

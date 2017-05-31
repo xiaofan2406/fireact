@@ -27,7 +27,7 @@ class BoardStore {
 
     this._listsRef = null;
     this._itemsRef = null;
-    this.selectedList = { prev: null, current: null };
+    this.selectedListId = null;
   }
 
   static injectStore({ userStore }) {
@@ -233,7 +233,7 @@ class BoardStore {
   };
 
   newItem = listId => {
-    listId = listId || this.selectedList.current;
+    listId = listId || this.selectedListId;
     // add client side data first
     const itemData = {
       id: uuid(),
@@ -269,17 +269,7 @@ class BoardStore {
 
   selectList = id => {
     // safely assume id is included in lists' ids
-    this.selectedList.prev = id;
-  };
-
-  reselectList = () => {
-    this.selectedList.current = this.selectedList.prev;
-  };
-
-  unselectList = id => {
-    if (id === this.selectedList.prev) {
-      this.selectedList.prev = null;
-    }
+    this.selectedListId = id;
   };
 
   autoSave = () => {

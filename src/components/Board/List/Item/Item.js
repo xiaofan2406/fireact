@@ -54,6 +54,11 @@ class Item extends React.Component {
     }
   };
 
+  handleFocus = () => {
+    const { boardStore, item } = this.props;
+    boardStore.selectList(item.listId);
+  };
+
   handleDoubleClick = () => {
     const { boardStore, item } = this.props;
     boardStore.startEditingItem(item.id);
@@ -69,6 +74,7 @@ class Item extends React.Component {
         role="button"
         ref={this.containerRef}
         onKeyUp={this.handleKeyUp}
+        onFocus={this.handleFocus}
         onDoubleClick={this.handleDoubleClick}
       >
         <ItemDisplay item={item} />
