@@ -38,7 +38,7 @@ export const variables = {
     minWidth: 320
   },
   BoardHeader: {
-    height: 48
+    height: 46
   },
   BoardStatus: {
     width: 240,
