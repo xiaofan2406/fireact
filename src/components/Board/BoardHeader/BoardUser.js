@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'hocs';
 import withCss from 'react-jss';
 import { spacing, theme, colors } from 'styles';
 import { Popover } from 'widgets';
+import { compose } from 'utils';
 
 const css = {
   BoardUser: {
@@ -37,12 +39,16 @@ const css = {
   }
 };
 
-function BoardUser({ classes }) {
+function BoardUser({ classes, router }) {
   const menuItems = [
     { path: '/profile', label: 'Profile' },
     { path: '/about', label: 'About' },
     { path: '/logout', label: 'Logout' }
   ];
+
+  const menuAction = path => () => {
+    router.push(path);
+  };
 
   return (
     <div className={classes.BoardUser}>
@@ -56,9 +62,7 @@ function BoardUser({ classes }) {
           {menuItems.map(item => (
             <span
               key={item.path}
-              onClick={() => {
-                console.log(item.path);
-              }}
+              onClick={menuAction(item.path)}
               className={classes.menuItem}
             >
               {item.label}
@@ -71,7 +75,10 @@ function BoardUser({ classes }) {
 }
 
 BoardUser.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  router: PropTypes.object.isRequired
 };
 
-export default withCss(css)(BoardUser);
+const enhance = compose(withCss(css), withRouter);
+
+export default enhance(BoardUser);
