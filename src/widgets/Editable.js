@@ -22,6 +22,7 @@ const css = {
   }
 };
 
+// TODO more portable API
 @withCss(css)
 class Editable extends React.Component {
   static propTypes = {
@@ -33,6 +34,7 @@ class Editable extends React.Component {
     isEditing: PropTypes.bool.isRequired,
     value: PropTypes.string,
     singleLine: PropTypes.bool,
+    doneOnBlur: PropTypes.bool,
     autoTrim: PropTypes.bool,
     onKeyDown: PropTypes.func
   };
@@ -41,6 +43,7 @@ class Editable extends React.Component {
     value: '',
     singleLine: true,
     autoTrim: false,
+    doneOnBlur: false,
     onKeyDown: null
   };
 
@@ -90,6 +93,13 @@ class Editable extends React.Component {
     }
   };
 
+  handleBlur = () => {
+    const { doneOnBlur } = this.props;
+    if (doneOnBlur) {
+      this.finishEditing();
+    }
+  };
+
   containerRef = ref => {
     this.container = ref;
   };
@@ -124,6 +134,7 @@ class Editable extends React.Component {
         suppressContentEditableWarning={isEditing}
         onKeyDown={this.handleKeyDown}
         onKeyUp={this.handleKeyUp}
+        onBlur={this.handleBlur}
         ref={this.containerRef}
       >
         {value}

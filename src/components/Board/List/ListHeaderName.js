@@ -13,7 +13,7 @@ const css = {
     flex: 1,
     marginRight: spacing.externalBreath,
     '&:empty:before': {
-      color: colors.blueA100
+      color: colors.blue200
     }
   },
   ListHeaderName_display: {},
@@ -39,6 +39,7 @@ function ListHeaderName({ classes, list }) {
       onDoubleClick={list.startEditing}
       placeholder="New Heading"
       autoTrim
+      doneOnBlur
     />
   );
 }
