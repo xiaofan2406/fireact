@@ -44,9 +44,6 @@ export const variables = {
     width: 240,
     height: 64
   },
-  ListHeaderMenu: {
-    buttonWidth: 48
-  },
   ItemDisplay: {
     minHeight: 32
   },

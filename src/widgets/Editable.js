@@ -114,6 +114,7 @@ class Editable extends React.Component {
       onDone,
       singleLine,
       autoTrim,
+      doneOnBlur,
       isEditing,
       ...rest
     } = this.props;

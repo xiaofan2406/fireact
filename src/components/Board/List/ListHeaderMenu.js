@@ -2,27 +2,45 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import withCss from 'react-jss';
-import { sizes, spacing, theme, variables } from 'styles';
+import { Popover } from 'widgets';
+import { spacing, theme, colors } from 'styles';
 
 const css = {
   ListHeaderMenu: {
-    display: 'flex'
-  },
-  button: {
-    appearance: 'none',
-    height: sizes.regular,
-    width: variables.ListHeaderMenu.buttonWidth,
-    margin: [0, spacing.unit],
-    padding: [spacing.unit],
-    backgroundColor: 'transparent',
-    border: theme.borderTransparent,
-    borderRadius: spacing.internal,
+    fontSize: 18,
     display: 'flex',
-    justifyContent: 'center',
     alignItems: 'center',
-    outline: 'none',
+    justifyContent: 'center',
+    userSelect: 'none',
+    cursor: 'default',
+    width: 28,
+    '&:active, &:focus, &:hover': {
+      backgroundColor: colors.grey200
+    }
+  },
+  menu: {
+    display: 'flex',
+    flexDirection: 'column',
+    marginTop: spacing.unit,
+    padding: [spacing.internal, spacing.internal],
+    borderRadius: spacing.unit,
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    color: colors.white
+  },
+  item: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    whiteSpace: 'pre',
+    fontSize: 14,
+    padding: [spacing.unit, spacing.internal],
+    margin: [spacing.unit],
+    borderRadius: spacing.unit,
+    '&>i': {
+      marginRight: spacing.unit
+    },
     '&:hover': {
-      border: theme.border
+      backgroundColor: theme.primaryColor
     }
   }
 };
@@ -55,14 +73,21 @@ class ListHeaderMenu extends React.Component {
     console.log('render ListHeaderMenu');
     const { classes } = this.props;
     return (
-      <div className={classes.ListHeaderMenu}>
-        <button className={classes.button} onClick={this.handleAddClick}>
-          <i className="fa fa-plus" aria-hidden="true" />
-        </button>
-        <button className={classes.button} onClick={this.handleRemoveClick}>
-          <i className="fa fa-remove" aria-hidden="true" />
-        </button>
-      </div>
+      <Popover
+        className={classes.ListHeaderMenu}
+        label={<i className="fa fa-ellipsis-h" aria-hidden="true" />}
+        align="left"
+        direction="bottom"
+      >
+        <div className={classes.menu}>
+          <span className={classes.item} onClick={this.handleAddClick}>
+            <i className="fa fa-plus" aria-hidden="true" /> New Item
+          </span>
+          <span className={classes.item} onClick={this.handleRemoveClick}>
+            <i className="fa fa-remove" aria-hidden="true" /> Archive List
+          </span>
+        </div>
+      </Popover>
     );
   }
 }
