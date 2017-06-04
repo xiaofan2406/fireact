@@ -7,12 +7,11 @@ import { spacing, theme, colors, variables } from 'styles';
 import { IconButton } from 'widgets';
 
 import TitleMenu from './TitleMenu';
-import Syncing from './Syncing';
 import UserMenu from './UserMenu';
 
 const css = {
   Header: {
-    height: variables.BoardHeader.height,
+    height: variables.Header.height,
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -47,7 +46,6 @@ function Header({ classes, boardStore }) {
   // TODO break this down
   return (
     <div className={classes.Header}>
-      <Syncing />
       <TitleMenu />
       <div className={classes.menu}>
         <IconButton

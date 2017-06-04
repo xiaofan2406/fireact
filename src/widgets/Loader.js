@@ -1,10 +1,13 @@
-// from: https://github.com/yuanyan/halogen/blob/master/src/RingLoader.js
+// css from: https://github.com/yuanyan/halogen/blob/master/src/RingLoader.js
 import React from 'react';
 import PropTypes from 'prop-types';
 import withCss from 'react-jss';
+import classnames from 'classnames';
 
 const css = {
-  Loader: {},
+  Loader: {
+    display: 'inline-block'
+  },
   outer: {
     width: ({ size }) => `${size}px`,
     height: ({ size }) => `${size}px`,
@@ -40,27 +43,27 @@ const css = {
   }
 };
 
-class Loader extends React.Component {
-  static propTypes = {
-    classes: PropTypes.object.isRequired,
-    color: PropTypes.string, // eslint-disable-line
-    size: PropTypes.number // eslint-disable-line
-  };
-  static defaultProps = {
-    color: '#ffffff',
-    size: 60
-  };
-  render() {
-    const { classes } = this.props;
-    return (
-      <div className={classes.Loader}>
-        <div className={classes.outer}>
-          <div className={classes.innerFirst} />
-          <div className={classes.innerSecond} />
-        </div>
+function Loader({ classes, color, size, ...rest }) {
+  const classNames = classnames(classes.Loader, rest.className);
+  return (
+    <div className={classNames}>
+      <div className={classes.outer}>
+        <div className={classes.innerFirst} />
+        <div className={classes.innerSecond} />
       </div>
-    );
-  }
+    </div>
+  );
 }
+
+Loader.propTypes = {
+  classes: PropTypes.object.isRequired,
+  color: PropTypes.string,
+  size: PropTypes.number
+};
+
+Loader.defaultProps = {
+  color: '#ffffff',
+  size: 60
+};
 
 export default withCss(css)(Loader);

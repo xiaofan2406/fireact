@@ -9,9 +9,9 @@ import { statusTypes } from 'constants';
 
 const css = {
   ContentStatus: {
-    width: variables.BoardStatus.width,
-    height: variables.BoardStatus.height,
-    marginBottom: `${variables.BoardStatus.height / 2}px`,
+    width: variables.ContentStatus.width,
+    height: variables.ContentStatus.height,
+    marginBottom: `${variables.ContentStatus.height / 2}px`,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center'

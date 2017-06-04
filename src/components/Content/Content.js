@@ -17,7 +17,7 @@ const css = {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    height: `calc(100vh - ${variables.BoardHeader.height}px)`,
+    height: `calc(100vh - ${variables.Header.height}px)`,
     overflowY: 'scroll',
     '&::-webkit-scrollbar': {
       width: 10,

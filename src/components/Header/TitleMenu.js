@@ -1,14 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { inject } from 'mobx-react';
 import { withRouter } from 'hocs';
 import withCss from 'react-jss';
-import { Popover } from 'widgets';
-import { spacing, theme, colors } from 'styles';
+import { Popover, Loader } from 'widgets';
+import { spacing, theme, colors, variables } from 'styles';
 import { compose } from 'utils';
 import { boardTypes } from 'constants';
 
 const css = {
   TitleMenu: {
+    width: variables.Header.titleMenuWidth
+  },
+  loader: {
+    padding: [spacing.internal, spacing.internalBreath]
+  },
+  popover: {
     userSelect: 'none',
     cursor: 'default',
     padding: [spacing.internal, spacing.internalBreath],
@@ -37,7 +44,7 @@ const css = {
   }
 };
 
-function TitleMenu({ classes, router }) {
+function TitleMenu({ classes, isSyncing, router }) {
   console.log('render TitleMenu');
   const menuItems = Object.keys(boardTypes).map(type => ({
     path: boardTypes[type],
@@ -48,32 +55,43 @@ function TitleMenu({ classes, router }) {
     router.push(path);
   };
   return (
-    <Popover
-      className={classes.TitleMenu}
-      label="Board"
-      align="left"
-      direction="bottom"
-    >
-      <div className={classes.menu}>
-        {menuItems.map(item =>
-          <span
-            key={item.path}
-            onClick={menuAction(item.path)}
-            className={classes.menuItem}
+    <div className={classes.TitleMenu}>
+      {isSyncing
+        ? <Loader className={classes.loader} color={colors.teal500} size={24} />
+        : <Popover
+            className={classes.popover}
+            label="Board"
+            align="left"
+            direction="bottom"
           >
-            {item.label}
-          </span>
-        )}
-      </div>
-    </Popover>
+            <div className={classes.menu}>
+              {menuItems.map(item =>
+                <span
+                  key={item.path}
+                  onClick={menuAction(item.path)}
+                  className={classes.menuItem}
+                >
+                  {item.label}
+                </span>
+              )}
+            </div>
+          </Popover>}
+    </div>
   );
 }
 
 TitleMenu.propTypes = {
   classes: PropTypes.object.isRequired,
+  isSyncing: PropTypes.bool.isRequired,
   router: PropTypes.object.isRequired
 };
 
-const enhance = compose(withCss(css), withRouter);
+const enhance = compose(
+  inject(stores => ({
+    isSyncing: stores.boardStore.isSyncing
+  })),
+  withCss(css),
+  withRouter
+);
 
 export default enhance(TitleMenu);

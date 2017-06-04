@@ -38,10 +38,11 @@ export const variables = {
     minWidth: 320,
     minHeight: 460
   },
-  BoardHeader: {
-    height: 46
+  Header: {
+    height: 46,
+    titleMenuWidth: 64
   },
-  BoardStatus: {
+  ContentStatus: {
     width: 360,
     height: 128
   },
