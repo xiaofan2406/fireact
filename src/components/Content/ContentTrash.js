@@ -6,6 +6,7 @@ import { compose } from 'utils';
 import { spacing } from 'styles';
 
 import ContentStatus from './ContentStatus';
+import Item from './Item';
 
 const css = {
   ContentTrash: {
@@ -19,7 +20,9 @@ function ContentTrash({ classes, boardStore }) {
   console.log('render ContentTrash');
   return boardStore.isTrashEmpty
     ? <ContentStatus type="empty" />
-    : <span className={classes.ContentTrash}>ContentTrash</span>;
+    : <span className={classes.ContentTrash}>
+        {boardStore.trash.map(item => <Item key={item.id} item={item} />)}
+      </span>;
 }
 
 ContentTrash.propTypes = {

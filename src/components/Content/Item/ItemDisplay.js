@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import withCss from 'react-jss';
 import { colors, theme, spacing, variables } from 'styles';
 import { TweenLite } from 'gsap';
+import { keyboard } from 'utils';
 
 import ItemCheckbox from './ItemCheckbox';
 import ItemName from './ItemName';
@@ -106,12 +107,22 @@ class ItemDisplay extends React.Component {
     }
   };
 
+  handleKeyUp = event => {
+    if (keyboard.isRemove(event)) {
+      event.stopPropagation();
+    }
+  };
+
   render() {
     const { classes, item } = this.props;
     console.log('render ItemDisplay');
 
     return (
-      <div className={classes.ItemDisplay} ref={this.containerRef}>
+      <div
+        className={classes.ItemDisplay}
+        ref={this.containerRef}
+        onKeyUp={this.handleKeyUp}
+      >
         <div className={classes.topRow}>
           <ItemCheckbox item={item} />
           {item.isEditing ? <ItemName item={item} /> : <ItemMeta item={item} />}

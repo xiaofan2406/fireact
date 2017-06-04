@@ -52,8 +52,12 @@ class ListHeader extends React.Component {
   };
 
   handleKeyUp = event => {
-    if (keyboard.isEsc(event)) {
+    if (keyboard.isEnter(event)) {
+      this.props.list.startEditing();
+    } else if (keyboard.isEsc(event)) {
       event.target.blur();
+    } else if (keyboard.isRemove(event)) {
+      this.props.list.destroy();
     }
   };
 

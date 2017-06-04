@@ -9,4 +9,4 @@ export const statusTypes = {
   Empty: 'empty'
 };
 
-export const something = 'something';
+export const INBOX_LIST_ID = '__inbox__';

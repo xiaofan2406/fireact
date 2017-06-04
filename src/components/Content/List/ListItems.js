@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import withCss from 'react-jss';
 import { compose } from 'utils';
 
-import Item from './Item';
+import Item from '../Item';
 
 const css = {
   ListItems: {}

@@ -1,5 +1,6 @@
 import { observable, action, computed } from 'mobx';
 import { firebase } from 'utils';
+import { INBOX_LIST_ID } from 'constants';
 
 class Item {
   @observable name;
@@ -19,7 +20,7 @@ class Item {
 
     this.name = init.name || '';
     this.notes = init.notes || '';
-    this.listId = init.listId || '';
+    this.listId = init.listId || INBOX_LIST_ID;
     this.isCompleted = init.isCompleted || false;
     this.isTrashed = init.isTrashed || false;
     // a function to get its container ref, assigned in `Item`

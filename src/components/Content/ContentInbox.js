@@ -6,6 +6,7 @@ import { compose } from 'utils';
 import { spacing } from 'styles';
 
 import ContentStatus from './ContentStatus';
+import Item from './Item';
 
 const css = {
   ContentInbox: {
@@ -19,7 +20,11 @@ function ContentInbox({ classes, boardStore }) {
   console.log('render ContentInbox');
   return boardStore.isInboxEmpty
     ? <ContentStatus type="empty" />
-    : <span className={classes.ContentInbox}>ContentInbox</span>;
+    : <span className={classes.ContentInbox}>
+        {boardStore.inbox.activeItems.map(item =>
+          <Item key={item.id} item={item} />
+        )}
+      </span>;
 }
 
 ContentInbox.propTypes = {

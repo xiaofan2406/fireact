@@ -1,5 +1,7 @@
 import { observable, action, computed, ObservableMap, toJS } from 'mobx';
 import { firebase } from 'utils';
+import { INBOX_LIST_ID } from 'constants';
+
 import Item from './Item';
 
 class List {
@@ -42,7 +44,7 @@ class List {
 
   hasItem = id => this.items.has(id);
 
-  @action removeItem = id => {
+  @action excludeItem = id => {
     this.items.delete(id);
   };
 
@@ -57,7 +59,14 @@ class List {
   }
 
   destroy = () => {
-    this.ref.remove();
+    if (this.id !== INBOX_LIST_ID) {
+      this.items.forEach(item => {
+        item.move(INBOX_LIST_ID);
+      });
+      this.ref.remove();
+    } else {
+      console.log('list.destroy: hum... you cannot destroy Inbox');
+    }
   };
 
   @action setName = name => {

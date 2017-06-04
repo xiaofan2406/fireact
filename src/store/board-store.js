@@ -1,10 +1,11 @@
 import { observable, action, computed, toJS, ObservableMap } from 'mobx';
 import { firebase, boardCacher, uuid } from 'utils';
+import { INBOX_LIST_ID } from 'constants';
+
 import { List } from './models';
 
 const listsPath = 'lists';
 const itemsPath = 'items';
-const inboxListId = '__inbox__';
 
 class BoardStore {
   @observable isLoading;
@@ -111,8 +112,8 @@ class BoardStore {
   };
 
   ensureInboxExist = async () => {
-    if (!this.hasList(inboxListId)) {
-      await this._listsRef.child(inboxListId).set({
+    if (!this.hasList(INBOX_LIST_ID)) {
+      await this._listsRef.child(INBOX_LIST_ID).set({
         name: 'Inbox',
         createdAt: new Date().toISOString()
       });
@@ -133,7 +134,7 @@ class BoardStore {
 
   @computed
   get availableLists() {
-    return this.lists.values().filter(list => list.id !== inboxListId);
+    return this.lists.values().filter(list => list.id !== INBOX_LIST_ID);
   }
 
   @computed
@@ -143,7 +144,7 @@ class BoardStore {
 
   @computed
   get inbox() {
-    return this.lists.get(inboxListId);
+    return this.lists.get(INBOX_LIST_ID);
   }
 
   @computed
@@ -201,7 +202,7 @@ class BoardStore {
 
   @action addItem = itemData => {
     if (!itemData.listId || !this.hasList(itemData.listId)) {
-      itemData.listId = inboxListId;
+      itemData.listId = INBOX_LIST_ID;
     }
     const item = this.lists.get(itemData.listId).addItem(itemData);
     this.items.set(item.id, item);
@@ -210,11 +211,6 @@ class BoardStore {
 
   @action removeList = id => {
     if (this.hasList(id)) {
-      this.lists.get(id).items.forEach(item => {
-        item.move(null);
-      });
-
-      this.lists.get(id).destroy();
       this.lists.delete(id);
     } else {
       console.log('[removeList] hum... this should not happen');
