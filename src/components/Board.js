@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { inject, observer } from 'mobx-react';
+import { inject } from 'mobx-react';
 import { compose } from 'utils';
 import withCss from 'react-jss';
 import classnames from 'classnames';
@@ -23,11 +23,11 @@ const css = {
   }
 };
 
-function Board({ classes, boardStore, location }) {
+function Board({ classes, isEditingItem, location }) {
   console.log('render Board');
   const classNames = classnames({
     [classes.Board]: true,
-    isEditing: boardStore.isEditingItem
+    isEditing: isEditingItem
   });
 
   return (
@@ -41,10 +41,15 @@ function Board({ classes, boardStore, location }) {
 
 Board.propTypes = {
   classes: PropTypes.object.isRequired,
-  boardStore: PropTypes.object.isRequired,
+  isEditingItem: PropTypes.bool.isRequired,
   location: PropTypes.object.isRequired
 };
 
-const enhance = compose(inject('boardStore'), withCss(css), observer);
+const enhance = compose(
+  inject(stores => ({
+    isEditingItem: stores.boardStore.isEditingItem
+  })),
+  withCss(css)
+);
 
 export default enhance(Board);
