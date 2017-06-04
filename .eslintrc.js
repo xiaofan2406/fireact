@@ -54,6 +54,7 @@ module.exports = {
     'import/no-extraneous-dependencies': 0, // allow usage of devDependencies
     'react/forbid-prop-types': 0, // allow PropTypes.object
     'react/jsx-filename-extension': 0, // enfore all .js extension
+    'react/jsx-wrap-multilines': 0,
     'no-unused-vars': [2, { ignoreRestSiblings: true }],
     'arrow-parens': [2, 'as-needed'],
     'react/no-unused-prop-types': [2, { skipShapeProps: true }] // skip shape

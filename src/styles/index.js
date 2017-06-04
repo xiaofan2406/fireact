@@ -35,14 +35,15 @@ export const spacing = {
 
 export const variables = {
   Layout: {
-    minWidth: 320
+    minWidth: 320,
+    minHeight: 460
   },
   BoardHeader: {
     height: 46
   },
   BoardStatus: {
-    width: 240,
-    height: 64
+    width: 360,
+    height: 128
   },
   ItemDisplay: {
     minHeight: 32

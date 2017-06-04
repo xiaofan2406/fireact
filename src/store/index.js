@@ -2,17 +2,22 @@
 import UserStore from './user-store';
 import BoardStore from './board-store';
 
-export default initialState => {
+export default function createStore(initialState) {
   const initUser = initialState.userStore || {};
   const initBoard = initialState.boardStore || {};
 
-  const userStore = new UserStore(initUser);
+  const userStore = new UserStore();
   const boardStore = new BoardStore(initBoard);
 
   BoardStore.injectStore({ userStore });
+
+  if (initUser) {
+    userStore.login(initUser);
+    boardStore.initialSync();
+  }
 
   return {
     userStore,
     boardStore
   };
-};
+}

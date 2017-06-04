@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import { compose } from 'utils';
 import withCss from 'react-jss';
-import { spacing, theme, colors } from 'styles';
+import { spacing, theme, colors, variables } from 'styles';
 import { IconButton } from 'widgets';
 
 import TitleMenu from './TitleMenu';
@@ -12,7 +12,7 @@ import UserMenu from './UserMenu';
 
 const css = {
   Header: {
-    height: '100%',
+    height: variables.BoardHeader.height,
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',

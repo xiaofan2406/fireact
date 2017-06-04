@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { withLogin } from 'hocs';
 import { Layout, Board, About, Login, Logout, Intro } from 'components';
+import { boardTypes } from 'constants';
 
 const AuthenticatedBoard = withLogin({ fallback: Intro })(Board);
 
@@ -15,9 +16,9 @@ function Router() {
   return (
     <BrowserRouter>
       <Layout>
-        <Route path="/" exact component={AuthenticatedBoard} />
-        <Route path="/inbox" exact component={AuthenticatedBoard} />
-        <Route path="/trash" exact component={AuthenticatedBoard} />
+        {Object.values(boardTypes).map(type =>
+          <Route path={type} key={type} exact component={AuthenticatedBoard} />
+        )}
         <Route path="/login" exact component={Login} />
         <Route path="/logout" exact component={Logout} />
         <Route path="/about" exact component={About} />

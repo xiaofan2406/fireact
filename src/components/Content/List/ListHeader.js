@@ -29,8 +29,8 @@ const css = {
 @withCss(css)
 class ListHeader extends React.Component {
   static propTypes = {
-    boardStore: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired,
+    boardStore: PropTypes.object.isRequired,
     list: PropTypes.object.isRequired
   };
 

@@ -46,11 +46,13 @@ class List {
     this.items.delete(id);
   };
 
-  @computed get isEmpty() {
+  @computed
+  get isEmpty() {
     return this.items.size === 0;
   }
 
-  @computed get activeItems() {
+  @computed
+  get activeItems() {
     return this.items.values().filter(item => !item.isTrashed);
   }
 

@@ -7,7 +7,7 @@ import classnames from 'classnames';
 import { colors } from 'styles';
 
 import Header from './Header';
-import Display from './Display';
+import Content from './Content';
 import Events from './Events';
 
 const css = {
@@ -23,16 +23,17 @@ const css = {
   }
 };
 
-function Board({ classes, boardStore }) {
+function Board({ classes, boardStore, location }) {
   console.log('render Board');
   const classNames = classnames({
     [classes.Board]: true,
     isEditing: boardStore.isEditingItem
   });
+
   return (
     <div className={classNames}>
       <Header />
-      <Display />
+      <Content type={location.pathname} />
       <Events />
     </div>
   );
@@ -40,7 +41,8 @@ function Board({ classes, boardStore }) {
 
 Board.propTypes = {
   classes: PropTypes.object.isRequired,
-  boardStore: PropTypes.object.isRequired
+  boardStore: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired
 };
 
 const enhance = compose(inject('boardStore'), withCss(css), observer);

@@ -66,7 +66,8 @@ class Item {
     }
   };
 
-  @computed get hasNotes() {
+  @computed
+  get hasNotes() {
     return this.notes !== '';
   }
 

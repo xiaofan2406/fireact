@@ -5,6 +5,7 @@ import withCss from 'react-jss';
 import { Popover } from 'widgets';
 import { spacing, theme, colors } from 'styles';
 import { compose } from 'utils';
+import { boardTypes } from 'constants';
 
 const css = {
   TitleMenu: {
@@ -38,10 +39,11 @@ const css = {
 
 function TitleMenu({ classes, router }) {
   console.log('render TitleMenu');
-  const menuItems = [
-    { path: '/inbox', label: 'Inbox' },
-    { path: '/trash', label: 'Trash' }
-  ];
+  const menuItems = Object.keys(boardTypes).map(type => ({
+    path: boardTypes[type],
+    label: type
+  }));
+
   const menuAction = path => () => {
     router.push(path);
   };
@@ -53,7 +55,7 @@ function TitleMenu({ classes, router }) {
       direction="bottom"
     >
       <div className={classes.menu}>
-        {menuItems.map(item => (
+        {menuItems.map(item =>
           <span
             key={item.path}
             onClick={menuAction(item.path)}
@@ -61,7 +63,7 @@ function TitleMenu({ classes, router }) {
           >
             {item.label}
           </span>
-        ))}
+        )}
       </div>
     </Popover>
   );

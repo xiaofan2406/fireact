@@ -8,7 +8,8 @@ import 'styles/template.css';
 
 const css = {
   Layout: {
-    minWidth: variables.Layout.minWidth
+    minWidth: variables.Layout.minWidth,
+    minHeight: variables.Layout.minHeight
   }
 };
 

@@ -131,12 +131,34 @@ class BoardStore {
     this.errorMessage = message;
   };
 
-  @computed get availableLists() {
+  @computed
+  get availableLists() {
     return this.lists.values().filter(list => list.id !== inboxListId);
   }
 
-  @computed get isEmpty() {
+  @computed
+  get isEmpty() {
     return this.availableLists.length === 0;
+  }
+
+  @computed
+  get inbox() {
+    return this.lists.get(inboxListId);
+  }
+
+  @computed
+  get isInboxEmpty() {
+    return this.inbox.size === 0;
+  }
+
+  @computed
+  get trash() {
+    return this.items.values().filter(item => item.isTrashed);
+  }
+
+  @computed
+  get isTrashEmpty() {
+    return this.trash.length === 0;
   }
 
   initListeners = () => {
@@ -263,7 +285,8 @@ class BoardStore {
     this.items.get(id).finishEditing().getContainer().focus();
   };
 
-  @computed get isEditingItem() {
+  @computed
+  get isEditingItem() {
     return this.items.values().some(item => item.isEditing);
   }
 
