@@ -12,7 +12,7 @@ const css = {
   ContentTrash: {
     padding: spacing.internalBreath,
     width: '100%',
-    flex: 1
+    height: '100%'
   }
 };
 
