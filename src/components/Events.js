@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { inject } from 'mobx-react';
 
 @inject('boardStore')
-class BoardEvents extends React.PureComponent {
+class Events extends React.PureComponent {
   static propTypes = {
     boardStore: PropTypes.object.isRequired
   };
 
   componentDidMount() {
-    console.log('lel');
+    // console.log('lel');
   }
 
   render() {
@@ -17,4 +17,4 @@ class BoardEvents extends React.PureComponent {
   }
 }
 
-export default BoardEvents;
+export default Events;

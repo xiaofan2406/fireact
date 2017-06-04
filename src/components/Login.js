@@ -11,15 +11,16 @@ const flatResult = result => ({
   uid: result.user.uid
 });
 
-@inject('userStore')
+@inject('userStore', 'boardStore')
 @observer
 class Login extends React.Component {
   static propTypes = {
-    userStore: PropTypes.object.isRequired
+    userStore: PropTypes.object.isRequired,
+    boardStore: PropTypes.object.isRequired
   };
 
   login = () => {
-    const { userStore } = this.props;
+    const { userStore, boardStore } = this.props;
     const provider = new firebase.auth.GoogleAuthProvider();
     firebase
       .auth()
@@ -29,6 +30,7 @@ class Login extends React.Component {
         const info = flatResult(result);
         userStore.login(info);
         loginCacher.cache(info);
+        boardStore.initialSync();
       })
       .catch(console.errer);
   };

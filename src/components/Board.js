@@ -6,9 +6,9 @@ import withCss from 'react-jss';
 import classnames from 'classnames';
 import { colors } from 'styles';
 
-import BoardHeader from './BoardHeader';
-import BoardDisplay from './BoardDisplay';
-import BoardEvents from './BoardEvents';
+import Header from './Header';
+import Display from './Display';
+import Events from './Events';
 
 const css = {
   Board: {
@@ -31,9 +31,9 @@ function Board({ classes, boardStore }) {
   });
   return (
     <div className={classNames}>
-      <BoardHeader />
-      <BoardDisplay />
-      <BoardEvents />
+      <Header />
+      <Display />
+      <Events />
     </div>
   );
 }

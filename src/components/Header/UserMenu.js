@@ -7,7 +7,7 @@ import { Popover } from 'widgets';
 import { compose } from 'utils';
 
 const css = {
-  BoardUser: {
+  UserMenu: {
     userSelect: 'none',
     cursor: 'default',
     padding: [spacing.internal, spacing.internalBreath],
@@ -36,7 +36,7 @@ const css = {
   }
 };
 
-function BoardUser({ classes, router }) {
+function UserMenu({ classes, router }) {
   const menuItems = [
     { path: '/profile', label: 'Profile' },
     { path: '/about', label: 'About' },
@@ -49,7 +49,7 @@ function BoardUser({ classes, router }) {
 
   return (
     <Popover
-      className={classes.BoardUser}
+      className={classes.UserMenu}
       label="User"
       align="right"
       direction="bottom"
@@ -69,11 +69,11 @@ function BoardUser({ classes, router }) {
   );
 }
 
-BoardUser.propTypes = {
+UserMenu.propTypes = {
   classes: PropTypes.object.isRequired,
   router: PropTypes.object.isRequired
 };
 
 const enhance = compose(withCss(css), withRouter);
 
-export default enhance(BoardUser);
+export default enhance(UserMenu);

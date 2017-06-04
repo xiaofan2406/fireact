@@ -4,7 +4,7 @@ import { Provider } from 'mobx-react';
 import { useStrict } from 'mobx';
 import { loginCacher, boardCacher, serviceWorker } from 'utils';
 
-import Router from './router';
+import Router from './Router';
 import createStore from './store';
 
 const stores = createStore({
@@ -34,7 +34,7 @@ if (process.env.NODE_ENV === 'development') {
   render();
 
   if (module.hot) {
-    module.hot.accept('./router', render);
+    module.hot.accept('./Router', render);
   }
 } else {
   ReactDOM.render(

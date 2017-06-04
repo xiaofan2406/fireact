@@ -7,7 +7,7 @@ import { spacing, theme, colors } from 'styles';
 import { compose } from 'utils';
 
 const css = {
-  BoardMenu: {
+  TitleMenu: {
     userSelect: 'none',
     cursor: 'default',
     padding: [spacing.internal, spacing.internalBreath],
@@ -36,8 +36,8 @@ const css = {
   }
 };
 
-function BoardMenu({ classes, router }) {
-  console.log('render BoardMenu');
+function TitleMenu({ classes, router }) {
+  console.log('render TitleMenu');
   const menuItems = [
     { path: '/inbox', label: 'Inbox' },
     { path: '/trash', label: 'Trash' }
@@ -47,7 +47,7 @@ function BoardMenu({ classes, router }) {
   };
   return (
     <Popover
-      className={classes.BoardMenu}
+      className={classes.TitleMenu}
       label="Board"
       align="left"
       direction="bottom"
@@ -67,11 +67,11 @@ function BoardMenu({ classes, router }) {
   );
 }
 
-BoardMenu.propTypes = {
+TitleMenu.propTypes = {
   classes: PropTypes.object.isRequired,
   router: PropTypes.object.isRequired
 };
 
 const enhance = compose(withCss(css), withRouter);
 
-export default enhance(BoardMenu);
+export default enhance(TitleMenu);

@@ -1,4 +1,4 @@
-/* import all store here, or combine them into one store */
+/* import all boardStore here, or combine them into one boardStore */
 import UserStore from './user-store';
 import BoardStore from './board-store';
 

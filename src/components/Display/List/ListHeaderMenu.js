@@ -76,7 +76,7 @@ class ListHeaderMenu extends React.Component {
       <Popover
         className={classes.ListHeaderMenu}
         label={<i className="fa fa-ellipsis-h" aria-hidden="true" />}
-        align="left"
+        align="right"
         direction="bottom"
       >
         <div className={classes.menu}>

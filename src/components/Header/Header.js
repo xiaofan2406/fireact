@@ -6,12 +6,12 @@ import withCss from 'react-jss';
 import { spacing, theme, colors } from 'styles';
 import { IconButton } from 'widgets';
 
-import BoardMenu from './BoardMenu';
-import BoardSyncing from './BoardSyncing';
-import BoardUser from './BoardUser';
+import TitleMenu from './TitleMenu';
+import Syncing from './Syncing';
+import UserMenu from './UserMenu';
 
 const css = {
-  BoardHeader: {
+  Header: {
     height: '100%',
     display: 'flex',
     justifyContent: 'space-between',
@@ -38,17 +38,17 @@ const css = {
   }
 };
 
-function BoardHeader({ classes, boardStore }) {
-  console.log('render BoardHeader');
+function Header({ classes, boardStore }) {
+  console.log('render Header');
 
   const handleClick = () => {
     boardStore.newItem();
   };
   // TODO break this down
   return (
-    <div className={classes.BoardHeader}>
-      <BoardSyncing />
-      <BoardMenu />
+    <div className={classes.Header}>
+      <Syncing />
+      <TitleMenu />
       <div className={classes.menu}>
         <IconButton
           onClick={boardStore.newList}
@@ -63,16 +63,16 @@ function BoardHeader({ classes, boardStore }) {
           title="New Item"
         />
       </div>
-      <BoardUser />
+      <UserMenu />
     </div>
   );
 }
 
-BoardHeader.propTypes = {
+Header.propTypes = {
   classes: PropTypes.object.isRequired,
   boardStore: PropTypes.object.isRequired
 };
 
 const enhance = compose(inject('boardStore'), withCss(css), observer);
 
-export default enhance(BoardHeader);
+export default enhance(Header);

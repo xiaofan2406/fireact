@@ -7,7 +7,6 @@ module.exports = {
       assets: `${paths.srcPath}/assets`,
       components: `${paths.srcPath}/components`,
       hocs: `${paths.srcPath}/hocs`,
-      router: `${paths.srcPath}/router`,
       styles: `${paths.srcPath}/styles`,
       utils: `${paths.srcPath}/utils`,
       widgets: `${paths.srcPath}/widgets`

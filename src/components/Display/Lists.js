@@ -8,7 +8,7 @@ import { spacing, variables } from 'styles';
 import List from './List';
 
 const css = {
-  BoardLists: {
+  Lists: {
     padding: spacing.internalBreath,
     height: `calc(100vh - ${variables.BoardHeader.height}px)`,
     overflowY: 'scroll',
@@ -34,10 +34,10 @@ const css = {
   }
 };
 
-function BoardLists({ classes, boardStore }) {
-  console.log('render BoardLists');
+function Lists({ classes, boardStore }) {
+  console.log('render Lists');
   return (
-    <div className={classes.BoardLists}>
+    <div className={classes.Lists}>
       {boardStore.availableLists.map(list => (
         <List list={list} key={list.id} />
       ))}
@@ -45,11 +45,11 @@ function BoardLists({ classes, boardStore }) {
   );
 }
 
-BoardLists.propTypes = {
+Lists.propTypes = {
   boardStore: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired
 };
 
 const enhance = compose(withCss(css), inject('boardStore'), observer);
 
-export default enhance(BoardLists);
+export default enhance(Lists);
