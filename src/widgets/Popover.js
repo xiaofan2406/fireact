@@ -9,12 +9,12 @@ const css = {
     outline: 'none',
     display: 'flex'
   },
-  left: {
+  right: {
     right: 0,
     left: 'auto',
     position: 'absolute'
   },
-  right: {
+  left: {
     left: 0,
     right: 'auto',
     position: 'absolute'

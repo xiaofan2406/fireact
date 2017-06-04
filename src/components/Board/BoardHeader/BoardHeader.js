@@ -6,6 +6,7 @@ import withCss from 'react-jss';
 import { spacing, theme, colors } from 'styles';
 import { IconButton } from 'widgets';
 
+import BoardMenu from './BoardMenu';
 import BoardSyncing from './BoardSyncing';
 import BoardUser from './BoardUser';
 
@@ -46,10 +47,8 @@ function BoardHeader({ classes, boardStore }) {
   // TODO break this down
   return (
     <div className={classes.BoardHeader}>
-      <span className={classes.title}>
-        <span className={classes.name}>Board</span>
-        <BoardSyncing />
-      </span>
+      <BoardSyncing />
+      <BoardMenu />
       <div className={classes.menu}>
         <IconButton
           onClick={boardStore.newList}
