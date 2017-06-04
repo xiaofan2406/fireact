@@ -79,7 +79,7 @@ Path                | Import alias | Description
 src/**assets/**     | `assets`     | Common static assets folder
 src/**components/** | `components` | React components folder
 src/**hocs/**       | `hocs`       | Higher-order components folder
-src/**store/**      |              | Mobx boardStore folder
+src/**store/**      |              | Mobx store folder
 src/**styles/**     | `styles`     | Global CSS and JSS folder
 src/**utils/**      | `utils`      | JavaScript helper functions folder
 src/**widgets/**    | `widgets`    | Small shared React components folder
