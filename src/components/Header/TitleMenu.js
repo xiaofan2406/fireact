@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { inject } from 'mobx-react';
-import { withRouter } from 'hocs';
+import { withRouter } from 'react-router-dom';
 import withCss from 'react-jss';
 import { Popover, Loader } from 'widgets';
 import { spacing, theme, colors, variables } from 'styles';
@@ -44,23 +44,25 @@ const css = {
   }
 };
 
-function TitleMenu({ classes, isSyncing, router }) {
+function TitleMenu({ classes, isSyncing, history, location }) {
   console.log('render TitleMenu');
-  const menuItems = Object.keys(boardTypes).map(type => ({
-    path: boardTypes[type],
-    label: type
-  }));
+  const menuItems = Object.values(boardTypes);
 
   const menuAction = path => () => {
-    router.push(path);
+    history.push(path);
   };
+
+  const title = Object.values(boardTypes).find(
+    type => type.path === location.pathname
+  ).name;
+
   return (
     <div className={classes.TitleMenu}>
       {isSyncing
         ? <Loader className={classes.loader} color={colors.teal500} size={24} />
         : <Popover
             className={classes.popover}
-            label="Board"
+            label={title}
             align="left"
             direction="bottom"
           >
@@ -71,7 +73,7 @@ function TitleMenu({ classes, isSyncing, router }) {
                   onClick={menuAction(item.path)}
                   className={classes.menuItem}
                 >
-                  {item.label}
+                  {item.name}
                 </span>
               )}
             </div>
@@ -83,7 +85,8 @@ function TitleMenu({ classes, isSyncing, router }) {
 TitleMenu.propTypes = {
   classes: PropTypes.object.isRequired,
   isSyncing: PropTypes.bool.isRequired,
-  router: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired
 };
 
 const enhance = compose(

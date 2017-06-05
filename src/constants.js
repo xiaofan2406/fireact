@@ -1,7 +1,7 @@
 export const boardTypes = {
-  Lists: '/',
-  Inbox: '/inbox',
-  Trash: '/trash'
+  Lists: { path: '/', name: 'Board' },
+  Inbox: { path: '/inbox', name: 'Inbox' },
+  Trash: { path: '/trash', name: 'Trash' }
 };
 
 export const statusTypes = {

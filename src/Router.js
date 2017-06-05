@@ -17,7 +17,12 @@ function Router() {
     <BrowserRouter>
       <Layout>
         {Object.values(boardTypes).map(type =>
-          <Route path={type} key={type} exact component={AuthenticatedBoard} />
+          <Route
+            path={type.path}
+            key={type.path}
+            exact
+            component={AuthenticatedBoard}
+          />
         )}
         <Route path="/login" exact component={Login} />
         <Route path="/logout" exact component={Logout} />

@@ -46,10 +46,10 @@ function Content({ classes, boardStore, type }) {
 
   let content;
   switch (type) {
-    case boardTypes.Inbox:
+    case boardTypes.Inbox.path:
       content = <ContentInbox />;
       break;
-    case boardTypes.Trash:
+    case boardTypes.Trash.path:
       content = <ContentTrash />;
       break;
     default:
@@ -67,7 +67,8 @@ function Content({ classes, boardStore, type }) {
 Content.propTypes = {
   classes: PropTypes.object.isRequired,
   boardStore: PropTypes.object.isRequired,
-  type: PropTypes.oneOf(Object.values(boardTypes)).isRequired
+  type: PropTypes.oneOf(Object.values(boardTypes).map(({ path }) => path))
+    .isRequired
 };
 
 const enhance = compose(inject('boardStore'), withCss(css), observer);
