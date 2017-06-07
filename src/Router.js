@@ -1,10 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
-import { withLogin } from 'hocs';
-import { Layout, Board, About, Login, Logout, Intro } from 'components';
+import { dynamic } from 'hocs';
+import { Layout, Login } from 'components';
 import { boardTypes } from 'constants';
-
-const AuthenticatedBoard = withLogin({ fallback: Intro })(Board);
 
 let DevTool = null;
 if (process.env.NODE_ENV === 'development') {
@@ -21,12 +19,37 @@ function Router() {
             path={type.path}
             key={type.path}
             exact
-            component={AuthenticatedBoard}
+            component={dynamic({
+              importer: () =>
+                import(/* webpackChunkName: "Board" */ './components/Board')
+            })}
           />
         )}
         <Route path="/login" exact component={Login} />
-        <Route path="/logout" exact component={Logout} />
-        <Route path="/about" exact component={About} />
+        <Route
+          path="/logout"
+          exact
+          component={dynamic({
+            importer: () =>
+              import(/* webpackChunkName: "Logout" */ './components/Logout')
+          })}
+        />
+        <Route
+          path="/about"
+          exact
+          component={dynamic({
+            importer: () =>
+              import(/* webpackChunkName: "About" */ './components/About')
+          })}
+        />
+        <Route
+          path="/contact"
+          exact
+          component={dynamic({
+            importer: () =>
+              import(/* webpackChunkName: "Contact" */ './components/Contact')
+          })}
+        />
         {DevTool}
       </Layout>
     </BrowserRouter>

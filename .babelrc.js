@@ -1,5 +1,3 @@
-const path = require('path');
-
 const plugins = [
   require.resolve('babel-plugin-transform-decorators-legacy'),
   require.resolve('babel-plugin-transform-class-properties'),
@@ -8,6 +6,7 @@ const plugins = [
     { useBuiltIns: true }
   ],
   [require.resolve('babel-plugin-transform-react-jsx'), { useBuiltIns: true }],
+
   [
     require.resolve('babel-plugin-transform-runtime'),
     {

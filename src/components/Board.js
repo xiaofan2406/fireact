@@ -2,10 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { inject } from 'mobx-react';
 import { compose } from 'utils';
+import { withLogin } from 'hocs';
 import withCss from 'react-jss';
 import classnames from 'classnames';
 import { colors } from 'styles';
 
+import Intro from './Intro';
 import Header from './Header';
 import Content from './Content';
 import Events from './Events';
@@ -46,6 +48,7 @@ Board.propTypes = {
 };
 
 const enhance = compose(
+  withLogin({ fallback: Intro }),
   inject(stores => ({
     isEditingItem: stores.boardStore.isEditingItem
   })),
