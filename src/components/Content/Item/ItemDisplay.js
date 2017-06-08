@@ -102,7 +102,7 @@ class ItemDisplay extends React.Component {
     ) {
       // prevent blur element
       event.preventDefault();
-
+      console.log('what?');
       boardStore.finishEditingItem(item.id);
     }
   };

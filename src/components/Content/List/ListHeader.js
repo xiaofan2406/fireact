@@ -51,7 +51,8 @@ class ListHeader extends React.Component {
     boardStore.selectList(list.id);
   };
 
-  handleKeyUp = event => {
+  handleKeyDown = event => {
+    event.preventDefault();
     if (keyboard.isEnter(event)) {
       this.props.list.startEditing();
     } else if (keyboard.isEsc(event)) {
@@ -69,7 +70,7 @@ class ListHeader extends React.Component {
         className={classes.ListHeader}
         tabIndex={-1}
         onFocus={this.handleFocus}
-        onKeyUp={this.handleKeyUp}
+        onKeyDown={this.handleKeyDown}
         ref={this.containerRef}
       >
         <ListHeaderName list={list} />

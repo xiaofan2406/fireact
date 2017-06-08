@@ -31,7 +31,7 @@ function ListHeaderName({ classes, list }) {
   return (
     <Editable
       className={classes.ListHeaderName}
-      value={list.name}
+      defaultValue={list.name}
       displayClass={classes.ListHeaderName_display}
       editingClass={classes.ListHeaderName_editing}
       isEditing={list.isEditing}
@@ -40,6 +40,8 @@ function ListHeaderName({ classes, list }) {
       placeholder="New Heading"
       autoTrim
       doneOnBlur
+      inline
+      spellCheck={false}
     />
   );
 }

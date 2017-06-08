@@ -61,10 +61,9 @@ class ListHeaderMenu extends React.Component {
   };
 
   handleRemoveClick = () => {
-    const { boardStore, list } = this.props;
     // TODO replace confirm with a custom alert service
     // if (confirm('Are you sure you want to delete the whole list?')) {
-    boardStore.removeList(list.id);
+    this.props.list.destroy();
     // }
   };
 

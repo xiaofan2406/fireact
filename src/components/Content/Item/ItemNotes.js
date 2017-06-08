@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import withCss from 'react-jss';
-import { ContentEditable } from 'widgets';
+import { Editable } from 'widgets';
 import { spacing } from 'styles';
 import { keyboard } from 'utils';
 
@@ -27,35 +27,30 @@ class ItemNotes extends React.Component {
     this.editor = ref;
   };
 
-  handleKeyUp = event => {
-    const { boardStore, item } = this.props;
-
-    if (keyboard.isEsc(event)) {
-      // stop ESC key event being propagated to Item
-      event.stopPropagation();
-
-      item.setNotes(this.editor.innerText);
-      boardStore.finishEditingItem(item.id);
-    }
+  handleOnDone = text => {
+    this.props.item.setNotes(text);
   };
 
-  handleBlur = () => {
-    const { item } = this.props;
-    item.setNotes(this.editor.innerText);
+  handleKeyDown = event => {
+    const { boardStore, item } = this.props;
+    if (keyboard.isEsc(event)) {
+      boardStore.finishEditingItem(item.id);
+    }
   };
 
   render() {
     const { classes, item } = this.props;
     console.log('render ItemNotes');
     return (
-      <ContentEditable
+      <Editable
         className={classes.ItemNotes}
         tabIndex={0}
         role="button"
-        onKeyUp={this.handleKeyUp}
-        onBlur={this.handleBlur}
-        editorRef={this.editorRef}
-        defaultText={item.notes}
+        isEditing
+        onDone={this.handleOnDone}
+        onKeyDown={this.handleKeyDown}
+        defaultValue={item.notes}
+        doneOnBlur
         placeholder="Notes"
       />
     );
