@@ -32,7 +32,7 @@ class BoardStore {
   }
 
   static injectStore({ userStore }) {
-    Object.assign(this, { userStore });
+    Object.assign(BoardStore, { userStore });
   }
 
   initialSync = async () => {
@@ -41,6 +41,8 @@ class BoardStore {
     if (this.isEmpty) {
       this.setLoadingStatus(true);
     }
+
+    console.log(BoardStore.userStore.uid);
 
     this._listsRef = firebase
       .database()
@@ -105,9 +107,9 @@ class BoardStore {
       this.initListeners();
       this.autoSave();
       this.setSyncingStatus(false);
-    } catch (e) {
+    } catch (error) {
       // TODO check firebase docs to see the error shape
-      this.setErrorMessage(JSON.stringify(e));
+      this.setErrorMessage(JSON.stringify(error));
     }
   };
 
@@ -120,15 +122,18 @@ class BoardStore {
     }
   };
 
-  @action setSyncingStatus = status => {
+  @action
+  setSyncingStatus = status => {
     this.isSyncing = status;
   };
 
-  @action setLoadingStatus = status => {
+  @action
+  setLoadingStatus = status => {
     this.isLoading = status;
   };
 
-  @action setErrorMessage = message => {
+  @action
+  setErrorMessage = message => {
     this.errorMessage = message;
   };
 
@@ -190,7 +195,8 @@ class BoardStore {
     });
   };
 
-  @action addList = listData => {
+  @action
+  addList = listData => {
     if (!this.hasList(listData.id)) {
       const list = new List(listData);
       this.lists.set(list.id, list);
@@ -200,7 +206,8 @@ class BoardStore {
     return this.lists.get(listData.id);
   };
 
-  @action addItem = itemData => {
+  @action
+  addItem = itemData => {
     if (!itemData.listId || !this.hasList(itemData.listId)) {
       itemData.listId = INBOX_LIST_ID;
     }
@@ -209,7 +216,8 @@ class BoardStore {
     return item;
   };
 
-  @action removeList = id => {
+  @action
+  removeList = id => {
     if (this.hasList(id)) {
       this.lists.delete(id);
     } else {
@@ -217,7 +225,8 @@ class BoardStore {
     }
   };
 
-  @action removeItem = id => {
+  @action
+  removeItem = id => {
     if (this.hasItem(id)) {
       const item = this.items.get(id);
       const list = this.lists.get(item.listId);
@@ -267,7 +276,8 @@ class BoardStore {
     this._itemsRef.child(item.id).set(item.selfie());
   };
 
-  @action startEditingItem = id => {
+  @action
+  startEditingItem = id => {
     this.items.forEach(item => {
       if (item.id === id) {
         item.startEditing();
@@ -277,7 +287,8 @@ class BoardStore {
     });
   };
 
-  @action finishEditingItem = id => {
+  @action
+  finishEditingItem = id => {
     this.items.get(id).finishEditing().getContainer().focus();
   };
 

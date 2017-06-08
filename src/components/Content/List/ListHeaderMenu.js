@@ -65,7 +65,6 @@ class ListHeaderMenu extends React.Component {
     // TODO replace confirm with a custom alert service
     // if (confirm('Are you sure you want to delete the whole list?')) {
     boardStore.removeList(list.id);
-    // TODO create a `inbox` list for items with no list
     // }
   };
 

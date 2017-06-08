@@ -55,7 +55,7 @@ function UserMenu({ classes, router }) {
       direction="bottom"
     >
       <div className={classes.menu}>
-        {menuItems.map(item => (
+        {menuItems.map(item =>
           <span
             key={item.path}
             onClick={menuAction(item.path)}
@@ -63,7 +63,7 @@ function UserMenu({ classes, router }) {
           >
             {item.label}
           </span>
-        ))}
+        )}
       </div>
     </Popover>
   );

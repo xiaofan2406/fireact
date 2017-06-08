@@ -26,13 +26,15 @@ class List {
     name: this.name
   });
 
-  @action sync = newData => {
+  @action
+  sync = newData => {
     this.path = newData.path;
     this.ref = firebase.database().ref(this.path);
     this.name = newData.name;
   };
 
-  @action addItem = itemData => {
+  @action
+  addItem = itemData => {
     if (!this.hasItem(itemData.id)) {
       this.items.set(itemData.id, new Item(itemData));
     } else {
@@ -44,7 +46,8 @@ class List {
 
   hasItem = id => this.items.has(id);
 
-  @action excludeItem = id => {
+  @action
+  excludeItem = id => {
     this.items.delete(id);
   };
 
@@ -69,16 +72,19 @@ class List {
     }
   };
 
-  @action setName = name => {
+  @action
+  setName = name => {
     this.name = name;
     this.ref.set({ ...this.selfie(), name });
   };
 
-  @action startEditing = () => {
+  @action
+  startEditing = () => {
     this.isEditing = true;
   };
 
-  @action finishEditing = () => {
+  @action
+  finishEditing = () => {
     this.isEditing = false;
     this.getHeaderNode().focus();
   };

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import { Redirect } from 'react-router-dom';
-import { firebase, loginCacher } from 'utils';
+import { firebase } from 'utils';
 
 const flatResult = result => ({
   token: result.credential.accessToken,
@@ -25,12 +25,9 @@ class Login extends React.Component {
       .auth()
       .signInWithPopup(provider)
       .then(result => {
-        console.log(result);
-        const info = flatResult(result);
-        userStore.login(info);
-        loginCacher.cache(info);
+        userStore.login(flatResult(result));
       })
-      .catch(console.errer);
+      .catch(console.error);
   };
 
   render() {

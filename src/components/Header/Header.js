@@ -43,7 +43,7 @@ function Header({ classes, boardStore }) {
   const handleClick = () => {
     boardStore.newItem();
   };
-  // TODO break this down
+
   return (
     <div className={classes.Header}>
       <TitleMenu />

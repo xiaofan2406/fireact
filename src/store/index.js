@@ -1,4 +1,5 @@
-/* import all boardStore here, or combine them into one boardStore */
+import { autorun } from 'mobx';
+
 import UserStore from './user-store';
 import BoardStore from './board-store';
 
@@ -7,14 +8,12 @@ export default function createStore(initialState) {
   const initBoard = initialState.boardStore || {};
 
   const userStore = new UserStore();
-  const boardStore = new BoardStore(initBoard);
+  userStore.login(initUser);
 
+  const boardStore = new BoardStore(initBoard);
   BoardStore.injectStore({ userStore });
 
-  if (initUser) {
-    userStore.login(initUser);
-    boardStore.initialSync();
-  }
+  autorun(() => userStore.isAuthed && boardStore.initialSync());
 
   return {
     userStore,

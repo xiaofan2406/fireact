@@ -42,7 +42,8 @@ class Item {
   };
 
   // overwrite the current data with the newData
-  @action sync = newData => {
+  @action
+  sync = newData => {
     this.listId = newData.listId;
     this.path = newData.path;
     this.ref = firebase.database().ref(this.path);
@@ -53,14 +54,16 @@ class Item {
     this.isTrashed = newData.isTrashed || false;
   };
 
-  @action setName = name => {
+  @action
+  setName = name => {
     if (name !== this.name) {
       this.name = name;
       this.ref.set({ ...this.selfie(), name });
     }
   };
 
-  @action setNotes = notes => {
+  @action
+  setNotes = notes => {
     if (notes !== this.notes) {
       this.notes = notes;
       this.ref.set({ ...this.selfie(), notes });
@@ -72,36 +75,42 @@ class Item {
     return this.notes !== '';
   }
 
-  @action setCompletionStatus = status => {
+  @action
+  setCompletionStatus = status => {
     if (this.isCompleted !== status) {
       this.isCompleted = status;
       this.ref.set({ ...this.selfie(), isCompleted: status });
     }
   };
 
-  @action move = listId => {
+  @action
+  move = listId => {
     this.listId = listId;
   };
 
-  @action trash = () => {
+  @action
+  trash = () => {
     if (!this.isTrashed) {
       this.isTrashed = true;
       this.ref.set({ ...this.selfie(), isTrashed: true });
     }
   };
 
-  @action restore = () => {
+  @action
+  restore = () => {
     if (this.isTrashed) {
       this.isTrashed = false;
       this.ref.set({ ...this.selfie(), isTrashed: false });
     }
   };
 
-  @action startEditing = () => {
+  @action
+  startEditing = () => {
     this.isEditing = true;
   };
 
-  @action finishEditing = () => {
+  @action
+  finishEditing = () => {
     this.isEditing = false;
     return this;
   };

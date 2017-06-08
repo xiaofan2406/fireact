@@ -1,4 +1,5 @@
 import { observable, action, computed } from 'mobx';
+import { loginCacher } from 'utils';
 
 class UserStore {
   uid = null;
@@ -6,11 +7,13 @@ class UserStore {
   @observable email;
   @observable displayName;
 
-  @action login = info => {
+  @action
+  login = info => {
     this.uid = info.uid;
     this.email = info.email;
     this.displayName = info.displayName;
     this.token = info.token;
+    loginCacher.cache(info);
   };
 
   @computed
@@ -18,11 +21,13 @@ class UserStore {
     return Boolean(this.email && this.token && this.displayName);
   }
 
-  @action logout = () => {
+  @action
+  logout = () => {
     this.token = null;
     this.email = null;
     this.displayName = null;
     this.uid = null;
+    loginCacher.clear();
   };
 }
 

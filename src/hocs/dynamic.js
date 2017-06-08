@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function dynamic({ importer }) {
+function dynamic({ importer }) {
   class Dynamic extends React.Component {
     state = {
       Component: null
@@ -13,7 +13,7 @@ export default function dynamic({ importer }) {
             Component
           });
         })
-        .catch(console.log);
+        .catch(console.error);
     }
 
     render() {
@@ -24,3 +24,5 @@ export default function dynamic({ importer }) {
   }
   return Dynamic;
 }
+
+export default dynamic;

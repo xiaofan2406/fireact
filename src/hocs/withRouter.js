@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function withRouter(Component) {
-  const WithRouter = (props, context) => (
-    <Component router={context.router.history} {...props} />
-  );
+function withRouter(Component) {
+  const WithRouter = (props, context) =>
+    <Component router={context.router.history} {...props} />;
 
   WithRouter.contextTypes = {
     router: PropTypes.shape({
@@ -14,7 +13,10 @@ export default function withRouter(Component) {
     })
   };
 
-  WithRouter.displayName = `withRouter(${Component.displayName || Component.name})`;
+  WithRouter.displayName = `withRouter(${Component.displayName ||
+    Component.name})`;
 
   return WithRouter;
 }
+
+export default withRouter;
