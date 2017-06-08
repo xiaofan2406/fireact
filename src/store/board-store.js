@@ -42,8 +42,6 @@ class BoardStore {
       this.setLoadingStatus(true);
     }
 
-    console.log(BoardStore.userStore.uid);
-
     this._listsRef = firebase
       .database()
       .ref(`${BoardStore.userStore.uid}/${listsPath}`);
@@ -154,7 +152,7 @@ class BoardStore {
 
   @computed
   get isInboxEmpty() {
-    return this.inbox.size === 0;
+    return this.inbox.isEmpty;
   }
 
   @computed
@@ -305,6 +303,7 @@ class BoardStore {
   autoSave = () => {
     boardCacher.cache(this.getCachableData());
     this.autoSaveInterval = setInterval(() => {
+      console.log('[BoardStore] Auto saving...');
       boardCacher.cache(this.getCachableData());
     }, 1000 * 60 * 10);
   };

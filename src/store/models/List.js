@@ -52,13 +52,13 @@ class List {
   };
 
   @computed
-  get isEmpty() {
-    return this.items.size === 0;
+  get activeItems() {
+    return this.items.values().filter(item => !item.isTrashed);
   }
 
   @computed
-  get activeItems() {
-    return this.items.values().filter(item => !item.isTrashed);
+  get isEmpty() {
+    return this.activeItems.length === 0;
   }
 
   destroy = () => {
