@@ -10,6 +10,7 @@ if (process.env.NODE_ENV === 'development') {
   DevTool = <MobXDevTools position={{ bottom: 0, right: 20 }} />;
 }
 
+// TODO need to put path to a mobx store
 function Router() {
   return (
     <BrowserRouter>
