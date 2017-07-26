@@ -1,4 +1,6 @@
 # Fireact
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/xiaofan2406/fireact.svg)](https://greenkeeper.io/)
 [![Build Status][build-badge]][build] [![Dependencies Status][dependencies-badge]][dependencies] [![Styled with prettier][prettier-badge]][prettier]
 
 [build-badge]: https://img.shields.io/travis/xiaofan2406/fireact.svg?style=flat-square
