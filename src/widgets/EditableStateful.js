@@ -57,7 +57,7 @@ class Editable extends React.Component {
 
   finishEditing = () => {
     const { autoTrim, onDone } = this.props;
-    const innerText = this.container.innerText;
+    const { innerText } = this.container;
     onDone(autoTrim ? innerText.trim() : innerText);
 
     this.setState({

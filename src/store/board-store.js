@@ -258,11 +258,10 @@ class BoardStore {
   };
 
   newItem = listId => {
-    listId = listId || this.selectedListId;
     // add client side data first
     const itemData = {
       id: uuid(),
-      listId,
+      listId: listId || this.selectedListId,
       createdAt: new Date().toISOString(),
       isCompleted: false,
       isTrashed: false,

@@ -1,21 +1,27 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
-const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
+const FileManagerPlugin = require('filemanager-webpack-plugin');
 const common = require('./webpack.common');
 const { paths } = require('./configs');
-const pkg = require('../package');
-const babelrc = require('../.babelrc');
+
+const vendorEntries = {
+  'vendor-react': ['react', 'react-dom', 'prop-types'],
+  'vendro-jss': ['react-jss'],
+  'vendor-mobx': ['mobx', 'mobx-react'],
+  'vendor-emotion': ['emotion', 'react-emotion'],
+  'vendor-other': ['react-router-dom'],
+};
 
 module.exports = {
   bail: true,
   devtool: 'source-map',
   entry: {
-    polyfill: require.resolve('./polyfills'),
     main: `${paths.appSrc}/index.js`,
-    vendor: Object.keys(pkg.dependencies),
+    ...vendorEntries,
   },
   resolve: common.resolve,
   output: {
@@ -23,9 +29,8 @@ module.exports = {
     filename: 'js/[name].[chunkhash:8].js',
     chunkFilename: 'js/[name].[chunkhash:8].chunk.js',
     publicPath: '/',
-    // Point sourcemap entries to original disk location
-    devtoolModuleFilenameTemplate: info =>
-      path.relative(paths.appSrc, info.absoluteResourcePath),
+    devtoolModuleFilenameTemplate: ({ absoluteResourcePath }) =>
+      path.relative(paths.appSrc, absoluteResourcePath),
   },
   module: {
     strictExportPresence: true,
@@ -34,18 +39,18 @@ module.exports = {
       {
         test: /\.js$/,
         include: paths.appSrc,
-        loader: require.resolve('babel-loader'),
+        loader: 'babel-loader',
         options: {
-          presets: babelrc,
+          compact: true,
         },
       },
       {
         test: /\.css$/,
         loader: ExtractTextPlugin.extract({
-          fallback: require.resolve('style-loader'),
+          fallback: 'style-loader',
           use: [
             {
-              loader: require.resolve('css-loader'),
+              loader: 'css-loader',
               options: {
                 minimize: true,
                 sourceMap: true,
@@ -56,28 +61,24 @@ module.exports = {
       },
     ],
   },
-  node: common.node,
   plugins: [
-    new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"production"' }),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': '"production"',
+    }),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.NamedModulesPlugin(),
-    new webpack.NamedChunksPlugin(chunk => {
-      if (chunk.name) {
-        return chunk.name;
-      }
-      return chunk.modules
-        .map(m => path.relative(m.context, m.request))
-        .join('_');
-    }),
+    new webpack.NamedChunksPlugin(
+      chunk =>
+        chunk.name ||
+        chunk.mapModules(m => path.relative(m.context, m.request)).join('_')
+    ),
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
+      name: Object.keys(vendorEntries),
       minChunks: Infinity,
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'runtime',
     }),
-    // all plugins above has to stay before the following plugins
-    // otherwise, the build would actually give unexpected results
     new HtmlWebpackPlugin({
       inject: true,
       template: `${paths.appSrc}/assets/index.html`,
@@ -95,45 +96,36 @@ module.exports = {
         minifyURLs: true,
       },
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false,
-        comparisons: false,
-      },
-      output: {
-        comments: false,
-      },
+    new UglifyJsPlugin({
       sourceMap: true,
+      cache: true,
+      uglifyOptions: {
+        ecma: 6,
+        compress: {
+          comparisons: false,
+        },
+        output: {
+          ascii_only: true,
+          ecma: 6,
+        },
+        mangle: {
+          safari10: true,
+        },
+      },
     }),
     new ExtractTextPlugin('css/[name].[contenthash:8].css'),
-    new ManifestPlugin({
-      fileName: 'asset-manifest.json',
-    }),
-    // From create-react-app
-    // Generate a service worker script that will precache, and keep up to date,
-    // the HTML & assets that are part of the Webpack build.
-    new SWPrecacheWebpackPlugin({
-      // By default, a cache-busting query parameter is appended to requests
-      // used to populate the caches, to ensure the responses are fresh.
-      // If a URL is already hashed by Webpack, then there is no concern
-      // about it being stale, and the cache-busting can be skipped.
-      dontCacheBustUrlsMatching: /\.\w{8}\./,
-      filename: 'service-worker.js',
-      logger(message) {
-        if (message.indexOf('Total precache size is') === 0) return;
-        console.log(message);
+    new ManifestPlugin({ fileName: 'asset-manifest.json' }),
+    new FileManagerPlugin({
+      onEnd: {
+        copy: [
+          {
+            // https://surge.sh/help/adding-a-200-page-for-client-side-routing
+            source: `${paths.appDist}/index.html`,
+            destination: `${paths.appDist}/200.html`,
+          },
+        ],
       },
-      minify: true,
-      // For unknown URLs, fallback to the index page
-      navigateFallback: '/index.html',
-      // Ignores URLs starting from /__ (useful for Firebase):
-      // https://github.com/facebookincubator/create-react-app/issues/2237#issuecomment-302693219
-      navigateFallbackWhitelist: [/^(?!\/__).*/],
-      // Don't precache sourcemaps (they're large) and build asset manifest:
-      staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/],
-      // Work around Windows path issue in SWPrecacheWebpackPlugin:
-      // https://github.com/facebookincubator/create-react-app/issues/2235
-      stripPrefix: `${paths.appDist.replace(/\\/g, '/')}/`,
     }),
   ],
+  node: common.node,
 };

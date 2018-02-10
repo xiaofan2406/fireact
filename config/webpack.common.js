@@ -7,6 +7,7 @@ module.exports = {
       assets: `${paths.appSrc}/assets`,
       components: `${paths.appSrc}/components`,
       constants: `${paths.appSrc}/constants`,
+      factories: `${paths.appSrc}/factories`,
       hocs: `${paths.appSrc}/hocs`,
       styles: `${paths.appSrc}/styles`,
       utils: `${paths.appSrc}/utils`,
@@ -17,26 +18,26 @@ module.exports = {
     {
       test: /\.js$/,
       enforce: 'pre',
+      loader: 'eslint-loader',
       include: paths.appSrc,
-      loader: require.resolve('eslint-loader'),
     },
     {
       test: /\.(eot|otf|ttf|woff|woff2)(\?.*)?$/,
-      loader: require.resolve('file-loader'),
+      loader: 'file-loader',
       options: {
         name: 'fonts/[name].[hash:8].[ext]',
       },
     },
     {
       test: /\.(jpg|jpeg|png|gif|svg|ico|webp)(\?.*)?$/,
-      loader: require.resolve('file-loader'),
+      loader: 'file-loader',
       options: {
         name: 'media/[name].[hash:8].[ext]',
       },
     },
     {
       test: /\.(mp4|webm|wav|mp3|m4a|aac|oga)(\?.*)?$/,
-      loader: require.resolve('url-loader'),
+      loader: 'url-loader',
       options: {
         limit: 10000,
         name: 'media/[name].[hash:8].[ext]',
@@ -44,8 +45,10 @@ module.exports = {
     },
   ],
   node: {
+    dgram: 'empty',
     fs: 'empty',
     net: 'empty',
     tls: 'empty',
+    child_process: 'empty',
   },
 };

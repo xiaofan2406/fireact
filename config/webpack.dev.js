@@ -1,26 +1,30 @@
+const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const common = require('./webpack.common');
-const { devServerPort, devServerIp, paths } = require('./configs');
-const babelrc = require('../.babelrc');
+const { devServerPort, localIp, paths } = require('./configs');
+
+// https://github.com/facebookincubator/create-react-app/blob/master/packages/react-dev-utils/ignoredFiles.js
+const ignoredFiles = new RegExp(
+  `^(?!${path
+    .normalize(`${paths.appSrc}/`)
+    .replace(/[\\]+/g, '/')}).+/node_modules/`,
+  'g'
+);
 
 module.exports = {
   devtool: 'cheap-module-source-map',
-  entry: [
-    'react-hot-loader/patch',
-    `webpack-dev-server/client?http://${devServerIp}:${devServerPort}`,
-    'webpack/hot/only-dev-server',
-    `${paths.appSrc}/index.js`,
-  ],
+  entry: ['react-hot-loader/patch', `${paths.appSrc}/index.js`],
   resolve: common.resolve,
   output: {
-    // For dev, `path` and `filename` are not important because of using webpack-dev-server
-    path: paths.appDist,
     filename: 'bundle.js',
+    chunkFilename: 'js/[name].chunk.js',
     // Necessary for HMR to know where to load the hot update chunks
     publicPath: '/',
     // Add /* filename */ comments to generated require()s in the output.
     pathinfo: true,
+    devtoolModuleFilenameTemplate: ({ absoluteResourcePath }) =>
+      path.resolve(absoluteResourcePath),
   },
   module: {
     strictExportPresence: true,
@@ -29,52 +33,46 @@ module.exports = {
       {
         test: /\.js$/,
         include: paths.appSrc,
-        loader: require.resolve('babel-loader'),
+        loader: 'babel-loader',
         options: {
-          babelrc: false,
-          presets: babelrc,
           cacheDirectory: true,
         },
       },
       {
         test: /\.css$/,
-        use: [require.resolve('style-loader'), require.resolve('css-loader')],
+        use: ['style-loader', 'css-loader'],
       },
     ],
   },
-  node: common.node,
-  performance: { hints: false },
   plugins: [
     new HtmlWebpackPlugin({
       inject: true,
       template: `${paths.appSrc}/assets/index.html`,
       favicon: `${paths.appSrc}/assets/favicon.ico`,
     }),
-    new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"development"' }),
-    new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': '"development"',
+    }),
+    new webpack.HotModuleReplacementPlugin(),
   ],
+  node: common.node,
+  performance: {
+    hints: false,
+  },
   devServer: {
     compress: true,
-    historyApiFallback: { disableDotRule: true },
+    historyApiFallback: {
+      disableDotRule: true,
+    },
     hot: true,
     publicPath: '/',
     stats: 'errors-only',
     watchOptions: {
-      ignored: /node_modules/,
+      ignored: ignoredFiles,
     },
     https: process.env.HTTPS === 'true',
-    host: process.env.HOST || devServerIp,
-    port: process.env.PORT || devServerPort,
-    setup(app) {
-      app.use((req, res, next) => {
-        if (req.url === '/service-worker.js') {
-          res.setHeader('Content-Type', 'text/javascript');
-          res.send();
-        } else {
-          next();
-        }
-      });
-    },
+    host: localIp,
+    port: devServerPort,
   },
 };

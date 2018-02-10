@@ -1,40 +1,68 @@
-const plugins = [
-  require.resolve('babel-plugin-transform-decorators-legacy'),
-  require.resolve('babel-plugin-transform-class-properties'),
-  [
-    require.resolve('babel-plugin-transform-object-rest-spread'),
-    { useBuiltIns: true }
-  ],
-  [require.resolve('babel-plugin-transform-react-jsx'), { useBuiltIns: true }],
+const env = process.env.NODE_ENV;
 
-  [
-    require.resolve('babel-plugin-transform-runtime'),
-    {
-      helpers: false,
-      polyfill: false,
-      regenerator: true
-    }
-  ],
-  [require.resolve('babel-plugin-transform-regenerator'), { async: false }],
-  require.resolve('babel-plugin-syntax-dynamic-import'),
-  require.resolve('babel-plugin-transform-export-extensions')
-];
-
-if (process.env.NODE_ENV === 'development') {
-  plugins.concat([
-    require.resolve('react-hot-loader/babel'),
-    require.resolve('babel-plugin-transform-react-jsx-source'),
-    require.resolve('babel-plugin-transform-react-jsx-self')
-  ]);
+if (env !== 'development' && env !== 'test' && env !== 'production') {
+  throw new Error(
+    `Invalid NODE_ENV "${env}". Use only from ["development", "test", "production"]`
+  );
 }
 
-module.exports = {
-  presets: [
-    [
-      require.resolve('babel-preset-env'),
-      { useBuiltIns: false, modules: false }
+const emotionConfig =
+  env === 'production' ? { hoist: true } : { sourceMap: true, autoLabel: true };
+
+let plugins = [
+  ['babel-plugin-emotion', emotionConfig],
+  'babel-plugin-transform-decorators-legacy',
+  'babel-plugin-transform-class-properties',
+  ['babel-plugin-transform-object-rest-spread', { useBuiltIns: true }],
+  ['babel-plugin-transform-react-jsx', { useBuiltIns: true }],
+  'babel-plugin-transform-export-extensions',
+];
+
+if (env === 'development') {
+  plugins = [...plugins, 'react-hot-loader/babel'];
+}
+
+if (env === 'development' || env === 'test') {
+  plugins = [
+    ...plugins,
+    'babel-plugin-transform-react-jsx-source',
+    'babel-plugin-transform-react-jsx-self',
+  ];
+}
+
+if (env === 'test') {
+  module.exports = {
+    presets: [
+      [
+        'babel-preset-env',
+        {
+          targets: { node: 'current' },
+        },
+      ],
+      'babel-preset-react',
     ],
-    require.resolve('babel-preset-react')
-  ],
-  plugins
-};
+    plugins: [...plugins, 'babel-plugin-dynamic-import-node'],
+  };
+} else {
+  module.exports = {
+    presets: [
+      [
+        'babel-preset-env',
+        {
+          targets: {
+            browsers: [
+              'Chrome >= 60',
+              'Safari >= 10.1',
+              'iOS >= 10.3',
+              'Firefox >= 54',
+              'Edge >= 15',
+            ],
+          },
+          modules: false,
+        },
+      ],
+      'babel-preset-react',
+    ],
+    plugins: [...plugins, 'babel-plugin-syntax-dynamic-import'],
+  };
+}

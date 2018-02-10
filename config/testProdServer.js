@@ -1,13 +1,11 @@
 const server = require('serve');
 const configs = require('./configs');
 
-const port = process.env.PORT || configs.testProdPort;
-
 server(configs.paths.appDist, {
-  port,
+  port: configs.testProdPort,
   single: true,
 });
 
 console.log('Production server listening...');
-console.log(`http://localhost:${port}`);
-console.log(`http://${configs.devServerIp}:${port}`);
+console.log(`http://localhost:${configs.testProdPort}`);
+console.log(`http://${configs.localIp}:${configs.testProdPort}`);
