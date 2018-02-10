@@ -15,6 +15,7 @@ const css = {
   },
   icon: {
     color: colors.grey700,
+    fontSize: 34,
   },
 };
 

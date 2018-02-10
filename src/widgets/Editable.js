@@ -1,34 +1,28 @@
 /* eslint-disable react/no-danger */
 import React from 'react';
 import PropTypes from 'prop-types';
-import withCss from 'react-jss';
-import classnames from 'classnames';
+import { css, cx } from 'react-emotion';
 import { keyboard } from 'utils';
 
-const css = {
-  Editable: {
-    cursor: 'default',
-    wordBreak: 'break-word',
-    '&:empty:before': {
-      content: 'attr(placeholder)',
-      display: 'block',
-    },
-    '&.inline': {
-      textOverflow: 'ellipsis',
-      overflow: 'hidden',
-      whiteSpace: 'nowrap',
-    },
-    '&.isEditing': {
-      cursor: 'text',
-    },
-  },
-};
+const cssClass = css`
+  cursor: default;
+  word-break: break-word;
+  &:empty:before {
+    content: attr(placeholder);
+    display: block;
+  }
+  &.inline {
+    text-wverflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  &.isEditing {
+    cursor: text;
+  }
+`;
 
-@withCss(css)
 class Editable extends React.Component {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
-    classes: PropTypes.object.isRequired,
     onDone: PropTypes.func.isRequired,
     isEditing: PropTypes.bool.isRequired,
     defaultValue: PropTypes.string,
@@ -115,8 +109,6 @@ class Editable extends React.Component {
 
   render() {
     const {
-      sheet,
-      classes,
       onDone,
       isEditing,
       defaultValue,
@@ -132,7 +124,7 @@ class Editable extends React.Component {
 
     console.log('render Editable', isEditing);
 
-    const classNames = classnames(classes.Editable, rest.className, {
+    const classNames = cx(cssClass, rest.className, {
       isEditing,
       inline: inline && !isEditing,
       [displayClass]: !isEditing,
