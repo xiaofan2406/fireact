@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'hocs';
+import { withRouter } from 'factories';
 import withCss from 'react-jss';
 import { spacing, theme, colors } from 'styles';
 import { Popover } from 'widgets';

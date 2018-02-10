@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { inject } from 'mobx-react';
 import { compose } from 'utils';
-import { withLogin } from 'hocs';
+import { withLogin } from 'factories';
 import withCss from 'react-jss';
 import classnames from 'classnames';
 import { colors } from 'styles';

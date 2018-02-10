@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { inject } from 'mobx-react';
 import withCss from 'react-jss';
-import { withRouter } from 'hocs';
+import { withRouter } from 'factories';
 import { colors } from 'styles';
 import { IconButton } from 'widgets';
 import { compose } from 'utils';

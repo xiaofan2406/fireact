@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
-import { dynamic } from 'hocs';
+import { dynamic } from 'factories';
 import { Layout, Login } from 'components';
 import { boardTypes } from 'constants';
 
