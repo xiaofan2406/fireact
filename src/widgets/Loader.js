@@ -1,62 +1,49 @@
-// css from: https://github.com/yuanyan/halogen/blob/master/src/RingLoader.js
+/**
+ * @see https://github.com/yuanyan/halogen/blob/master/src/RingLoader.js
+ */
 import React from 'react';
 import PropTypes from 'prop-types';
-import withCss from 'react-jss';
-import classnames from 'classnames';
+import styled from 'react-emotion';
 
-const css = {
-  Loader: {
-    display: 'inline-block',
-  },
-  outer: {
-    width: ({ size }) => `${size}px`,
-    height: ({ size }) => `${size}px`,
-    position: 'relative',
-  },
-  withAnimation: {
-    perspective: '800px',
-    animationFillMode: 'forwards',
-  },
-  innerFirst: {
-    width: ({ size }) => `${size}px`,
-    height: ({ size }) => `${size}px`,
-    border: ({ size, color }) => `${size / 10}px solid ${color}`,
-    opacity: 0.4,
-    borderRadius: '100%',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    extend: 'withAnimation',
-    animation: 'loaderRigthRotate 2s 0s infinite linear',
-  },
-  innerSecond: {
-    width: ({ size }) => `${size}px`,
-    height: ({ size }) => `${size}px`,
-    border: ({ size, color }) => `${size / 10}px solid ${color}`,
-    opacity: 0.4,
-    borderRadius: '100%',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    extend: 'withAnimation',
-    animation: 'loaderLeftRotate 2s 0s infinite linear',
-  },
-};
+const Container = styled.div`
+  display: inline-block;
+  & > div {
+    width: ${({ size }) => size}px;
+    height: ${({ size }) => size}px;
+    position: relative;
+    & div {
+      width: ${({ size }) => size}px;
+      height: ${({ size }) => size}px;
+      border-style: solid;
+      border-width: ${({ size }) => size / 10}px;
+      border-color: ${({ color }) => color};
+      opacity: 0.4;
+      border-radius: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      perspective: 800px;
+      animation-fill-mode: forwards;
+    }
+    & div:first-child {
+      animation: loaderRigthRotate 2s 0s infinite linear;
+    }
+    & div:nth-child(2) {
+      animation: loaderLeftRotate 2s 0s infinite linear;
+    }
+  }
+`;
 
-function Loader({ classes, color, size, ...rest }) {
-  const classNames = classnames(classes.Loader, rest.className);
-  return (
-    <div className={classNames}>
-      <div className={classes.outer}>
-        <div className={classes.innerFirst} />
-        <div className={classes.innerSecond} />
-      </div>
+const Loader = props => (
+  <Container {...props}>
+    <div>
+      <div />
+      <div />
     </div>
-  );
-}
+  </Container>
+);
 
 Loader.propTypes = {
-  classes: PropTypes.object.isRequired,
   color: PropTypes.string,
   size: PropTypes.number,
 };
@@ -66,4 +53,4 @@ Loader.defaultProps = {
   size: 60,
 };
 
-export default withCss(css)(Loader);
+export default Loader;
