@@ -14,9 +14,9 @@ const css = {
       spacing.externalBreath,
       spacing.externalBreath,
       spacing.externalBreath * 2,
-      spacing.externalBreath
-    ]
-  }
+      spacing.externalBreath,
+    ],
+  },
 };
 
 function List({ classes, list }) {
@@ -31,7 +31,7 @@ function List({ classes, list }) {
 
 List.propTypes = {
   classes: PropTypes.object.isRequired,
-  list: PropTypes.object.isRequired
+  list: PropTypes.object.isRequired,
 };
 
 const enhance = compose(withCss(css), observer);

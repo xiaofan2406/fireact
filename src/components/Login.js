@@ -8,14 +8,14 @@ const flatResult = result => ({
   token: result.credential.accessToken,
   email: result.user.email,
   displayName: result.user.displayName,
-  uid: result.user.uid
+  uid: result.user.uid,
 });
 
 @inject('userStore')
 @observer
 class Login extends React.Component {
   static propTypes = {
-    userStore: PropTypes.object.isRequired
+    userStore: PropTypes.object.isRequired,
   };
 
   login = () => {
@@ -32,11 +32,13 @@ class Login extends React.Component {
 
   render() {
     const { userStore } = this.props;
-    return userStore.email
-      ? <Redirect to="/" />
-      : <div>
-          <button onClick={this.login}>login</button>
-        </div>;
+    return userStore.email ? (
+      <Redirect to="/" />
+    ) : (
+      <div>
+        <button onClick={this.login}>login</button>
+      </div>
+    );
   }
 }
 

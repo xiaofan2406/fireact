@@ -11,11 +11,11 @@ import { boardTypes } from 'constants';
 const css = {
   ActionMenu: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   icon: {
-    color: colors.grey700
-  }
+    color: colors.grey700,
+  },
 };
 
 function ActionMenu({ classes, boardStore, router }) {
@@ -52,7 +52,7 @@ function ActionMenu({ classes, boardStore, router }) {
 ActionMenu.propTypes = {
   classes: PropTypes.object.isRequired,
   boardStore: PropTypes.object.isRequired,
-  router: PropTypes.object.isRequired
+  router: PropTypes.object.isRequired,
 };
 
 const enhance = compose(inject('boardStore'), withCss(css), withRouter);

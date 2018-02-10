@@ -20,9 +20,9 @@ const css = {
     marginBottom: spacing.external,
     '&:focus': {
       outline: 'none',
-      backgroundColor: theme.primaryAccent
-    }
-  }
+      backgroundColor: theme.primaryAccent,
+    },
+  },
 };
 
 @inject('boardStore')
@@ -31,7 +31,7 @@ class ListHeader extends React.Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     boardStore: PropTypes.object.isRequired,
-    list: PropTypes.object.isRequired
+    list: PropTypes.object.isRequired,
   };
 
   componentDidMount() {

@@ -15,24 +15,24 @@ function Router() {
   return (
     <BrowserRouter>
       <Layout>
-        {Object.values(boardTypes).map(type =>
+        {Object.values(boardTypes).map(type => (
           <Route
             path={type.path}
             key={type.path}
             exact
             component={dynamic({
               importer: () =>
-                import(/* webpackChunkName: "Board" */ './components/Board')
+                import(/* webpackChunkName: "Board" */ './components/Board'),
             })}
           />
-        )}
+        ))}
         <Route path="/login" exact component={Login} />
         <Route
           path="/logout"
           exact
           component={dynamic({
             importer: () =>
-              import(/* webpackChunkName: "Logout" */ './components/Logout')
+              import(/* webpackChunkName: "Logout" */ './components/Logout'),
           })}
         />
         <Route
@@ -40,7 +40,7 @@ function Router() {
           exact
           component={dynamic({
             importer: () =>
-              import(/* webpackChunkName: "About" */ './components/About')
+              import(/* webpackChunkName: "About" */ './components/About'),
           })}
         />
         <Route
@@ -48,7 +48,7 @@ function Router() {
           exact
           component={dynamic({
             importer: () =>
-              import(/* webpackChunkName: "Contact" */ './components/Contact')
+              import(/* webpackChunkName: "Contact" */ './components/Contact'),
           })}
         />
         {DevTool}

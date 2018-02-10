@@ -15,8 +15,8 @@ const css = {
     alignItems: 'center',
     borderBottom: theme.border,
     boxShadow: theme.boxShadow,
-    padding: [spacing.internal, spacing.internalBreath]
-  }
+    padding: [spacing.internal, spacing.internalBreath],
+  },
 };
 
 function Header({ classes }) {
@@ -31,7 +31,7 @@ function Header({ classes }) {
 }
 
 Header.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 };
 
 export default withCss(css)(Header);

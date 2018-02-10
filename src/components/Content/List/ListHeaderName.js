@@ -13,13 +13,13 @@ const css = {
     flex: 1,
     marginRight: spacing.externalBreath,
     '&:empty:before': {
-      color: colors.blue200
-    }
+      color: colors.blue200,
+    },
   },
   ListHeaderName_display: {},
   ListHeaderName_editing: {
-    outline: 'none'
-  }
+    outline: 'none',
+  },
 };
 
 function ListHeaderName({ classes, list }) {
@@ -48,7 +48,7 @@ function ListHeaderName({ classes, list }) {
 
 ListHeaderName.propTypes = {
   classes: PropTypes.object.isRequired,
-  list: PropTypes.object.isRequired
+  list: PropTypes.object.isRequired,
 };
 
 const enhance = compose(withCss(css), observer);

@@ -12,11 +12,11 @@ function withLogin({ assert = true, fallback: Fallback }) {
     }
 
     WithLogin.propTypes = {
-      isAuthed: PropTypes.bool.isRequired
+      isAuthed: PropTypes.bool.isRequired,
     };
 
     return inject(stores => ({
-      isAuthed: stores.userStore.isAuthed
+      isAuthed: stores.userStore.isAuthed,
     }))(WithLogin);
   };
 }

@@ -6,7 +6,7 @@ import Redirect from 'react-router/Redirect';
 @inject('userStore')
 class Logout extends React.Component {
   static propTypes = {
-    userStore: PropTypes.object.isRequired
+    userStore: PropTypes.object.isRequired,
   };
 
   componentWillMount() {

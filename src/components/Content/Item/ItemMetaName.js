@@ -10,9 +10,9 @@ const css = {
   ItemMetaName: {
     color: colors.black,
     '&.placeholder': {
-      color: colors.grey500
-    }
-  }
+      color: colors.grey500,
+    },
+  },
 };
 
 function ItemMetaName({ classes, item }) {
@@ -20,7 +20,7 @@ function ItemMetaName({ classes, item }) {
 
   const classNames = classnames({
     [classes.ItemMetaName]: true,
-    placeholder: !item.name
+    placeholder: !item.name,
   });
 
   return <span className={classNames}>{item.name || 'New To-Do'}</span>;
@@ -28,7 +28,7 @@ function ItemMetaName({ classes, item }) {
 
 ItemMetaName.propTypes = {
   classes: PropTypes.object.isRequired,
-  item: PropTypes.object.isRequired
+  item: PropTypes.object.isRequired,
 };
 
 const enhance = compose(withCss(css), observer);

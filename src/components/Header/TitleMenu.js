@@ -10,10 +10,10 @@ import { boardTypes } from 'constants';
 
 const css = {
   TitleMenu: {
-    width: variables.Header.titleMenuWidth
+    width: variables.Header.titleMenuWidth,
   },
   loader: {
-    padding: [spacing.internal, spacing.internalBreath]
+    padding: [spacing.internal, spacing.internalBreath],
   },
   popover: {
     userSelect: 'none',
@@ -21,8 +21,8 @@ const css = {
     padding: [spacing.internal, spacing.internalBreath],
     '&:active, &:focus, &:hover': {
       backgroundColor: colors.grey200,
-      color: colors.black
-    }
+      color: colors.black,
+    },
   },
   menu: {
     display: 'flex',
@@ -31,7 +31,7 @@ const css = {
     padding: [spacing.internal, spacing.internal],
     borderRadius: spacing.unit,
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
-    color: colors.white
+    color: colors.white,
   },
   menuItem: {
     cursor: 'default',
@@ -39,9 +39,9 @@ const css = {
     padding: [spacing.internal, spacing.internalBreath],
     display: 'flex',
     '&:hover': {
-      backgroundColor: theme.primaryColor
-    }
-  }
+      backgroundColor: theme.primaryColor,
+    },
+  },
 };
 
 function TitleMenu({ classes, isSyncing, history, location }) {
@@ -58,26 +58,28 @@ function TitleMenu({ classes, isSyncing, history, location }) {
 
   return (
     <div className={classes.TitleMenu}>
-      {isSyncing
-        ? <Loader className={classes.loader} color={colors.teal500} size={24} />
-        : <Popover
-            className={classes.popover}
-            label={title}
-            align="left"
-            direction="bottom"
-          >
-            <div className={classes.menu}>
-              {menuItems.map(item =>
-                <span
-                  key={item.path}
-                  onClick={menuAction(item.path)}
-                  className={classes.menuItem}
-                >
-                  {item.name}
-                </span>
-              )}
-            </div>
-          </Popover>}
+      {isSyncing ? (
+        <Loader className={classes.loader} color={colors.teal500} size={24} />
+      ) : (
+        <Popover
+          className={classes.popover}
+          label={title}
+          align="left"
+          direction="bottom"
+        >
+          <div className={classes.menu}>
+            {menuItems.map(item => (
+              <span
+                key={item.path}
+                onClick={menuAction(item.path)}
+                className={classes.menuItem}
+              >
+                {item.name}
+              </span>
+            ))}
+          </div>
+        </Popover>
+      )}
     </div>
   );
 }
@@ -86,12 +88,12 @@ TitleMenu.propTypes = {
   classes: PropTypes.object.isRequired,
   isSyncing: PropTypes.bool.isRequired,
   history: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired
+  location: PropTypes.object.isRequired,
 };
 
 const enhance = compose(
   inject(stores => ({
-    isSyncing: stores.boardStore.isSyncing
+    isSyncing: stores.boardStore.isSyncing,
   })),
   withCss(css),
   withRouter

@@ -16,8 +16,8 @@ const css = {
     userSelect: 'none',
     height: variables.ItemDisplay.minHeight,
     flex: 1,
-    lineHeight: variables.ItemMeta.lineHeight
-  }
+    lineHeight: variables.ItemMeta.lineHeight,
+  },
 };
 
 function ItemMeta({ classes, item }) {
@@ -33,7 +33,7 @@ function ItemMeta({ classes, item }) {
 
 ItemMeta.propTypes = {
   classes: PropTypes.object.isRequired,
-  item: PropTypes.object.isRequired
+  item: PropTypes.object.isRequired,
 };
 
 const enhance = compose(withCss(css), observer);

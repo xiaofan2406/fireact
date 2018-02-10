@@ -53,7 +53,7 @@ class BoardStore {
     try {
       const [lists, items] = (await Promise.all([
         this._listsRef.once('value'),
-        this._itemsRef.once('value')
+        this._itemsRef.once('value'),
       ])).map(result => result.val());
 
       if (lists) {
@@ -70,7 +70,7 @@ class BoardStore {
           this.addList({
             id,
             ...lists[id],
-            path: `${BoardStore.userStore.uid}/${listsPath}/${id}`
+            path: `${BoardStore.userStore.uid}/${listsPath}/${id}`,
           })
         );
       } else {
@@ -91,7 +91,7 @@ class BoardStore {
           this.addItem({
             id,
             ...items[id],
-            path: `${BoardStore.userStore.uid}/${itemsPath}/${id}`
+            path: `${BoardStore.userStore.uid}/${itemsPath}/${id}`,
           })
         );
       } else {
@@ -115,7 +115,7 @@ class BoardStore {
     if (!this.hasList(INBOX_LIST_ID)) {
       await this._listsRef.child(INBOX_LIST_ID).set({
         name: 'Inbox',
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
       });
     }
   };
@@ -170,7 +170,7 @@ class BoardStore {
       const listData = {
         id: snapshot.key,
         path: `${BoardStore.userStore.uid}/${listsPath}/${snapshot.key}`,
-        ...snapshot.val()
+        ...snapshot.val(),
       };
       this.addList(listData);
     });
@@ -179,7 +179,7 @@ class BoardStore {
       const itemData = {
         id: snapshot.key,
         path: `${BoardStore.userStore.uid}/${itemsPath}/${snapshot.key}`,
-        ...snapshot.val()
+        ...snapshot.val(),
       };
       this.addItem(itemData);
     });
@@ -248,7 +248,7 @@ class BoardStore {
   newList = () => {
     const listData = {
       id: uuid(),
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
     };
 
     const list = this.addList(listData);
@@ -266,7 +266,7 @@ class BoardStore {
       createdAt: new Date().toISOString(),
       isCompleted: false,
       isTrashed: false,
-      notes: ''
+      notes: '',
     };
 
     const item = this.addItem(itemData);
@@ -287,7 +287,11 @@ class BoardStore {
 
   @action
   finishEditingItem = id => {
-    this.items.get(id).finishEditing().getContainer().focus();
+    this.items
+      .get(id)
+      .finishEditing()
+      .getContainer()
+      .focus();
   };
 
   @computed
@@ -311,7 +315,7 @@ class BoardStore {
   getCachableData = () =>
     toJS({
       lists: this.lists.values().map(list => list.getCachableData()),
-      items: this.items
+      items: this.items,
     });
 
   stopAutoSave = () => {

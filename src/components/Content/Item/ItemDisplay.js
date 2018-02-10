@@ -25,19 +25,19 @@ const css = {
         spacing.externalBreath,
         -spacing.internalBreath,
         spacing.externalBreath * 2,
-        -spacing.internalBreath
+        -spacing.internalBreath,
       ],
-      padding: [spacing.internal, spacing.internalBreath]
-    }
+      padding: [spacing.internal, spacing.internalBreath],
+    },
   },
   topRow: {
     display: 'flex',
     alignItems: 'center',
-    minHeight: variables.ItemDisplay.minHeight
+    minHeight: variables.ItemDisplay.minHeight,
   },
   bottomRow: {
-    paddingLeft: variables.ItemCheckbox.width + spacing.external
-  }
+    paddingLeft: variables.ItemCheckbox.width + spacing.external,
+  },
 };
 
 @inject('boardStore')
@@ -47,7 +47,7 @@ class ItemDisplay extends React.Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     boardStore: PropTypes.object.isRequired,
-    item: PropTypes.object.isRequired
+    item: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
@@ -127,12 +127,12 @@ class ItemDisplay extends React.Component {
           <ItemCheckbox item={item} />
           {item.isEditing ? <ItemName item={item} /> : <ItemMeta item={item} />}
         </div>
-        {item.isEditing
-          ? <div className={classes.bottomRow}>
-              <ItemNotes item={item} />
-              <ItemAction item={item} />
-            </div>
-          : null}
+        {item.isEditing ? (
+          <div className={classes.bottomRow}>
+            <ItemNotes item={item} />
+            <ItemAction item={item} />
+          </div>
+        ) : null}
       </div>
     );
   }

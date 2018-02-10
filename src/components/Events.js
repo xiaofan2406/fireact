@@ -5,7 +5,7 @@ import { inject } from 'mobx-react';
 @inject('boardStore')
 class Events extends React.PureComponent {
   static propTypes = {
-    boardStore: PropTypes.object.isRequired
+    boardStore: PropTypes.object.isRequired,
   };
 
   componentDidMount() {

@@ -20,16 +20,16 @@ const css = {
     minHeight: '100vh',
     '&.isEditing': {
       transition: 'background-color, 0.2s',
-      backgroundColor: colors.grey100
-    }
-  }
+      backgroundColor: colors.grey100,
+    },
+  },
 };
 
 function Board({ classes, isEditingItem, location }) {
   console.log('render Board');
   const classNames = classnames({
     [classes.Board]: true,
-    isEditing: isEditingItem
+    isEditing: isEditingItem,
   });
 
   return (
@@ -44,13 +44,13 @@ function Board({ classes, isEditingItem, location }) {
 Board.propTypes = {
   classes: PropTypes.object.isRequired,
   isEditingItem: PropTypes.bool.isRequired,
-  location: PropTypes.object.isRequired
+  location: PropTypes.object.isRequired,
 };
 
 const enhance = compose(
   withLogin({ fallback: Intro }),
   inject(stores => ({
-    isEditingItem: stores.boardStore.isEditingItem
+    isEditingItem: stores.boardStore.isEditingItem,
   })),
   withCss(css)
 );

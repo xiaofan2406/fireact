@@ -11,8 +11,8 @@ const css = {
     padding: 0,
     outline: 'none',
     border: 'none',
-    lineHeight: variables.ItemMeta.lineHeight
-  }
+    lineHeight: variables.ItemMeta.lineHeight,
+  },
 };
 
 @inject('boardStore')
@@ -22,7 +22,7 @@ class ItemName extends React.Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     boardStore: PropTypes.object.isRequired,
-    item: PropTypes.object.isRequired
+    item: PropTypes.object.isRequired,
   };
 
   componentDidMount() {

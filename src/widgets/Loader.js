@@ -6,16 +6,16 @@ import classnames from 'classnames';
 
 const css = {
   Loader: {
-    display: 'inline-block'
+    display: 'inline-block',
   },
   outer: {
     width: ({ size }) => `${size}px`,
     height: ({ size }) => `${size}px`,
-    position: 'relative'
+    position: 'relative',
   },
   withAnimation: {
     perspective: '800px',
-    animationFillMode: 'forwards'
+    animationFillMode: 'forwards',
   },
   innerFirst: {
     width: ({ size }) => `${size}px`,
@@ -27,7 +27,7 @@ const css = {
     top: 0,
     left: 0,
     extend: 'withAnimation',
-    animation: 'loaderRigthRotate 2s 0s infinite linear'
+    animation: 'loaderRigthRotate 2s 0s infinite linear',
   },
   innerSecond: {
     width: ({ size }) => `${size}px`,
@@ -39,8 +39,8 @@ const css = {
     top: 0,
     left: 0,
     extend: 'withAnimation',
-    animation: 'loaderLeftRotate 2s 0s infinite linear'
-  }
+    animation: 'loaderLeftRotate 2s 0s infinite linear',
+  },
 };
 
 function Loader({ classes, color, size, ...rest }) {
@@ -58,12 +58,12 @@ function Loader({ classes, color, size, ...rest }) {
 Loader.propTypes = {
   classes: PropTypes.object.isRequired,
   color: PropTypes.string,
-  size: PropTypes.number
+  size: PropTypes.number,
 };
 
 Loader.defaultProps = {
   color: '#ffffff',
-  size: 60
+  size: 60,
 };
 
 export default withCss(css)(Loader);

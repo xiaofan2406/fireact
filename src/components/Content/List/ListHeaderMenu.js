@@ -15,8 +15,8 @@ const css = {
     cursor: 'default',
     width: 28,
     '&:active, &:focus, &:hover': {
-      backgroundColor: colors.grey200
-    }
+      backgroundColor: colors.grey200,
+    },
   },
   menu: {
     display: 'flex',
@@ -25,7 +25,7 @@ const css = {
     padding: [spacing.internal, spacing.internal],
     borderRadius: spacing.unit,
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
-    color: colors.white
+    color: colors.white,
   },
   item: {
     display: 'flex',
@@ -37,12 +37,12 @@ const css = {
     margin: [spacing.unit],
     borderRadius: spacing.unit,
     '&>i': {
-      marginRight: spacing.unit
+      marginRight: spacing.unit,
     },
     '&:hover': {
-      backgroundColor: theme.primaryColor
-    }
-  }
+      backgroundColor: theme.primaryColor,
+    },
+  },
 };
 
 @inject('boardStore')
@@ -52,7 +52,7 @@ class ListHeaderMenu extends React.Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     boardStore: PropTypes.object.isRequired,
-    list: PropTypes.object.isRequired
+    list: PropTypes.object.isRequired,
   };
 
   handleAddClick = () => {

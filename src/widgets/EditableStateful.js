@@ -9,17 +9,17 @@ const css = {
     cursor: 'default',
     '&:empty:before': {
       content: 'attr(placeholder)',
-      display: 'block'
+      display: 'block',
     },
     '&.singleLine': {
       textOverflow: 'ellipsis',
       overflow: 'hidden',
-      whiteSpace: 'nowrap'
+      whiteSpace: 'nowrap',
     },
     '&.isEditing': {
-      cursor: 'text'
-    }
-  }
+      cursor: 'text',
+    },
+  },
 };
 
 @withCss(css)
@@ -32,17 +32,17 @@ class Editable extends React.Component {
     onDone: PropTypes.func.isRequired,
     value: PropTypes.string,
     singleLine: PropTypes.bool,
-    autoTrim: PropTypes.bool
+    autoTrim: PropTypes.bool,
   };
 
   static defaultProps = {
     value: '',
     singleLine: true,
-    autoTrim: false
+    autoTrim: false,
   };
 
   state = {
-    isEditing: false
+    isEditing: false,
   };
 
   componentDidUpdate() {
@@ -61,14 +61,14 @@ class Editable extends React.Component {
     onDone(autoTrim ? innerText.trim() : innerText);
 
     this.setState({
-      isEditing: false
+      isEditing: false,
     });
   };
 
   handleDoubleClick = () => {
     if (!this.state.isEditing) {
       this.setState({
-        isEditing: true
+        isEditing: true,
       });
     }
   };
@@ -114,7 +114,7 @@ class Editable extends React.Component {
       isEditing,
       singleLine: !isEditing,
       [displayClass]: !isEditing,
-      [editingClass]: isEditing
+      [editingClass]: isEditing,
     });
 
     return (

@@ -9,8 +9,8 @@ import { keyboard } from 'utils';
 const css = {
   ItemNotes: {
     paddingBottom: spacing.internalBreath,
-    outline: 'none'
-  }
+    outline: 'none',
+  },
 };
 
 @inject('boardStore')
@@ -20,7 +20,7 @@ class ItemNotes extends React.Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     boardStore: PropTypes.object.isRequired,
-    item: PropTypes.object.isRequired
+    item: PropTypes.object.isRequired,
   };
 
   editorRef = ref => {

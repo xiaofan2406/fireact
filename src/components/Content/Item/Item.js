@@ -16,9 +16,9 @@ const css = {
     userSelect: 'none',
     '&:focus': {
       outline: 'none',
-      backgroundColor: theme.primaryAccent
-    }
-  }
+      backgroundColor: theme.primaryAccent,
+    },
+  },
 };
 
 @inject('boardStore')
@@ -28,7 +28,7 @@ class Item extends React.Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     boardStore: PropTypes.object.isRequired,
-    item: PropTypes.object.isRequired
+    item: PropTypes.object.isRequired,
   };
 
   componentDidMount() {

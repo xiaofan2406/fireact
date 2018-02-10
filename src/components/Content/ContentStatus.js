@@ -14,8 +14,8 @@ const css = {
     marginBottom: `${variables.ContentStatus.height / 2}px`,
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 };
 
 function ContentStatus({ classes, type }) {
@@ -33,16 +33,14 @@ function ContentStatus({ classes, type }) {
       break;
   }
 
-  return content === null
-    ? null
-    : <div className={classes.ContentStatus}>
-        {content}
-      </div>;
+  return content === null ? null : (
+    <div className={classes.ContentStatus}>{content}</div>
+  );
 }
 
 ContentStatus.propTypes = {
   classes: PropTypes.object.isRequired,
-  type: PropTypes.oneOf(Object.values(statusTypes)).isRequired
+  type: PropTypes.oneOf(Object.values(statusTypes)).isRequired,
 };
 
 const enhance = compose(inject('boardStore'), withCss(css), observer);

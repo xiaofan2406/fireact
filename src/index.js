@@ -9,7 +9,7 @@ import createStore from './store';
 
 const stores = createStore({
   userStore: loginCacher.load(),
-  boardStore: boardCacher.load()
+  boardStore: boardCacher.load(),
 });
 
 useStrict(true);

@@ -7,18 +7,18 @@ const css = {
   Popover: {
     position: 'relative',
     outline: 'none',
-    display: 'flex'
+    display: 'flex',
   },
   right: {
     right: 0,
     left: 'auto',
-    position: 'absolute'
+    position: 'absolute',
   },
   left: {
     left: 0,
     right: 'auto',
-    position: 'absolute'
-  }
+    position: 'absolute',
+  },
 };
 
 @withCss(css)
@@ -30,17 +30,17 @@ class Popover extends React.Component {
     children: PropTypes.node.isRequired,
     align: PropTypes.oneOf(['left', 'right']),
     direction: PropTypes.oneOf(['top', 'bottom']),
-    zIndex: PropTypes.number
+    zIndex: PropTypes.number,
   };
 
   static defaultProps = {
     align: 'right',
     direction: 'top',
-    zIndex: 2
+    zIndex: 2,
   };
 
   state = {
-    isVisible: false
+    isVisible: false,
   };
 
   componentDidUpdate() {
@@ -65,7 +65,7 @@ class Popover extends React.Component {
   hide = () => {
     if (this.state.isVisible) {
       this.setState({
-        isVisible: false
+        isVisible: false,
       });
     }
   };
@@ -73,7 +73,7 @@ class Popover extends React.Component {
   show = () => {
     if (!this.state.isVisible) {
       this.setState({
-        isVisible: true
+        isVisible: true,
       });
     }
   };
@@ -121,11 +121,11 @@ class Popover extends React.Component {
         ref={this.containerRef}
       >
         {label}
-        {isVisible
-          ? <div className={classes[align]} style={this.getStyles()}>
-              {children}
-            </div>
-          : null}
+        {isVisible ? (
+          <div className={classes[align]} style={this.getStyles()}>
+            {children}
+          </div>
+        ) : null}
       </div>
     );
   }

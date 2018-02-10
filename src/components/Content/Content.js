@@ -22,23 +22,23 @@ const css = {
     '&::-webkit-scrollbar': {
       width: 10,
       backgroundColor: 'rgba(0, 0, 0, 0)',
-      borderRadius: 100
+      borderRadius: 100,
     },
     '&::-webkit-scrollbar:hover': {
-      backgroundColor: 'rgba(0, 0, 0, 0.09)'
+      backgroundColor: 'rgba(0, 0, 0, 0.09)',
     },
     '&::-webkit-scrollbar-thumb:vertical': {
       background: 'rgba(0, 0, 0, 0.5)',
       borderRadius: 100,
       backgroundClip: 'padding-box',
       border: '2px solid rgba(0, 0, 0, 0)',
-      minHeight: 10
+      minHeight: 10,
     },
     '&::-webkit-scrollbar-thumb:vertical:active': {
       background: 'rgba(0, 0, 0, 0.61)',
-      borderRadius: 100
-    }
-  }
+      borderRadius: 100,
+    },
+  },
 };
 
 function Content({ classes, boardStore, type }) {
@@ -68,7 +68,7 @@ Content.propTypes = {
   classes: PropTypes.object.isRequired,
   boardStore: PropTypes.object.isRequired,
   type: PropTypes.oneOf(Object.values(boardTypes).map(({ path }) => path))
-    .isRequired
+    .isRequired,
 };
 
 const enhance = compose(inject('boardStore'), withCss(css), observer);

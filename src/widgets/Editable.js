@@ -11,17 +11,17 @@ const css = {
     wordBreak: 'break-word',
     '&:empty:before': {
       content: 'attr(placeholder)',
-      display: 'block'
+      display: 'block',
     },
     '&.inline': {
       textOverflow: 'ellipsis',
       overflow: 'hidden',
-      whiteSpace: 'nowrap'
+      whiteSpace: 'nowrap',
     },
     '&.isEditing': {
-      cursor: 'text'
-    }
-  }
+      cursor: 'text',
+    },
+  },
 };
 
 @withCss(css)
@@ -38,7 +38,7 @@ class Editable extends React.Component {
     displayClass: PropTypes.string,
     editingClass: PropTypes.string,
     onKeyDown: PropTypes.func,
-    onBlur: PropTypes.func
+    onBlur: PropTypes.func,
   };
 
   static defaultProps = {
@@ -49,7 +49,7 @@ class Editable extends React.Component {
     displayClass: null,
     editingClass: null,
     onKeyDown: null,
-    onBlur: null
+    onBlur: null,
   };
 
   componentDidMount() {
@@ -136,7 +136,7 @@ class Editable extends React.Component {
       isEditing,
       inline: inline && !isEditing,
       [displayClass]: !isEditing,
-      [editingClass]: isEditing
+      [editingClass]: isEditing,
     });
 
     return (
@@ -149,7 +149,7 @@ class Editable extends React.Component {
         onBlur={this.handleBlur}
         ref={this.containerRef}
         dangerouslySetInnerHTML={{
-          __html: defaultValue.replace(/(?:\r\n|\r|\n)/g, '<br />')
+          __html: defaultValue.replace(/(?:\r\n|\r|\n)/g, '<br />'),
         }}
       />
     );

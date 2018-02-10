@@ -17,6 +17,6 @@ export default function createStore(initialState) {
 
   return {
     userStore,
-    boardStore
+    boardStore,
   };
 }

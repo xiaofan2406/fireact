@@ -5,7 +5,7 @@ const config = {
   authDomain: 'fireact-d27a3.firebaseapp.com',
   databaseURL: 'https://fireact-d27a3.firebaseio.com',
   storageBucket: 'fireact-d27a3.appspot.com',
-  messagingSenderId: '1029706794051'
+  messagingSenderId: '1029706794051',
 };
 
 firebase.initializeApp(config);

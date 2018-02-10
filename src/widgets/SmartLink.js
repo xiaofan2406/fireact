@@ -9,7 +9,7 @@ function SmarkLink({ activeClassName, location, ...rest }) {
     <Link
       className={classnames({
         [rest.className]: rest.className,
-        [activeClassName]: rest.to === location.pathname
+        [activeClassName]: rest.to === location.pathname,
       })}
       to={rest.to}
       replace={rest.replace}
@@ -21,11 +21,11 @@ function SmarkLink({ activeClassName, location, ...rest }) {
 
 SmarkLink.propTypes = {
   location: PropTypes.object.isRequired,
-  activeClassName: PropTypes.string
+  activeClassName: PropTypes.string,
 };
 
 SmarkLink.defaultProps = {
-  activeClassName: null
+  activeClassName: null,
 };
 
 export default withRouter(SmarkLink);

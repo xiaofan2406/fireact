@@ -18,7 +18,7 @@ const makeCacherFor = name => ({
       this[`clear${name}Cache`]();
       return null;
     }
-  }
+  },
 });
 
 export const login = makeCacherFor('login');

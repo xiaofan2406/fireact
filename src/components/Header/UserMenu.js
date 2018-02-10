@@ -13,8 +13,8 @@ const css = {
     padding: [spacing.internal, spacing.internalBreath],
     '&:active, &:focus, &:hover': {
       backgroundColor: colors.grey200,
-      color: colors.black
-    }
+      color: colors.black,
+    },
   },
   menu: {
     display: 'flex',
@@ -23,7 +23,7 @@ const css = {
     padding: [spacing.internal, spacing.internal],
     borderRadius: spacing.unit,
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
-    color: colors.white
+    color: colors.white,
   },
   menuItem: {
     cursor: 'default',
@@ -31,16 +31,16 @@ const css = {
     padding: [spacing.internal, spacing.internalBreath],
     display: 'flex',
     '&:hover': {
-      backgroundColor: theme.primaryColor
-    }
-  }
+      backgroundColor: theme.primaryColor,
+    },
+  },
 };
 
 function UserMenu({ classes, router }) {
   const menuItems = [
     { path: '/profile', label: 'Profile' },
     { path: '/about', label: 'About' },
-    { path: '/logout', label: 'Logout' }
+    { path: '/logout', label: 'Logout' },
   ];
 
   const menuAction = path => () => {
@@ -55,7 +55,7 @@ function UserMenu({ classes, router }) {
       direction="bottom"
     >
       <div className={classes.menu}>
-        {menuItems.map(item =>
+        {menuItems.map(item => (
           <span
             key={item.path}
             onClick={menuAction(item.path)}
@@ -63,7 +63,7 @@ function UserMenu({ classes, router }) {
           >
             {item.label}
           </span>
-        )}
+        ))}
       </div>
     </Popover>
   );
@@ -71,7 +71,7 @@ function UserMenu({ classes, router }) {
 
 UserMenu.propTypes = {
   classes: PropTypes.object.isRequired,
-  router: PropTypes.object.isRequired
+  router: PropTypes.object.isRequired,
 };
 
 const enhance = compose(withCss(css), withRouter);

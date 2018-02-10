@@ -10,17 +10,17 @@ module.exports = {
     'react-hot-loader/patch',
     `webpack-dev-server/client?http://${devServerIp}:${devServerPort}`,
     'webpack/hot/only-dev-server',
-    `${paths.srcPath}/index.js`
+    `${paths.appSrc}/index.js`,
   ],
   resolve: common.resolve,
   output: {
     // For dev, `path` and `filename` are not important because of using webpack-dev-server
-    path: paths.distPath,
+    path: paths.appDist,
     filename: 'bundle.js',
     // Necessary for HMR to know where to load the hot update chunks
     publicPath: '/',
     // Add /* filename */ comments to generated require()s in the output.
-    pathinfo: true
+    pathinfo: true,
   },
   module: {
     strictExportPresence: true,
@@ -28,31 +28,31 @@ module.exports = {
       ...common.rules,
       {
         test: /\.js$/,
-        include: paths.srcPath,
+        include: paths.appSrc,
         loader: require.resolve('babel-loader'),
         options: {
           babelrc: false,
           presets: babelrc,
-          cacheDirectory: true
-        }
+          cacheDirectory: true,
+        },
       },
       {
         test: /\.css$/,
-        use: [require.resolve('style-loader'), require.resolve('css-loader')]
-      }
-    ]
+        use: [require.resolve('style-loader'), require.resolve('css-loader')],
+      },
+    ],
   },
   node: common.node,
   performance: { hints: false },
   plugins: [
     new HtmlWebpackPlugin({
       inject: true,
-      template: `${paths.srcPath}/assets/index.html`,
-      favicon: `${paths.srcPath}/assets/favicon.ico`
+      template: `${paths.appSrc}/assets/index.html`,
+      favicon: `${paths.appSrc}/assets/favicon.ico`,
     }),
     new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"development"' }),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin()
+    new webpack.NamedModulesPlugin(),
   ],
   devServer: {
     compress: true,
@@ -61,7 +61,7 @@ module.exports = {
     publicPath: '/',
     stats: 'errors-only',
     watchOptions: {
-      ignored: /node_modules/
+      ignored: /node_modules/,
     },
     https: process.env.HTTPS === 'true',
     host: process.env.HOST || devServerIp,
@@ -75,6 +75,6 @@ module.exports = {
           next();
         }
       });
-    }
-  }
+    },
+  },
 };

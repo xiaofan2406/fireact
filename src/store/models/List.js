@@ -23,7 +23,7 @@ class List {
 
   selfie = () => ({
     createdAt: this.createdAt.toISOString(),
-    name: this.name
+    name: this.name,
   });
 
   @action
@@ -94,7 +94,7 @@ class List {
       id: this.id,
       path: this.path,
       name: this.name,
-      createdAt: this.createdAt
+      createdAt: this.createdAt,
     });
 }
 

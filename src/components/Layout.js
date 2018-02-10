@@ -9,21 +9,17 @@ import 'styles/template.css';
 const css = {
   Layout: {
     minWidth: variables.Layout.minWidth,
-    minHeight: variables.Layout.minHeight
-  }
+    minHeight: variables.Layout.minHeight,
+  },
 };
 
 function Layout({ classes, children }) {
-  return (
-    <div className={classes.Layout}>
-      {children}
-    </div>
-  );
+  return <div className={classes.Layout}>{children}</div>;
 }
 
 Layout.propTypes = {
   classes: PropTypes.object.isRequired,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 
 export default withCss(css)(Layout);

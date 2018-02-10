@@ -14,18 +14,18 @@ module.exports = {
   devtool: 'source-map',
   entry: {
     polyfill: require.resolve('./polyfills'),
-    main: `${paths.srcPath}/index.js`,
-    vendor: Object.keys(pkg.dependencies)
+    main: `${paths.appSrc}/index.js`,
+    vendor: Object.keys(pkg.dependencies),
   },
   resolve: common.resolve,
   output: {
-    path: paths.distPath,
+    path: paths.appDist,
     filename: 'js/[name].[chunkhash:8].js',
     chunkFilename: 'js/[name].[chunkhash:8].chunk.js',
     publicPath: '/',
     // Point sourcemap entries to original disk location
     devtoolModuleFilenameTemplate: info =>
-      path.relative(paths.srcPath, info.absoluteResourcePath)
+      path.relative(paths.appSrc, info.absoluteResourcePath),
   },
   module: {
     strictExportPresence: true,
@@ -33,11 +33,11 @@ module.exports = {
       ...common.rules,
       {
         test: /\.js$/,
-        include: paths.srcPath,
+        include: paths.appSrc,
         loader: require.resolve('babel-loader'),
         options: {
-          presets: babelrc
-        }
+          presets: babelrc,
+        },
       },
       {
         test: /\.css$/,
@@ -48,13 +48,13 @@ module.exports = {
               loader: require.resolve('css-loader'),
               options: {
                 minimize: true,
-                sourceMap: true
-              }
-            }
-          ]
-        })
-      }
-    ]
+                sourceMap: true,
+              },
+            },
+          ],
+        }),
+      },
+    ],
   },
   node: common.node,
   plugins: [
@@ -71,17 +71,17 @@ module.exports = {
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
-      minChunks: Infinity
+      minChunks: Infinity,
     }),
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'runtime'
+      name: 'runtime',
     }),
     // all plugins above has to stay before the following plugins
     // otherwise, the build would actually give unexpected results
     new HtmlWebpackPlugin({
       inject: true,
-      template: `${paths.srcPath}/assets/index.html`,
-      favicon: `${paths.srcPath}/assets/favicon.ico`,
+      template: `${paths.appSrc}/assets/index.html`,
+      favicon: `${paths.appSrc}/assets/favicon.ico`,
       minify: {
         removeComments: true,
         collapseWhitespace: true,
@@ -92,22 +92,22 @@ module.exports = {
         keepClosingSlash: true,
         minifyJS: true,
         minifyCSS: true,
-        minifyURLs: true
-      }
+        minifyURLs: true,
+      },
     }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false,
-        comparisons: false
+        comparisons: false,
       },
       output: {
-        comments: false
+        comments: false,
       },
-      sourceMap: true
+      sourceMap: true,
     }),
     new ExtractTextPlugin('css/[name].[contenthash:8].css'),
     new ManifestPlugin({
-      fileName: 'asset-manifest.json'
+      fileName: 'asset-manifest.json',
     }),
     // From create-react-app
     // Generate a service worker script that will precache, and keep up to date,
@@ -133,7 +133,7 @@ module.exports = {
       staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/],
       // Work around Windows path issue in SWPrecacheWebpackPlugin:
       // https://github.com/facebookincubator/create-react-app/issues/2235
-      stripPrefix: `${paths.distPath.replace(/\\/g, '/')}/`
-    })
-  ]
+      stripPrefix: `${paths.appDist.replace(/\\/g, '/')}/`,
+    }),
+  ],
 };

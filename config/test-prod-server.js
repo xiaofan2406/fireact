@@ -3,9 +3,9 @@ const configs = require('./configs');
 
 const port = process.env.PORT || configs.testProdPort;
 
-server(configs.paths.distPath, {
+server(configs.paths.appDist, {
   port,
-  single: true
+  single: true,
 });
 
 console.log('Production server listening...');

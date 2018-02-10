@@ -7,8 +7,8 @@ import ItemActionSave from './ItemActionSave';
 
 const css = {
   ItemAction: {
-    paddingBottom: spacing.internalBreath
-  }
+    paddingBottom: spacing.internalBreath,
+  },
 };
 
 function ItemAction({ classes, item }) {
@@ -22,7 +22,7 @@ function ItemAction({ classes, item }) {
 
 ItemAction.propTypes = {
   classes: PropTypes.object.isRequired,
-  item: PropTypes.object.isRequired
+  item: PropTypes.object.isRequired,
 };
 
 export default withCss(css)(ItemAction);

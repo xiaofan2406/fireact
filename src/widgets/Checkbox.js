@@ -18,9 +18,9 @@ const css = {
     '&.checked': {
       border: 'none',
       backgroundImage: `url(${checkImage})`,
-      backgroundColor: '#0070E0'
-    }
-  }
+      backgroundColor: '#0070E0',
+    },
+  },
 };
 
 function Checkbox({ sheet, classes, checked, onToggle, ...rest }) {
@@ -33,11 +33,11 @@ Checkbox.propTypes = {
   classes: PropTypes.object.isRequired,
   checked: PropTypes.bool.isRequired,
   onToggle: PropTypes.func.isRequired,
-  size: PropTypes.number
+  size: PropTypes.number,
 };
 
 Checkbox.defaultProps = {
-  size: 14
+  size: 14,
 };
 
 export default withCss(css)(Checkbox);

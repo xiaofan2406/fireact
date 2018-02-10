@@ -9,22 +9,22 @@ const css = {
   ItemMetaNote: {
     fontSize: 12,
     color: colors.grey600,
-    marginLeft: spacing.internal
-  }
+    marginLeft: spacing.internal,
+  },
 };
 
 function ItemMetaNote({ classes, item }) {
   console.log('render ItemMetaNote', item.hasNotes);
-  return item.hasNotes
-    ? <span className={classes.ItemMetaNote} title="Double click to see notes">
-        <i className="fa fa-file-o" aria-hidden="true" />
-      </span>
-    : null;
+  return item.hasNotes ? (
+    <span className={classes.ItemMetaNote} title="Double click to see notes">
+      <i className="fa fa-file-o" aria-hidden="true" />
+    </span>
+  ) : null;
 }
 
 ItemMetaNote.propTypes = {
   classes: PropTypes.object.isRequired,
-  item: PropTypes.object.isRequired
+  item: PropTypes.object.isRequired,
 };
 
 const enhance = compose(withCss(css), observer);

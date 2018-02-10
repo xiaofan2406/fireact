@@ -34,7 +34,7 @@ class Item {
     name: this.name,
     notes: this.notes,
     isCompleted: this.isCompleted,
-    isTrashed: this.isTrashed
+    isTrashed: this.isTrashed,
   });
 
   destroy = () => {

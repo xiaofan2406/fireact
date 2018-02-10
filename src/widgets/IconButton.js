@@ -9,7 +9,9 @@ const css = {
     appearance: 'none',
     background: 'transparent',
     border: 'none',
-    padding: `${spacing.internal}px calc(${spacing.unit}px + 1em) ${spacing.internal}px calc(${spacing.unit}px + 1em)`,
+    padding: `${spacing.internal}px calc(${spacing.unit}px + 1em) ${
+      spacing.internal
+    }px calc(${spacing.unit}px + 1em)`,
     borderRadius: 4,
     lineHeight: 1.2,
     minWidth: 32,
@@ -17,13 +19,13 @@ const css = {
     margin: [spacing.unit, spacing.external],
     outline: 'none',
     '&:hover': {
-      backgroundColor: colors.grey100
+      backgroundColor: colors.grey100,
     },
     '&:active': {
       outline: 'none',
-      boxShadow: `inset 0 1px 6px ${colors.grey300}`
-    }
-  }
+      boxShadow: `inset 0 1px 6px ${colors.grey300}`,
+    },
+  },
 };
 
 function IconButton({ sheet, classes, iconName, ...rest }) {
@@ -40,11 +42,11 @@ IconButton.propTypes = {
   sheet: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
   iconName: PropTypes.string.isRequired,
-  size: PropTypes.number
+  size: PropTypes.number,
 };
 
 IconButton.defaultProps = {
-  size: 14
+  size: 14,
 };
 
 export default withCss(css)(IconButton);

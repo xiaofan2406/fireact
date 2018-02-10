@@ -10,8 +10,8 @@ const css = {
   ItemCheckbox: {
     marginRight: spacing.external,
     borderRadius: spacing.unit,
-    border: theme.border
-  }
+    border: theme.border,
+  },
 };
 
 function ItemCheckbox({ classes, item }) {
@@ -31,7 +31,7 @@ function ItemCheckbox({ classes, item }) {
 
 ItemCheckbox.propTypes = {
   classes: PropTypes.object.isRequired,
-  item: PropTypes.object.isRequired
+  item: PropTypes.object.isRequired,
 };
 
 const enhance = compose(withCss(css), observer);
