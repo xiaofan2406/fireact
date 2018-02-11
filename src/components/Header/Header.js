@@ -1,37 +1,27 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import withCss from 'react-jss';
+import { css } from 'react-emotion';
 import { spacing, theme, variables } from 'styles';
 
 import ActionMenu from './ActionMenu';
 import TitleMenu from './TitleMenu';
 import UserMenu from './UserMenu';
 
-const css = {
-  Header: {
-    height: variables.Header.height,
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    borderBottom: theme.border,
-    boxShadow: theme.boxShadow,
-    padding: [spacing.internal, spacing.internalBreath],
-  },
-};
+const headerStyle = css`
+  height: ${variables.Header.height}px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: ${theme.border};
+  box-shadow: ${theme.boxShadow};
+  padding: ${spacing.internal}px ${spacing.internalBreath}px;
+`;
 
-function Header({ classes }) {
-  console.log('render Header');
-  return (
-    <div className={classes.Header}>
-      <TitleMenu />
-      <ActionMenu />
-      <UserMenu />
-    </div>
-  );
-}
+const Header = () => (
+  <div className={headerStyle}>
+    <TitleMenu />
+    <ActionMenu />
+    <UserMenu />
+  </div>
+);
 
-Header.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
-export default withCss(css)(Header);
+export default Header;
