@@ -1,27 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
-import withCss from 'react-jss';
+import { css } from 'react-emotion';
 import { compose } from 'utils';
 import { spacing } from 'styles';
 
 import ContentStatus from './ContentStatus';
 import Item from './Item';
 
-const css = {
-  ContentInbox: {
-    padding: spacing.internalBreath,
-    width: '100%',
-    height: '100%',
-  },
-};
+const contentInboxStyle = css`
+  padding: ${spacing.internalBreath}px;
+  width: 100%;
+  height: 100%;
+`;
 
-function ContentInbox({ classes, boardStore }) {
+function ContentInbox({ boardStore }) {
   console.log('render ContentInbox');
   return boardStore.isInboxEmpty ? (
     <ContentStatus type="empty" />
   ) : (
-    <span className={classes.ContentInbox}>
+    <span className={contentInboxStyle}>
       {boardStore.inbox.activeItems.map(item => (
         <Item key={item.id} item={item} />
       ))}
@@ -30,10 +28,9 @@ function ContentInbox({ classes, boardStore }) {
 }
 
 ContentInbox.propTypes = {
-  classes: PropTypes.object.isRequired,
   boardStore: PropTypes.object.isRequired,
 };
 
-const enhance = compose(inject('boardStore'), withCss(css), observer);
+const enhance = compose(inject('boardStore'), observer);
 
 export default enhance(ContentInbox);
